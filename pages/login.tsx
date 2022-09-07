@@ -31,7 +31,7 @@ function LoginPage() {
   return (
     <OverviewWrapper>
       <Head>
-        <title>Tokyo Free White NextJS Typescript Admin Dashboard</title>
+        <title>Genshin Shop</title>
       </Head>
       <HeaderWrapper>
         <Container maxWidth="lg">

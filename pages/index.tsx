@@ -4,12 +4,13 @@ import BaseLayout from 'src/layouts/BaseLayout';
 
 import Head from 'next/head';
 
-import Hero from 'src/content/Overview/Hero';
+import bg from '@/assets/images/light-bg-genshin.webp';
+import ProductCollection from '@/components/ProductCollection/ProductCollection';
 
 const OverviewWrapper = styled(Box)(
   ({ theme }) => `
     overflow: auto;
-    background: ${theme.palette.common.white};
+
     flex: 1;
     overflow-x: hidden;
 `
@@ -19,11 +20,14 @@ function Overview() {
   return (
     <OverviewWrapper>
       <Head>
-        <title>Tokyo Free White NextJS Typescript Admin Dashboard</title>
+        <title>Genshin Shop</title>
       </Head>
 
-      <Hero />
-      <Container maxWidth="lg" sx={{ mt: 8 }}></Container>
+      <Container maxWidth="lg" sx={{ mt: 30 }}>
+        <Box py={3}>
+          <ProductCollection></ProductCollection>
+        </Box>
+      </Container>
     </OverviewWrapper>
   );
 }

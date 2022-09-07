@@ -9,7 +9,11 @@ const redirects = {
         permanent: true
       }
     ];
+  },
+  images: {
+    disableStaticImages: true
   }
+
 };
 
 module.exports = withImages(redirects);
