@@ -4,11 +4,10 @@ import BaseLayout from 'src/layouts/BaseLayout';
 
 import Head from 'next/head';
 
-import bg from '@/assets/images/light-bg-genshin.webp';
 import ProductCollection from '@/components/ProductCollection/ProductCollection';
 
 const OverviewWrapper = styled(Box)(
-  ({ theme }) => `
+  () => `
     overflow: auto;
 
     flex: 1;
