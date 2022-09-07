@@ -21,7 +21,7 @@ function AccountVip() {
                   return (
                     <Grid item xs={12} md={4} key={i}>
                       <Items
-                        title="Acc 1"
+                        title={`Acc ${d ? d : 1}`}
                         url="#"
                         imageUrl={bg}
                         price="123.123"
