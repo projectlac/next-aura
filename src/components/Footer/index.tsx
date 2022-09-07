@@ -9,7 +9,7 @@ const FooterWrapper = styled(Box)(
 `
 );
 const TitleFooter = styled(Typography)(
-  ({ theme }) => `
+  () => `
   display: flex;
   align-items: center;
   justify-content: center;
