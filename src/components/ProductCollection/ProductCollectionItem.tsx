@@ -3,10 +3,11 @@ import React from 'react';
 import eff from '@/assets/images/effect/pngwing.png';
 interface ICollectionItemProps {
   title: string;
-  url: string;
+
   image: string;
+  url?: string;
 }
-function ProductCollectionItem({ title, url, image }: ICollectionItemProps) {
+function ProductCollectionItem({ title, image }: ICollectionItemProps) {
   return (
     <Card
       sx={{
