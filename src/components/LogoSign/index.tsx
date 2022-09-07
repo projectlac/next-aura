@@ -7,9 +7,8 @@ import {
   styled,
   useTheme
 } from '@mui/material';
-import Link from 'src/components/Link';
 
-const LogoWrapper = styled(Link)(
+const LogoWrapper = styled(Box)(
   ({ theme }) => `
         color: ${theme.palette.text.primary};
         display: flex;
@@ -102,7 +101,7 @@ function Logo() {
       title="Tokyo Free White Next.js Typescript Admin Dashboard"
       arrow
     >
-      <LogoWrapper href="/">
+      <LogoWrapper>
         <Badge
           sx={{
             '.MuiBadge-badge': {

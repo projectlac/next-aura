@@ -1,7 +1,6 @@
 import { Box, styled, Tooltip } from '@mui/material';
-import Link from 'src/components/Link';
 
-const LogoWrapper = styled(Link)(
+const LogoWrapper = styled(Box)(
   ({ theme }) => `
         color: ${theme.palette.text.primary};
         padding: ${theme.spacing(0, 1, 0, 0)};
@@ -102,7 +101,7 @@ const LogoText = styled(Box)(
 
 function Logo() {
   return (
-    <LogoWrapper href="/">
+    <LogoWrapper>
       <LogoSignWrapper>
         <LogoSign>
           <LogoSignInner />

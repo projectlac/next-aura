@@ -27,7 +27,7 @@ import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import Label from 'src/components/Label';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import AlarmTwoToneIcon from '@mui/icons-material/AlarmTwoTone';
-import Link from 'src/components/Link';
+import Link from 'next/link';
 
 const AvatarSuccess = styled(Avatar)(
   ({ theme }) => `
