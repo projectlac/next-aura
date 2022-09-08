@@ -271,10 +271,10 @@ function SidebarMenu() {
                 </NextLink>
               </ListItem>
               <ListItem component="div">
-                <NextLink href="/management/transactions" passHref>
+                <NextLink href="/management/nomal-account" passHref>
                   <Button
                     className={
-                      currentRoute === '/management/transactions'
+                      currentRoute === '/management/nomal-account'
                         ? 'active'
                         : ''
                     }

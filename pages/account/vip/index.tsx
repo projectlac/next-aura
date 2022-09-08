@@ -6,6 +6,7 @@ import React, { ReactElement } from 'react';
 import bg from '@/assets/images/genshin-impact.webp';
 import FilterVip from '@/components/Shop/Filters/FilterVip';
 import PaginationPage from '@/components/Common/PaginationPage';
+import TitleSpecial from '@/components/Common/TitleSpecial';
 function AccountVip() {
   return (
     <Box>
@@ -13,7 +14,8 @@ function AccountVip() {
         <title>Account Vip Nhất</title>
       </Head>
 
-      <Container maxWidth="lg" sx={{ mt: 30 }}>
+      <Container maxWidth="lg" sx={{ mt: 15 }}>
+        <TitleSpecial>Account Vip</TitleSpecial>
         <Box py={3}>
           <Grid container columnSpacing={2}>
             <Grid item xs={12} md={3}>

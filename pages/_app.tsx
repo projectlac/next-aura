@@ -1,19 +1,19 @@
 import type { ReactElement, ReactNode } from 'react';
 
+import '@/assets/styles/global.scss';
+import { CacheProvider, EmotionCache } from '@emotion/react';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import CssBaseline from '@mui/material/CssBaseline';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
 import nProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import ThemeProvider from 'src/theme/ThemeProvider';
-import CssBaseline from '@mui/material/CssBaseline';
-import { CacheProvider, EmotionCache } from '@emotion/react';
-import createEmotionCache from 'src/createEmotionCache';
 import { SidebarProvider } from 'src/contexts/SidebarContext';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import '@/assets/styles/global.scss';
+import createEmotionCache from 'src/createEmotionCache';
+import ThemeProvider from 'src/theme/ThemeProvider';
 const clientSideEmotionCache = createEmotionCache();
 
 type NextPageWithLayout = NextPage & {
@@ -46,6 +46,7 @@ function TokyoApp(props: TokyoAppProps) {
         <ThemeProvider>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <CssBaseline />
+
             {getLayout(<Component {...pageProps} />)}
           </LocalizationProvider>
         </ThemeProvider>

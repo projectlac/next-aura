@@ -11,7 +11,8 @@ interface BaseLayoutProps {
 const Header = styled(Box)({
   backgroundColor: 'rgb(0 0 0 / 27%)',
   position: 'fixed',
-  width: '100%'
+  width: '100%',
+  zIndex: 9999
 });
 const MenuWrapper = styled(Box)({
   display: 'flex',
@@ -63,10 +64,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
             <Box>
               <ul>
                 <li>
-                  <Link href={'/dashboards'}>Đăng nhập</Link>
-                </li>
-                <li>
-                  <Link href={''}>Đăng ký</Link>
+                  <Link href={'/login'}>Đăng nhập</Link>
                 </li>
               </ul>
             </Box>

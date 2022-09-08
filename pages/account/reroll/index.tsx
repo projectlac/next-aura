@@ -1,5 +1,6 @@
 import bg from '@/assets/images/genshin-impact.webp';
 import PaginationPage from '@/components/Common/PaginationPage';
+import TitleSpecial from '@/components/Common/TitleSpecial';
 import FilterReroll from '@/components/Shop/Filters/FilterReroll';
 import Items from '@/components/Shop/Items/Items';
 import BaseLayout from '@/layouts/BaseLayout';
@@ -13,7 +14,8 @@ function AccountReroll() {
         <title>Account Reroll Mới Nhất</title>
       </Head>
 
-      <Container maxWidth="lg" sx={{ mt: 30 }}>
+      <Container maxWidth="lg" sx={{ mt: 15 }}>
+        <TitleSpecial>Account Reroll</TitleSpecial>
         <Box py={3}>
           <Grid container columnSpacing={2}>
             <Grid item xs={12} md={3}>
