@@ -37,8 +37,8 @@ function AccountVip() {
                   );
                 })}
               </Grid>
+              <PaginationPage numberOfPage={10} />
             </Grid>
-            <PaginationPage numberOfPage={10} />
           </Grid>
         </Box>
       </Container>

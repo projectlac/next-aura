@@ -37,8 +37,8 @@ function AccountReroll() {
                   );
                 })}
               </Grid>
+              <PaginationPage numberOfPage={10} />
             </Grid>
-            <PaginationPage numberOfPage={10} />
           </Grid>
         </Box>
       </Container>
