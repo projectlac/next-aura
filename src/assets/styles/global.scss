@@ -14,6 +14,11 @@ a {
   width: 45px;
   height: 64px;
   position: absolute;
+  right: -55px !important;
+  opacity: 1 !important;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
 .slick-prev:before {
   content: '' !important;
@@ -22,6 +27,11 @@ a {
   width: 45px;
   height: 64px;
   position: absolute;
+  left: -55px !important;
+  opacity: 1 !important;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
 .disable-link {
   pointer-events: none;
