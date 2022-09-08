@@ -60,7 +60,7 @@ function HeaderUserbox() {
   const user = {
     name: 'Catherine Pike',
     avatar: '/static/images/avatars/1.jpg',
-    jobtitle: 'Project Manager'
+    jobtitle: 'Admin'
   };
 
   const ref = useRef<any>(null);
@@ -117,7 +117,13 @@ function HeaderUserbox() {
           <NextLink href="/management/profile/settings" passHref>
             <ListItem button>
               <AccountTreeTwoToneIcon fontSize="small" />
-              <ListItemText primary="Account Settings" />
+              <ListItemText primary="Thông tin cá nhân" />
+            </ListItem>
+          </NextLink>
+          <NextLink href="/management/profile/settings" passHref>
+            <ListItem button>
+              <AccountTreeTwoToneIcon fontSize="small" />
+              <ListItemText primary="Cài đặt tài khoản" />
             </ListItem>
           </NextLink>
         </List>
@@ -125,7 +131,7 @@ function HeaderUserbox() {
         <Box sx={{ m: 1 }}>
           <Button color="primary" fullWidth>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
-            Sign out
+            Đăng xuất
           </Button>
         </Box>
       </Popover>

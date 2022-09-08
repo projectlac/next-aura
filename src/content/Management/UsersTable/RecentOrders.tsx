@@ -1,7 +1,7 @@
-import { CryptoOrder } from '@/models/crypto_order';
 import { Card } from '@mui/material';
-import { subDays } from 'date-fns';
+import { CryptoOrder } from '@/models/crypto_order';
 import RecentOrdersTable from './RecentOrdersTable';
+import { subDays } from 'date-fns';
 
 function RecentOrders() {
   const cryptoOrders: CryptoOrder[] = [

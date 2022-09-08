@@ -2,12 +2,10 @@ import {
   Box,
   Button,
   Card,
-  Divider,
   Grid,
   List,
   ListItem,
   ListItemText,
-  Switch,
   Typography
 } from '@mui/material';
 
@@ -111,8 +109,8 @@ function SecurityTab() {
                 Change password
               </Button>
             </ListItem>
-            <Divider component="li" />
-            <ListItem sx={{ p: 3 }}>
+            {/* <Divider component="li" /> */}
+            {/* <ListItem sx={{ p: 3 }}>
               <ListItemText
                 primaryTypographyProps={{ variant: 'h5', gutterBottom: true }}
                 secondaryTypographyProps={{
@@ -123,7 +121,7 @@ function SecurityTab() {
                 secondary="Enable PIN verification for all sign in attempts"
               />
               <Switch color="primary" />
-            </ListItem>
+            </ListItem> */}
           </List>
         </Card>
       </Grid>
