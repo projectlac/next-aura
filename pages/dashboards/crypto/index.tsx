@@ -2,11 +2,9 @@ import Head from 'next/head';
 
 import SidebarLayout from '@/layouts/SidebarLayout';
 
-import Footer from '@/components/Footer';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
 import PageHeader from '@/content/Dashboards/Crypto/PageHeader';
 import { Container, Grid } from '@mui/material';
-
 
 function DashboardCrypto() {
   return (
@@ -26,7 +24,6 @@ function DashboardCrypto() {
           spacing={4}
         ></Grid>
       </Container>
-      <Footer />
     </>
   );
 }

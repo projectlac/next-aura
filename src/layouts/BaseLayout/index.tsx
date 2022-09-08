@@ -63,7 +63,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
             <Box>
               <ul>
                 <li>
-                  <Link href={''}>Đăng nhập</Link>
+                  <Link href={'/dashboards'}>Đăng nhập</Link>
                 </li>
                 <li>
                   <Link href={''}>Đăng ký</Link>
