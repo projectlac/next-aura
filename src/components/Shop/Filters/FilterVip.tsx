@@ -135,7 +135,6 @@ const top100Films: IFilm[] = [
 function FilterVip() {
   const [currency, setCurrency] = useState('EUR');
   const [sort, setSort] = useState('UP');
-
   const [server, setServer] = useState('Asia');
 
   const handleChange = (event) => {
@@ -173,13 +172,12 @@ function FilterVip() {
             id="tags-standard"
             options={top100Films}
             getOptionLabel={(option: IFilm) => option.title}
-            defaultValue={[top100Films[13]]}
+            defaultValue={[]}
             renderInput={(params) => (
               <TextField
                 {...params}
                 variant="outlined"
-                label="Multiple values"
-                placeholder="Favorites"
+                label="Tìm theo nhân vật"
               />
             )}
           />
@@ -190,13 +188,12 @@ function FilterVip() {
             id="tags-standard"
             options={top100Films}
             getOptionLabel={(option: IFilm) => option.title}
-            defaultValue={[top100Films[13]]}
+            defaultValue={[]}
             renderInput={(params) => (
               <TextField
                 {...params}
                 variant="outlined"
-                label="Multiple values"
-                placeholder="Favorites"
+                label="Tìm theo vũ khí"
               />
             )}
           />
@@ -214,14 +211,13 @@ function FilterVip() {
           <TextField
             id="outlined-select-currency"
             select
-            label="Select"
+            label="Tìm theo giá"
             fullWidth
             value={currency}
             onChange={handleChange}
           >
-            <MenuItem key="1" value="EUR">
-              EUR
-            </MenuItem>
+            <MenuItem value="EUR">EUR</MenuItem>
+            <MenuItem value="1">Dưới 500k</MenuItem>
           </TextField>
         </Grid>
 

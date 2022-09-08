@@ -1,23 +1,23 @@
+import bg from '@/assets/images/genshin-impact.webp';
+import PaginationPage from '@/components/Common/PaginationPage';
+import FilterReroll from '@/components/Shop/Filters/FilterReroll';
 import Items from '@/components/Shop/Items/Items';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Box, Container, Grid } from '@mui/material';
 import Head from 'next/head';
-import React, { ReactElement } from 'react';
-import bg from '@/assets/images/genshin-impact.webp';
-import FilterVip from '@/components/Shop/Filters/FilterVip';
-import PaginationPage from '@/components/Common/PaginationPage';
-function AccountVip() {
+import { ReactElement } from 'react';
+function AccountReroll() {
   return (
     <Box>
       <Head>
-        <title>Account Vip Nhất</title>
+        <title>Account Reroll Mới Nhất</title>
       </Head>
 
       <Container maxWidth="lg" sx={{ mt: 30 }}>
         <Box py={3}>
           <Grid container columnSpacing={2}>
             <Grid item xs={12} md={3}>
-              <FilterVip />
+              <FilterReroll />
             </Grid>
             <Grid item xs={12} md={9}>
               <Grid container columnSpacing={1.5} rowSpacing={2}>
@@ -46,7 +46,7 @@ function AccountVip() {
   );
 }
 
-export default AccountVip;
-AccountVip.getLayout = function getLayout(page: ReactElement) {
+export default AccountReroll;
+AccountReroll.getLayout = function getLayout(page: ReactElement) {
   return <BaseLayout>{page}</BaseLayout>;
 };

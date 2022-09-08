@@ -39,7 +39,7 @@ function HeaderWrapper() {
         >
           <ul>
             <li>
-              <Link href={''}>Trang chủ</Link>
+              <Link href={'/'}>Trang chủ</Link>
             </li>
             <li>
               <Link href={''}>Nạp tiền</Link>

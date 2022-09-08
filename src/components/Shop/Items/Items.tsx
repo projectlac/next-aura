@@ -2,7 +2,7 @@ import { Box, Card, Divider, Grid, Typography } from '@mui/material';
 import React from 'react';
 import eff from '@/assets/images/effect/pngwing.png';
 import Link from 'next/link';
-
+import bg from '@/assets/images/da-ban.png';
 interface IProps {
   title: string;
   url: string;
@@ -10,47 +10,72 @@ interface IProps {
   price: string;
   code: string;
   des: string;
+  isSold: boolean;
 }
-function Items({ title, url, imageUrl, price, code, des }: IProps) {
+function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
   return (
     <Card
       sx={{
         background: '#fff',
+
+        // background: `url(${bg})`,
+        backgroundSize: 'cover',
+        boxShadow: 'none',
+        filter: isSold
+          ? 'grayscale(1) drop-shadow(2px 4px 6px black)'
+          : 'drop-shadow(2px 4px 6px black)',
         padding: '15px',
         borderRadius: '5px',
         transition: 'all 0.5s',
         '&:hover': {
-          transform: 'scale(1.05)',
-
+          transform: isSold ? 'none' : 'scale(1.05)',
           '& .eff:before': {
-            transform: 'translateX(375px)'
+            transform: isSold ? 'translateX(-375px)' : 'translateX(375px)'
           }
-        }
+        },
+        position: 'relative'
       }}
     >
-      <Box
-        className="eff"
-        sx={{
-          height: '175px',
-          background: `url(${imageUrl})`,
-          width: '100%',
-          backgroundSize: 'cover',
-          borderRadius: '5px',
-          position: 'relative',
-          overflow: 'hidden',
-          '&:before': {
-            width: '388px',
-            height: '300px',
-            bottom: 0,
+      {isSold && (
+        <Box
+          sx={{
+            background: `url(${bg})`,
+            width: 100,
+            height: 100,
             position: 'absolute',
-            content: '""',
-            background: `url(${eff})`,
+            zIndex: 1,
+            backgroundSize: 'contain',
+            top: '9px',
+            left: '10px',
+            filter: 'drop-shadow(2px 4px 6px black)'
+          }}
+        ></Box>
+      )}
+      <Link href={url}>
+        <Box
+          className={`${isSold ? 'disable-link' : ''} eff`}
+          sx={{
+            height: '175px',
+            background: `url(${imageUrl})`,
+            width: '100%',
             backgroundSize: 'cover',
-            transform: 'translateX(-375px)',
-            transition: 'all 1.2s'
-          }
-        }}
-      ></Box>
+            borderRadius: '5px',
+            position: 'relative',
+            overflow: 'hidden',
+            '&:before': {
+              width: '388px',
+              height: '300px',
+              bottom: 0,
+              position: 'absolute',
+              content: '""',
+              background: `url(${eff})`,
+              backgroundSize: 'cover',
+              transform: 'translateX(-375px)',
+              transition: 'all 1.2s'
+            }
+          }}
+        ></Box>
+      </Link>
       <Box mt={1}>
         <Link href={url}>
           <Typography
@@ -60,6 +85,7 @@ function Items({ title, url, imageUrl, price, code, des }: IProps) {
             fontSize={25}
             color={'primary'}
             textTransform="uppercase"
+            className={`${isSold ? 'disable-link' : ''}`}
           >
             {title}
           </Typography>
