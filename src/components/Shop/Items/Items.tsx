@@ -15,7 +15,6 @@ function Items({ title, url, imageUrl, price, code, des }: IProps) {
   return (
     <Card
       sx={{
-        height: '380px',
         background: '#fff',
         padding: '15px',
         borderRadius: '5px',

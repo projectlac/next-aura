@@ -4,6 +4,7 @@ import { Box, Container, Grid } from '@mui/material';
 import Head from 'next/head';
 import React, { ReactElement } from 'react';
 import bg from '@/assets/images/genshin-impact.webp';
+import FilterVip from '@/components/Shop/Filters/FilterVip';
 function AccountVip() {
   return (
     <Box>
@@ -14,9 +15,11 @@ function AccountVip() {
       <Container maxWidth="lg" sx={{ mt: 30 }}>
         <Box py={3}>
           <Grid container columnSpacing={2}>
-            <Grid item xs={12} md={4}></Grid>
-            <Grid item xs={12} md={8}>
-              <Grid container columnSpacing={2} rowSpacing={2}>
+            <Grid item xs={12} md={3}>
+              <FilterVip />
+            </Grid>
+            <Grid item xs={12} md={9}>
+              <Grid container columnSpacing={1.5} rowSpacing={2}>
                 {[...Array(9)].map((d, i) => {
                   return (
                     <Grid item xs={12} md={4} key={i}>

@@ -1,17 +1,17 @@
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
 import React from 'react';
 import eff from '@/assets/images/effect/pngwing.png';
+import Link from 'next/link';
 interface ICollectionItemProps {
   title: string;
 
   image: string;
   url?: string;
 }
-function ProductCollectionItem({ title, image }: ICollectionItemProps) {
+function ProductCollectionItem({ title, url, image }: ICollectionItemProps) {
   return (
     <Card
       sx={{
-        height: '380px',
         background: '#fff',
         padding: '15px',
         borderRadius: '5px',
@@ -25,29 +25,32 @@ function ProductCollectionItem({ title, image }: ICollectionItemProps) {
         }
       }}
     >
-      <Box
-        className="eff"
-        sx={{
-          height: '175px',
-          background: `url(${image})`,
-          width: '100%',
-          backgroundSize: 'cover',
-          borderRadius: '5px',
-          position: 'relative',
-          overflow: 'hidden',
-          '&:before': {
-            width: '388px',
-            height: '300px',
-            bottom: 0,
-            position: 'absolute',
-            content: '""',
-            background: `url(${eff})`,
+      <Link href={url}>
+        <Box
+          className="eff"
+          sx={{
+            height: '175px',
+            background: `url(${image})`,
+            width: '100%',
             backgroundSize: 'cover',
-            transform: 'translateX(-375px)',
-            transition: 'all 1.2s'
-          }
-        }}
-      ></Box>
+            borderRadius: '5px',
+            position: 'relative',
+            overflow: 'hidden',
+            '&:before': {
+              width: '388px',
+              height: '300px',
+              bottom: 0,
+              position: 'absolute',
+              content: '""',
+              background: `url(${eff})`,
+              backgroundSize: 'cover',
+              transform: 'translateX(-375px)',
+              transition: 'all 1.2s'
+            }
+          }}
+        ></Box>
+      </Link>
+
       <Box mt={1}>
         <Typography
           textAlign={'center'}
@@ -84,7 +87,9 @@ function ProductCollectionItem({ title, image }: ICollectionItemProps) {
         </Grid>
         <Divider sx={{ mt: 1, mb: 1.5 }} />
         <Box textAlign={'center'}>
-          <Button variant="contained">Khám phá</Button>
+          <Link href={url}>
+            <Button variant="contained">Khám phá</Button>
+          </Link>
         </Box>
       </Box>
     </Card>

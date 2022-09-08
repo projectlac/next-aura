@@ -6,7 +6,7 @@ function ProductCollection() {
   return (
     <Grid container columnSpacing={2}>
       <Grid item md={3} xs={12}>
-        <ProductCollectionItem title="Acc Vip" url="" image={bg} />
+        <ProductCollectionItem title="Acc Vip" url="/account/vip" image={bg} />
       </Grid>
       <Grid item md={3} xs={12}>
         <ProductCollectionItem title="Acc Vip" url="" image={bg} />
