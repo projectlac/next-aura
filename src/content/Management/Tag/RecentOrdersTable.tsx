@@ -23,9 +23,8 @@ import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import { ChangeEvent, FC, useState } from 'react';
 
-import Label from '@/components/Label';
 import { CryptoOrder, CryptoOrderStatus } from '@/models/crypto_order';
-import ChangeCoin from './Action/ChangeCoin';
+import Delete from './Action/Delete';
 import EditTag from './Action/EditTag';
 
 interface RecentOrdersTableProps {
@@ -36,27 +35,6 @@ interface RecentOrdersTableProps {
 interface Filters {
   status?: CryptoOrderStatus;
 }
-
-const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
-  const map = {
-    failed: {
-      text: 'Admin',
-      color: 'error'
-    },
-    completed: {
-      text: 'User',
-      color: 'success'
-    },
-    pending: {
-      text: 'CTV',
-      color: 'warning'
-    }
-  };
-
-  const { text, color }: any = map[cryptoOrderStatus];
-
-  return <Label color={color}>{text}</Label>;
-};
 
 const applyFilters = (
   cryptoOrders: CryptoOrder[],
@@ -159,7 +137,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
             </FormControl>
           </Box>
         }
-        title="Recent Orders"
+        title="Danh sách"
       />
 
       <Divider />
@@ -167,12 +145,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Account ID</TableCell>
-              <TableCell>Username</TableCell>
-              <TableCell>Email</TableCell>
+              <TableCell>Tên</TableCell>
+              <TableCell>Loại</TableCell>
 
-              <TableCell align="right">Web Coin</TableCell>
-              <TableCell align="right">Role</TableCell>
+              <TableCell align="right">Thời gian tạo</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -191,28 +167,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       {cryptoOrder.orderID}
                     </Typography>
                   </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {cryptoOrder.sourceName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {cryptoOrder.orderDetails}
-                    </Typography>
-                  </TableCell>
+
+                  <TableCell>{cryptoOrder.orderDetails}</TableCell>
 
                   <TableCell align="right">
                     <Typography
@@ -228,11 +184,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       {format(new Date(), ' HH:mm:ss')}
                     </Typography>
                   </TableCell>
+
                   <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.status)}
-                  </TableCell>
-                  <TableCell align="right">
-                    <Tooltip title="Đổi role" arrow>
+                    <Tooltip title="Edit Order" arrow>
                       <IconButton
                         sx={{
                           '&:hover': {
@@ -243,10 +197,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         color="inherit"
                         size="small"
                       >
-                        <EditTag title="Sửa role" />
+                        {/* <EditTwoToneIcon fontSize="small" /> */}
+                        <EditTag title="Sửa tag" />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Sửa tiền" arrow>
+                    <Tooltip title="Delete Order" arrow>
                       <IconButton
                         sx={{
                           '&:hover': { background: theme.colors.error.lighter },
@@ -255,7 +210,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         color="inherit"
                         size="small"
                       >
-                        <ChangeCoin title="Sửa tiền" />
+                        <Delete title="Xóa tag" />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material';
 
-import AddAccount from './Action/AddAccount';
+import AddTag from './Action/AddTag';
 
 function PageHeader() {
   const user = {
@@ -11,14 +11,14 @@ function PageHeader() {
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Danh sách tài khoản Vip
+          Danh sách Tag
         </Typography>
         <Typography variant="subtitle2">
           {user.name}, these are your recent transactions
         </Typography>
       </Grid>
       <Grid item>
-        <AddAccount title="Thêm tài khoản" />
+        <AddTag title="Tạo tag" />
       </Grid>
     </Grid>
   );

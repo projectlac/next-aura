@@ -115,7 +115,7 @@ function Status500() {
               item
             >
               <Container maxWidth="sm">
-                <Box textAlign="center">
+                {/* <Box textAlign="center">
                   <TypographyPrimary variant="h1" sx={{ my: 2 }}>
                     Tokyo Free White Next.js Typescript Admin Dashboard
                   </TypographyPrimary>
@@ -131,7 +131,7 @@ function Status500() {
                   <Button href="/" size="large" variant="contained">
                     Overview
                   </Button>
-                </Box>
+                </Box> */}
               </Container>
             </GridWrapper>
           </Hidden>

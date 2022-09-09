@@ -26,8 +26,8 @@ import { ChangeEvent, FC, useState } from 'react';
 
 import Label from '@/components/Label';
 import { CryptoOrder, CryptoOrderStatus } from '@/models/crypto_order';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import DeleteAccount from './Action/DeleteAccount';
+import EditAccount from './Action/EditAccount';
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -268,7 +268,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         color="inherit"
                         size="small"
                       >
-                        <EditTwoToneIcon fontSize="small" />
+                        <EditAccount title="Sửa tài khoản" />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
@@ -280,7 +280,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         color="inherit"
                         size="small"
                       >
-                        <DeleteTwoToneIcon fontSize="small" />
+                        <DeleteAccount title="Xóa tài khoản" />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

@@ -97,10 +97,7 @@ function Logo() {
   const theme = useTheme();
 
   return (
-    <TooltipWrapper
-      title="Tokyo Free White Next.js Typescript Admin Dashboard"
-      arrow
-    >
+    <TooltipWrapper title="Dashboard make by me" arrow>
       <LogoWrapper>
         <Badge
           sx={{
