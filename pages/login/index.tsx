@@ -1,3 +1,5 @@
+import image from '@/assets/images/Genshin_Impact_cover.jpg';
+import useCustomForm from '@/components/Common/Form/Form';
 import {
   Box,
   Button,
@@ -7,13 +9,10 @@ import {
   styled,
   Typography
 } from '@mui/material';
+import Head from 'next/head';
+import Link from 'next/link';
 import { ReactElement, useState } from 'react';
 import BaseLayout from 'src/layouts/BaseLayout';
-import image from '@/assets/images/Genshin_Impact_cover.jpg';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import useCustomForm from '@/components/Common/Form/Form';
 import * as yup from 'yup';
 
 import FormatForm from '@/components/Common/Form/FormatForm';
