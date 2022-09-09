@@ -1,19 +1,19 @@
-import { useState } from 'react';
 import {
   Box,
-  Typography,
-  Hidden,
-  Container,
   Button,
+  Container,
   Grid,
-  styled
+  Hidden,
+  styled,
+  Typography
 } from '@mui/material';
 import type { ReactElement } from 'react';
+import { useState } from 'react';
 import BaseLayout from 'src/layouts/BaseLayout';
 
-import Head from 'next/head';
 import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Head from 'next/head';
 
 const GridWrapper = styled(Grid)(
   ({ theme }) => `
@@ -30,18 +30,6 @@ const MainContent = styled(Box)(
     flex-direction: column;
     align-items: center;
     justify-content: center;
-`
-);
-
-const TypographyPrimary = styled(Typography)(
-  ({ theme }) => `
-      color: ${theme.colors.alpha.white[100]};
-`
-);
-
-const TypographySecondary = styled(Typography)(
-  ({ theme }) => `
-      color: ${theme.colors.alpha.white[70]};
 `
 );
 
@@ -114,25 +102,7 @@ function Status500() {
               justifyContent="center"
               item
             >
-              <Container maxWidth="sm">
-                {/* <Box textAlign="center">
-                  <TypographyPrimary variant="h1" sx={{ my: 2 }}>
-                    Tokyo Free White Next.js Typescript Admin Dashboard
-                  </TypographyPrimary>
-                  <TypographySecondary
-                    variant="h4"
-                    fontWeight="normal"
-                    sx={{ mb: 4 }}
-                  >
-                    High performance React template built with lots of powerful
-                    Material-UI components across multiple product niches for
-                    fast & perfect apps development processes.
-                  </TypographySecondary>
-                  <Button href="/" size="large" variant="contained">
-                    Overview
-                  </Button>
-                </Box> */}
-              </Container>
+              <Container maxWidth="sm"></Container>
             </GridWrapper>
           </Hidden>
         </Grid>
