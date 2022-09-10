@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Sidebar from './Sidebar';
 import Header from './Header';
+import { ProtectRoute } from '@/contexts/ProtectDashboard';
 
 interface SidebarLayoutProps {
   children?: ReactNode;
@@ -13,7 +14,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({ children }) => {
   const theme = useTheme();
 
   return (
-    <>
+    <ProtectRoute>
       <Box
         sx={{
           flex: 1,
@@ -58,7 +59,7 @@ const SidebarLayout: FC<SidebarLayoutProps> = ({ children }) => {
           <Box display="block">{children}</Box>
         </Box>
       </Box>
-    </>
+    </ProtectRoute>
   );
 };
 
