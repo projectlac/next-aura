@@ -17,6 +17,7 @@ import * as yup from 'yup';
 
 import FormatForm from '@/components/Common/Form/FormatForm';
 import TextField from '@/components/Common/Form/TextField';
+import { useAuth } from '@/contexts/AuthGuard';
 
 const OverviewWrapper = styled(Box)(
   () => `
@@ -31,7 +32,7 @@ const validationSchema = yup.object({
   username: yup.string().required('Email is required'),
   password: yup
     .string()
-    .min(8, 'Password should be of minimum 8 characters length')
+    .min(6, 'Password should be of minimum 6 characters length')
     .required('Password is required')
 });
 const validationSchemaRegis = yup.object({
@@ -39,11 +40,12 @@ const validationSchemaRegis = yup.object({
   email: yup.string().email().required('Email is required'),
   password: yup
     .string()
-    .min(8, 'Password should be of minimum 8 characters length')
+    .min(6, 'Password should be of minimum 6 characters length')
     .required('Password is required')
 });
 function Overview() {
-  const [login, setLogin] = useState<boolean>(true);
+  const [loginMode, setLoginMode] = useState<boolean>(true);
+  const { login } = useAuth();
   const initForm = {
     username: '',
     password: ''
@@ -53,14 +55,18 @@ function Overview() {
     password: '',
     email: ''
   };
-  const onSubmit = () => {
+  const onSubmit = (values) => {
+    const { username, password } = values;
+    login(username, password);
+  };
+  const onRegis = () => {
     console.log('submit');
   };
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
   const formikRegis = useCustomForm(
     validationSchemaRegis,
     initFormRegis,
-    onSubmit
+    onRegis
   );
 
   return (
@@ -74,7 +80,7 @@ function Overview() {
           <Card>
             <Grid container sx={{ position: 'relative' }}>
               <Grid md={6} item>
-                {!login && (
+                {!loginMode && (
                   <Box p={10}>
                     <FormatForm formik={formikRegis}>
                       <Typography
@@ -125,7 +131,7 @@ function Overview() {
                 )}
               </Grid>
               <Grid md={6} item>
-                {login && (
+                {loginMode && (
                   <Box p={10}>
                     <FormatForm formik={formik}>
                       <Typography
@@ -172,7 +178,7 @@ function Overview() {
                         fullWidth
                         sx={{ mt: 1 }}
                         onClick={() => {
-                          setLogin(false);
+                          setLoginMode(false);
                         }}
                       >
                         Đăng ký
@@ -184,7 +190,7 @@ function Overview() {
               <Grid
                 md={6}
                 item
-                className={`dinamic-login ${login ? '' : 'active-login'}`}
+                className={`dinamic-login ${loginMode ? '' : 'active-login'}`}
               >
                 <Box
                   sx={{

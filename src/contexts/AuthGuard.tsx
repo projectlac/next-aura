@@ -1,5 +1,8 @@
 import api from 'api/api';
+import { signIn } from 'api/auth';
+import { getUser } from 'api/user';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 //api here is an axios instance which has the baseURL set according to the env.
@@ -10,13 +13,13 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const router = useRouter();
   useEffect(() => {
     async function loadUserFromCookies() {
       const token = Cookies.get('token');
       if (token) {
-        console.log("Got a token in the cookies, let's see if it is valid");
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        const { data: user } = await api.get('users/me');
+        const { data: user } = await getUser();
         if (user) setUser(user);
       }
       setLoading(false);
@@ -24,15 +27,15 @@ export const AuthProvider = ({ children }) => {
     loadUserFromCookies();
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const { data: token } = await api.post('auth/login', { email, password });
+  const login = async (username: string, password: string) => {
+    const { data: token } = await signIn({ username, password });
+
     if (token) {
-      console.log('Got token');
       Cookies.set('token', token, { expires: 60 });
-      api.defaults.headers.common['Authorization'] = `Bearer ${token.token}`;
-      const { data: user } = await api.get('users/me');
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const { data: user } = await getUser();
       setUser(user);
-      console.log('Got user', user);
+      router.push('/');
     }
   };
 

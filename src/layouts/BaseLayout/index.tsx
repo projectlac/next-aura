@@ -4,6 +4,8 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { FC, ReactNode } from 'react';
 import bg from '@/assets/images/light-bg-genshin.webp';
+import HeaderUserbox from './Userbox';
+import { useAuth } from '@/contexts/AuthGuard';
 
 interface BaseLayoutProps {
   children?: ReactNode;
@@ -12,7 +14,7 @@ const Header = styled(Box)({
   backgroundColor: 'rgb(0 0 0 / 27%)',
   position: 'fixed',
   width: '100%',
-  zIndex: 9999
+  zIndex: 999
 });
 const MenuWrapper = styled(Box)({
   display: 'flex',
@@ -28,6 +30,7 @@ const FullBG = styled(Box)({
   backgroundAttachment: 'fixed'
 });
 const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
+  const { isAuthenticated } = useAuth();
   return (
     <Box>
       <Header>
@@ -62,11 +65,15 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
               </li>
             </ul>
             <Box>
-              <ul>
-                <li>
-                  <Link href={'/login'}>Đăng nhập</Link>
-                </li>
-              </ul>
+              {isAuthenticated ? (
+                <HeaderUserbox />
+              ) : (
+                <ul>
+                  <li>
+                    <Link href={'/login'}>Đăng nhập</Link>
+                  </li>
+                </ul>
+              )}
             </Box>
           </MenuWrapper>
         </Container>

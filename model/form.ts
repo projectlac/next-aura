@@ -23,3 +23,7 @@ export interface ISelectOption {
   value: string;
   title: string;
 }
+export interface ILogin {
+  username: string;
+  password: string;
+}

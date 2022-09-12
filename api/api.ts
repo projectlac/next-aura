@@ -2,7 +2,7 @@ import Axios from 'axios';
 
 let urls = {
   test: `http://localhost:8888`,
-  development: 'http://localhost:8888/',
+  development: 'https://shopgenshin.online/',
   production: 'https://your-production-url.com/'
 };
 const api = Axios.create({
