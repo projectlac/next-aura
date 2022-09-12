@@ -10,7 +10,7 @@ function ApplicationsTransactions() {
   return (
     <>
       <Head>
-        <title>Transactions - Applications</title>
+        <title>Tài khoản VIP</title>
       </Head>
       <PageTitleWrapper>
         <PageHeader />

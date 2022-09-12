@@ -1,7 +1,5 @@
 import { Box } from '@mui/material';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
@@ -21,46 +19,34 @@ interface IDialog {
   icon: React.ReactNode;
   title: string;
   children: React.ReactNode;
-  onSubmit: () => void;
+  handleCloseDialog: () => void;
+  handleOpenDialog: () => void;
+  openDialog: boolean;
 }
 
 export default function DialogCommon({
   icon,
   title,
   children,
-  onSubmit
+  handleCloseDialog,
+  openDialog,
+  handleOpenDialog
 }: IDialog) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleAgree = () => {
-    onSubmit();
-    handleClose();
-  };
-
   return (
     <div>
-      <Box onClick={handleClickOpen}>{icon}</Box>
+      <Box onClick={handleOpenDialog}>{icon}</Box>
 
       <Dialog
-        open={open}
+        fullWidth
+        maxWidth="md"
+        open={openDialog}
         TransitionComponent={Transition}
         keepMounted
-        onClose={handleClose}
+        onClose={handleCloseDialog}
         aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>{children}</DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Disagree</Button>
-          <Button onClick={handleAgree}>Agree</Button>
-        </DialogActions>
       </Dialog>
     </div>
   );

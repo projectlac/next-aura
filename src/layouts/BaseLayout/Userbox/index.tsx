@@ -40,18 +40,19 @@ const UserBoxText = styled(Box)(
 const UserBoxLabel = styled(Typography)(
   ({ theme }) => `
         font-weight: ${theme.typography.fontWeightBold};
-        color:  ${lighten(theme.palette.secondary.main, 1)};
+        color: ${theme.palette.secondary.main};
         display: block;
 `
 );
 
 const UserBoxDescription = styled(Typography)(
   ({ theme }) => `
-        color: ${lighten(theme.palette.secondary.main, 1)}
+        color: ${lighten(theme.palette.secondary.main, 0.5)}
 `
 );
 
 function HeaderUserbox() {
+  const { logout } = useAuth();
   const user = {
     name: 'Catherine Pike',
     avatar: '/static/images/avatars/1.jpg',
@@ -76,10 +77,20 @@ function HeaderUserbox() {
         <Avatar variant="rounded" alt={user.name} src={user.avatar} />
         <Hidden mdDown>
           <UserBoxText>
-            <UserBoxLabel variant="body1">
+            <UserBoxLabel
+              variant="body1"
+              sx={{
+                color: '#fff'
+              }}
+            >
               {userData.username || user.name}
             </UserBoxLabel>
-            <UserBoxDescription variant="body2">
+            <UserBoxDescription
+              variant="body2"
+              sx={{
+                color: '#fff'
+              }}
+            >
               {userData.role || user.jobtitle}
             </UserBoxDescription>
           </UserBoxText>
@@ -127,7 +138,7 @@ function HeaderUserbox() {
         </List>
         <Divider /> */}
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button color="primary" fullWidth onClick={logout}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Đăng xuất
           </Button>

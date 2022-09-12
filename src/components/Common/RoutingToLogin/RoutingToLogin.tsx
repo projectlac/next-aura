@@ -6,8 +6,11 @@ interface IRedirect {
 }
 export default function RoutingToLink({ href }: IRedirect) {
   const route = useRouter();
+
   useEffect(() => {
+    console.log(href);
+
     route.push(href);
-  }, []);
-  return <></>;
+  }, [href]);
+  return <React.Fragment>Loading</React.Fragment>;
 }

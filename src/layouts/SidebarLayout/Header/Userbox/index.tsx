@@ -20,6 +20,7 @@ import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { styled } from '@mui/material/styles';
+import { useAuth } from '@/contexts/AuthGuard';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -57,6 +58,7 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
+  const { logout } = useAuth();
   const user = {
     name: 'Catherine Pike',
     avatar: '/static/images/avatars/1.jpg',
@@ -129,7 +131,7 @@ function HeaderUserbox() {
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button color="primary" fullWidth onClick={logout}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Đăng xuất
           </Button>

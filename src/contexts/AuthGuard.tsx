@@ -20,6 +20,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const { data: user } = await getUser();
+
         if (user) setUser(user);
       }
       setLoading(false);

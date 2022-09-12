@@ -1,24 +1,31 @@
-import React from 'react';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import React, { useState } from 'react';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
 import { Box } from '@mui/material';
 
 interface IEdit {
   title: string;
 }
-function Delete({ title }: IEdit) {
-  const edit = () => {
-    console.log('edit');
+function EditTag({ title }: IEdit) {
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
   return (
     <DialogCommon
-      icon={<DeleteTwoToneIcon fontSize="small" />}
+      icon={<EditTwoToneIcon />}
       title={title}
-      onSubmit={edit}
+      openDialog={openDialog}
+      handleOpenDialog={handleOpenDialog}
+      handleCloseDialog={handleCloseDialog}
     >
       <Box>HUHU</Box>
     </DialogCommon>
   );
 }
 
-export default Delete;
+export default EditTag;
