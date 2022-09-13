@@ -7,9 +7,14 @@ import {
   Divider,
   Hidden,
   lighten,
+  List,
+  ListItem,
+  ListItemText,
   Popover,
   Typography
 } from '@mui/material';
+import NextLink from 'next/link';
+import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 
 import { useAuth } from '@/contexts/AuthGuard';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
@@ -122,21 +127,25 @@ function HeaderUserbox() {
           </UserBoxText>
         </MenuUserBox>
         <Divider sx={{ mb: 0 }} />
-        {/* <List sx={{ p: 1 }} component="nav">
-          <NextLink href="/management/profile/settings" passHref>
-            <ListItem button>
-              <AccountTreeTwoToneIcon fontSize="small" />
-              <ListItemText primary="Thông tin cá nhân" />
-            </ListItem>
-          </NextLink>
-          <NextLink href="/management/profile/settings" passHref>
-            <ListItem button>
-              <AccountTreeTwoToneIcon fontSize="small" />
-              <ListItemText primary="Cài đặt tài khoản" />
-            </ListItem>
-          </NextLink>
+        <List sx={{ p: 1 }} component="nav">
+          {userData.role === 'ADMIN' && (
+            <NextLink href="/dashboards" passHref>
+              <ListItem button>
+                <AccountTreeTwoToneIcon fontSize="small" />
+                <ListItemText primary="Quản lý" />
+              </ListItem>
+            </NextLink>
+          )}
+          {userData.role && (
+            <NextLink href="/history" passHref>
+              <ListItem button>
+                <AccountTreeTwoToneIcon fontSize="small" />
+                <ListItemText primary="Lịch sử mua hàng" />
+              </ListItem>
+            </NextLink>
+          )}
         </List>
-        <Divider /> */}
+        <Divider />
         <Box sx={{ m: 1 }}>
           <Button color="primary" fullWidth onClick={logout}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />

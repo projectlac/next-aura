@@ -1,3 +1,5 @@
+import img from '@/assets/images/454-HhXmb.webp';
+import DialogCommonWithoutIcon from '@/components/Common/DialogCommon/DialogCommonWithoutIcon';
 import BaseLayout from '@/layouts/BaseLayout';
 import {
   Box,
@@ -7,13 +9,28 @@ import {
   Grid,
   Typography
 } from '@mui/material';
-import React, { ReactElement } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import img from '@/assets/images/454-HhXmb.webp';
+
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { ReactElement, useState } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+
 function DetailAccout() {
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const router = useRouter();
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const buyAccount = () => {
+    router.push('/history');
+    handleCloseDialog();
+  };
   const settings = {
     dots: false,
     infinite: true,
@@ -106,7 +123,37 @@ function DetailAccout() {
                 </Grid>
 
                 <Grid item md={12} xs={12} textAlign="center">
-                  <Button variant="contained">Mua ngay</Button>
+                  <DialogCommonWithoutIcon
+                    titleButton={'Mua ngay'}
+                    title={'Xác nhận mua hàng'}
+                    handleCloseDialog={handleCloseDialog}
+                    handleOpenDialog={handleOpenDialog}
+                    openDialog={openDialog}
+                  >
+                    <Typography fontSize={15}>
+                      Bạn có chắc muốn mua tài khoản này không?
+                      <br />
+                      Sau khi mua, thông tin tài khoản sẽ được lưu vào lịch sử
+                      mua hàng.
+                    </Typography>
+                    <Divider sx={{ my: 2 }} />
+                    <Grid container>
+                      <Grid item md={6} xs={12} textAlign="center">
+                        <Button variant="contained" onClick={buyAccount}>
+                          Xác nhận
+                        </Button>
+                      </Grid>
+                      <Grid item md={6} xs={12} textAlign="center">
+                        <Button
+                          variant="contained"
+                          color="error"
+                          onClick={handleCloseDialog}
+                        >
+                          Đóng
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </DialogCommonWithoutIcon>
                 </Grid>
               </Grid>
             </Box>

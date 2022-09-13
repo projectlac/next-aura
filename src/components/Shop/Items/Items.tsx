@@ -62,6 +62,7 @@ function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
             borderRadius: '5px',
             position: 'relative',
             overflow: 'hidden',
+            cursor: 'pointer',
             '&:before': {
               width: '388px',
               height: '300px',
@@ -86,6 +87,9 @@ function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
             color={'primary'}
             textTransform="uppercase"
             className={`${isSold ? 'disable-link' : ''}`}
+            sx={{
+              cursor: 'pointer'
+            }}
           >
             {title}
           </Typography>
