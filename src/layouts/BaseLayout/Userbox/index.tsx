@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
 
+import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import {
   Avatar,
   Box,
   Button,
   Divider,
   Hidden,
-  lighten,
   List,
   ListItem,
   ListItemText,
@@ -14,7 +14,6 @@ import {
   Typography
 } from '@mui/material';
 import NextLink from 'next/link';
-import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 
 import { useAuth } from '@/contexts/AuthGuard';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
