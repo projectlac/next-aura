@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
 import { Box } from '@mui/material';
 
 interface IEdit {
   title: string;
 }
-function EditTag({ title }: IEdit) {
+function EditAccount({ title }: IEdit) {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const handleOpenDialog = () => {
@@ -17,7 +17,7 @@ function EditTag({ title }: IEdit) {
   };
   return (
     <DialogCommon
-      icon={<DeleteTwoToneIcon />}
+      icon={<EditTwoToneIcon />}
       title={title}
       openDialog={openDialog}
       handleOpenDialog={handleOpenDialog}
@@ -28,4 +28,4 @@ function EditTag({ title }: IEdit) {
   );
 }
 
-export default EditTag;
+export default EditAccount;

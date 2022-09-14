@@ -3,7 +3,15 @@ import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import TextField from '@/components/Common/Form/TextField';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import { Box, Button } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup
+} from '@mui/material';
 import { useState } from 'react';
 import * as yup from 'yup';
 interface IEdit {
@@ -11,15 +19,12 @@ interface IEdit {
 }
 
 const validationSchema = yup.object({
-  username: yup.string().required('Email is required'),
-  password: yup
-    .string()
-    .min(6, 'Password should be of minimum 6 characters length')
-    .required('Password is required')
+  title: yup.string().required('Tên tag là thuộc tính bắt buộc'),
+  type: yup.string().required('Loại tag là thuộc tính bắt buộc')
 });
 const initForm = {
-  username: '',
-  password: ''
+  title: '',
+  type: 'weapon'
 };
 const onSubmit = () => {
   console.log('submit?');
@@ -55,23 +60,43 @@ function AddTag({ title }: IEdit) {
         <FormatForm formik={formik}>
           <TextField
             formik={formik}
-            label="Tài khoản"
+            sx={{ mt: 1 }}
+            label="Tên"
             variant="outlined"
             fullWidth
-            name="username"
+            name="title"
             type="text"
           />
-          <TextField
-            formik={formik}
-            sx={{ mt: 3 }}
-            id="outlined-basic"
-            label="Mật khẩu"
-            variant="outlined"
-            fullWidth
-            name="password"
-            type="password"
-          />
-
+          <FormControl sx={{ my: 3 }}>
+            <FormLabel id="demo-row-radio-buttons-group-label">
+              Loại tag
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="type"
+              value={formik.values.type}
+              onChange={(event) => {
+                formik.handleChange({
+                  target: {
+                    name: 'type',
+                    value: event.target.value
+                  }
+                });
+              }}
+            >
+              <FormControlLabel
+                value="weapon"
+                control={<Radio />}
+                label="Vũ khí"
+              />
+              <FormControlLabel
+                value="character"
+                control={<Radio />}
+                label="Nhân vật"
+              />
+            </RadioGroup>
+          </FormControl>
           <Button variant="contained" fullWidth type="submit">
             Thêm
           </Button>

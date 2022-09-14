@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 interface IEdit {
   title: string;
 }
-function EditTag({ title }: IEdit) {
+function DeleteAccount({ title }: IEdit) {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const handleOpenDialog = () => {
@@ -15,9 +15,10 @@ function EditTag({ title }: IEdit) {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
   return (
     <DialogCommon
-      icon={<DeleteTwoToneIcon />}
+      icon={<DeleteTwoToneIcon fontSize="small" />}
       title={title}
       openDialog={openDialog}
       handleOpenDialog={handleOpenDialog}
@@ -28,4 +29,4 @@ function EditTag({ title }: IEdit) {
   );
 }
 
-export default EditTag;
+export default DeleteAccount;

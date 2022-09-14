@@ -51,8 +51,8 @@ const UserBoxLabel = styled(Typography)(
 );
 
 const UserBoxDescription = styled(Typography)(
-  ({ theme }) => `
-        color: ${lighten(theme.palette.secondary.main, 0.5)}
+  () => `
+        color:#fff
 `
 );
 
@@ -90,12 +90,7 @@ function HeaderUserbox() {
             >
               {userData.username || user.name}
             </UserBoxLabel>
-            <UserBoxDescription
-              variant="body2"
-              sx={{
-                color: '#fff'
-              }}
-            >
+            <UserBoxDescription variant="body2">
               {userData.role || user.jobtitle}
             </UserBoxDescription>
           </UserBoxText>
@@ -120,9 +115,11 @@ function HeaderUserbox() {
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
           <Avatar variant="rounded" alt={user.name} src={user.avatar} />
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
-              {user.jobtitle}
+            <UserBoxLabel variant="body1">
+              {userData.username || user.name}
+            </UserBoxLabel>
+            <UserBoxDescription variant="body2" sx={{ color: `#d33` }}>
+              69.696.969 coin
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
