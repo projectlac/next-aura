@@ -24,9 +24,7 @@ import * as yup from 'yup';
 interface IEdit {
   title: string;
 }
-interface IFilm {
-  title: string;
-}
+
 const Input = styled('input')({
   display: 'none'
 });
