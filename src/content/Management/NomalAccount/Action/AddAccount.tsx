@@ -4,7 +4,6 @@ import FormatForm from '@/components/Common/Form/FormatForm';
 import Selection from '@/components/Common/Form/Selection';
 import TextField from '@/components/Common/Form/TextField';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
-
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import {
   Box,
@@ -145,7 +144,6 @@ function AddAccount({ title }: IEdit) {
                 variant="outlined"
                 fullWidth
                 name="server"
-                type="select"
                 options={[
                   { value: 'Asia', title: 'Asia' },
                   { value: 'America', title: 'America' },

@@ -313,7 +313,6 @@ function AddAccount({ title }: IEdit) {
                 variant="outlined"
                 fullWidth
                 name="server"
-                type="select"
                 options={[
                   { value: 'Asia', title: 'Asia' },
                   { value: 'America', title: 'America' },

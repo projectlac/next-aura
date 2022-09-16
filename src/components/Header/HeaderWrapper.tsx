@@ -42,7 +42,7 @@ function HeaderWrapper() {
               <Link href={'/'}>Trang chủ</Link>
             </li>
             <li>
-              <Link href={''}>Nạp tiền</Link>
+              <Link href={'/topup'}>Nạp tiền</Link>
             </li>
             <li>
               <Link href={''}>Nạp game</Link>

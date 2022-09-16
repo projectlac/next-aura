@@ -12,13 +12,14 @@ import {
 
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 function DetailAccout() {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const customeSlider = useRef<any>();
   const router = useRouter();
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -41,7 +42,7 @@ function DetailAccout() {
   return (
     <Container maxWidth="lg" sx={{ mt: 15 }}>
       <Box py={3}>
-        <Slider {...settings}>
+        <Slider ref={customeSlider} {...settings}>
           <Box
             height={690}
             sx={{
@@ -122,7 +123,7 @@ function DetailAccout() {
                   ></Divider>
                 </Grid>
 
-                <Grid item md={12} xs={12} textAlign="center">
+                <Grid item md={6} xs={12} textAlign="center">
                   <DialogCommonWithoutIcon
                     titleButton={'Mua ngay'}
                     title={'Xác nhận mua hàng'}
@@ -154,6 +155,18 @@ function DetailAccout() {
                       </Grid>
                     </Grid>
                   </DialogCommonWithoutIcon>
+                </Grid>
+                <Grid item md={6} xs={12} textAlign="center">
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      customeSlider &&
+                        customeSlider.current &&
+                        customeSlider?.current?.slickNext();
+                    }}
+                  >
+                    Xem chi tiết
+                  </Button>
                 </Grid>
               </Grid>
             </Box>

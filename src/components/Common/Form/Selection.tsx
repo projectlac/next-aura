@@ -1,10 +1,9 @@
 import { MenuItem, TextField as TF } from '@mui/material';
 
-function Selection({ formik, type, name, label, options, ...props }) {
+function Selection({ formik, name, label, options, ...props }) {
   return (
     <TF
       fullWidth
-      type={type}
       name={name}
       label={label}
       select

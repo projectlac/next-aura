@@ -58,10 +58,10 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
                 <Link href={'/'}>Trang chủ</Link>
               </li>
               <li>
-                <Link href={''}>Nạp tiền</Link>
+                <Link href={'/topup'}>Nạp tiền</Link>
               </li>
               <li>
-                <Link href={''}>Nạp game</Link>
+                <Link href={'/topup-genshin'}>Nạp game</Link>
               </li>
             </ul>
             <Box>
