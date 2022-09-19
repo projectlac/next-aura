@@ -1,13 +1,13 @@
-import Items from '@/components/Shop/Items/Items';
-import BaseLayout from '@/layouts/BaseLayout';
-import { Box, Container, Grid, Hidden, styled } from '@mui/material';
-import Head from 'next/head';
-import React, { ReactElement, useState } from 'react';
 import bg from '@/assets/images/genshin-impact.webp';
-import FilterVip from '@/components/Shop/Filters/FilterVip';
+import FilterAccount from '@/components/Common/Filter/FilterAccount';
 import PaginationPage from '@/components/Common/PaginationPage';
 import TitleSpecial from '@/components/Common/TitleSpecial';
-import FilterAccount from '@/components/Common/Filter/FilterAccount';
+import FilterVip from '@/components/Shop/Filters/FilterVip';
+import Items from '@/components/Shop/Items/Items';
+import BaseLayout from '@/layouts/BaseLayout';
+import { Box, Container, Grid } from '@mui/material';
+import Head from 'next/head';
+import { ReactElement, useState } from 'react';
 
 function AccountVip() {
   const [open, setOpen] = useState<boolean>(false);
