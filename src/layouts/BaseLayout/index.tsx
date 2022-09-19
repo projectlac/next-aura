@@ -1,14 +1,13 @@
+import bg from '@/assets/images/light-bg-genshin.webp';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/contexts/AuthGuard';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Box, Container, Hidden, styled } from '@mui/material';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { FC, ReactNode, useState } from 'react';
-import bg from '@/assets/images/light-bg-genshin.webp';
 import HeaderUserbox from './Userbox';
-import { useAuth } from '@/contexts/AuthGuard';
-import MenuIcon from '@mui/icons-material/Menu';
-import { borderBottom } from '@mui/system';
-import CloseIcon from '@mui/icons-material/Close';
 interface BaseLayoutProps {
   children?: ReactNode;
 }
