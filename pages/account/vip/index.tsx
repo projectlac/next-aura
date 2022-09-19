@@ -1,13 +1,19 @@
 import Items from '@/components/Shop/Items/Items';
 import BaseLayout from '@/layouts/BaseLayout';
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Container, Grid, Hidden, styled } from '@mui/material';
 import Head from 'next/head';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import bg from '@/assets/images/genshin-impact.webp';
 import FilterVip from '@/components/Shop/Filters/FilterVip';
 import PaginationPage from '@/components/Common/PaginationPage';
 import TitleSpecial from '@/components/Common/TitleSpecial';
+import FilterAccount from '@/components/Common/Filter/FilterAccount';
+
 function AccountVip() {
+  const [open, setOpen] = useState<boolean>(false);
+  const toggleOpen = () => {
+    setOpen(!open);
+  };
   return (
     <Box>
       <Head>
@@ -19,8 +25,11 @@ function AccountVip() {
         <Box py={3}>
           <Grid container columnSpacing={2}>
             <Grid item xs={12} md={3}>
-              <FilterVip />
+              <FilterAccount open={open} toggleOpen={toggleOpen}>
+                <FilterVip />
+              </FilterAccount>
             </Grid>
+
             <Grid item xs={12} md={9}>
               <Grid container columnSpacing={1.5} rowSpacing={2}>
                 {[...Array(9)].map((d, i) => {

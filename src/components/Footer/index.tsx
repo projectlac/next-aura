@@ -43,7 +43,7 @@ function Footer() {
           </Grid>
 
           <Grid item md={4} xs={12}>
-            <Box px={2}>
+            <Box sx={{ px: { xs: 0, md: 2 } }}>
               <Typography
                 className="highlight-text"
                 fontWeight={'bold'}

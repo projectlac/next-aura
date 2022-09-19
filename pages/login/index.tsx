@@ -6,6 +6,7 @@ import {
   Card,
   Container,
   Grid,
+  Hidden,
   styled,
   Typography
 } from '@mui/material';
@@ -81,7 +82,7 @@ function Overview() {
             <Grid container sx={{ position: 'relative' }}>
               <Grid md={6} item>
                 {!loginMode && (
-                  <Box p={10}>
+                  <Box sx={{ p: { md: 10, xs: 2 } }}>
                     <FormatForm formik={formikRegis}>
                       <Typography
                         mb={2.7}
@@ -132,7 +133,7 @@ function Overview() {
               </Grid>
               <Grid md={6} item>
                 {loginMode && (
-                  <Box p={10}>
+                  <Box sx={{ p: { md: 10, xs: 2 } }}>
                     <FormatForm formik={formik}>
                       <Typography
                         mb={3}
@@ -187,20 +188,22 @@ function Overview() {
                   </Box>
                 )}
               </Grid>
-              <Grid
-                md={6}
-                item
-                className={`dinamic-login ${loginMode ? '' : 'active-login'}`}
-              >
-                <Box
-                  sx={{
-                    background: `url(${image})`,
-                    width: '100%',
-                    height: '100%',
-                    backgroundSize: 'cover'
-                  }}
-                ></Box>
-              </Grid>
+              <Hidden mdDown>
+                <Grid
+                  md={6}
+                  item
+                  className={`dinamic-login ${loginMode ? '' : 'active-login'}`}
+                >
+                  <Box
+                    sx={{
+                      background: `url(${image})`,
+                      width: '100%',
+                      height: '100%',
+                      backgroundSize: 'cover'
+                    }}
+                  ></Box>
+                </Grid>
+              </Hidden>
             </Grid>
           </Card>
         </Box>

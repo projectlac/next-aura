@@ -1,4 +1,5 @@
 import bg from '@/assets/images/genshin-impact.webp';
+import FilterAccount from '@/components/Common/Filter/FilterAccount';
 import PaginationPage from '@/components/Common/PaginationPage';
 import TitleSpecial from '@/components/Common/TitleSpecial';
 import FilterRandom from '@/components/Shop/Filters/FilterRandom';
@@ -6,8 +7,12 @@ import Items from '@/components/Shop/Items/Items';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Box, Container, Grid } from '@mui/material';
 import Head from 'next/head';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 function AccountRandom() {
+  const [open, setOpen] = useState<boolean>(false);
+  const toggleOpen = () => {
+    setOpen(!open);
+  };
   return (
     <Box>
       <Head>
@@ -19,7 +24,9 @@ function AccountRandom() {
         <Box py={3}>
           <Grid container columnSpacing={2}>
             <Grid item xs={12} md={3}>
-              <FilterRandom />
+              <FilterAccount open={open} toggleOpen={toggleOpen}>
+                <FilterRandom />
+              </FilterAccount>
             </Grid>
             <Grid item xs={12} md={9}>
               <Grid container columnSpacing={1.5} rowSpacing={2}>

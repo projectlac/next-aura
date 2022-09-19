@@ -64,7 +64,7 @@ function ProductCollectionItem({ title, url, image }: ICollectionItemProps) {
         </Typography>
         <Divider sx={{ my: 1 }} />
         <Grid container columnSpacing={1.5}>
-          <Grid item md={6} xs={12}>
+          <Grid item md={6} xs={6}>
             <Typography fontSize={15} fontWeight="600">
               Số tài khoản <br />{' '}
               <span
@@ -74,7 +74,7 @@ function ProductCollectionItem({ title, url, image }: ICollectionItemProps) {
               </span>
             </Typography>
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid item md={6} xs={6}>
             <Typography fontSize={15} fontWeight="600" textAlign="right">
               Đã bán <br />
               <span

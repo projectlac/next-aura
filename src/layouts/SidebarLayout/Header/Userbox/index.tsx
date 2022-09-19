@@ -58,7 +58,7 @@ const UserBoxDescription = styled(Typography)(
 );
 
 function HeaderUserbox() {
-  const { logout } = useAuth();
+  const { logout, user: userData } = useAuth();
   const user = {
     name: 'Catherine Pike',
     avatar: '/static/images/avatars/1.jpg',
@@ -82,9 +82,11 @@ function HeaderUserbox() {
         <Avatar variant="rounded" alt={user.name} src={user.avatar} />
         <Hidden mdDown>
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">
+              {userData?.username || user.name}
+            </UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {user.jobtitle}
+              {userData?.role || user.jobtitle}
             </UserBoxDescription>
           </UserBoxText>
         </Hidden>
@@ -108,9 +110,11 @@ function HeaderUserbox() {
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
           <Avatar variant="rounded" alt={user.name} src={user.avatar} />
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">
+              {userData?.username || user.name}
+            </UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {user.jobtitle}
+              69.696.969 coin
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>

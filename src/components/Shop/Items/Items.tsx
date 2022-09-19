@@ -96,7 +96,7 @@ function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
         </Link>
         <Divider sx={{ my: 1 }} />
         <Grid container columnSpacing={1.5}>
-          <Grid item md={6} xs={12}>
+          <Grid item xs={6}>
             <Typography fontSize={15} fontWeight="600">
               Mã account <br />{' '}
               <span
@@ -106,7 +106,7 @@ function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
               </span>
             </Typography>
           </Grid>
-          <Grid item md={6} xs={12}>
+          <Grid item xs={6}>
             <Typography fontSize={15} fontWeight="600" textAlign="right">
               Giá bán <br />
               <span
