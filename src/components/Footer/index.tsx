@@ -14,7 +14,8 @@ function Footer() {
   return (
     <FooterWrapper className="footer-wrapper">
       <Box
-        pb={3}
+        pt={3}
+        pb={2}
         display={{ xs: 'block', md: 'flex' }}
         alignItems="center"
         textAlign={{ xs: 'center', md: 'left' }}
@@ -28,7 +29,9 @@ function Footer() {
             <Typography
               className="highlight-text"
               fontWeight={'bold'}
-              fontSize={25}
+              sx={{
+                fontSize: { md: 25, xs: 18 }
+              }}
             >
               Về chúng tôi
             </Typography>
@@ -47,7 +50,9 @@ function Footer() {
               <Typography
                 className="highlight-text"
                 fontWeight={'bold'}
-                fontSize={25}
+                sx={{
+                  fontSize: { md: 25, xs: 18 }
+                }}
               >
                 Chúng tôi
               </Typography>
@@ -60,7 +65,9 @@ function Footer() {
             <Typography
               className="highlight-text"
               fontWeight={'bold'}
-              fontSize={25}
+              sx={{
+                fontSize: { md: 25, xs: 18 }
+              }}
             >
               Liên hệ
             </Typography>

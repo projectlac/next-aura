@@ -44,15 +44,15 @@ function DetailAccout() {
       <Box py={3}>
         <Slider ref={customeSlider} {...settings}>
           <Box
-            height={690}
             sx={{
+              height: { md: 690, xs: '100%' },
               display: 'flex !important',
               alignItems: 'center'
             }}
           >
             <Box
-              width={700}
               sx={{
+                width: { md: 700, xs: 'auto' },
                 background: '#37336f61',
                 margin: '0 auto',
                 padding: '25px',
@@ -60,14 +60,19 @@ function DetailAccout() {
               }}
             >
               <Grid container columnSpacing={1.5} rowSpacing={2}>
-                <Grid item md={4} xs={12}>
+                <Grid item md={4} xs={4}>
                   <Box
                     textAlign={'center'}
                     sx={{
                       color: '#fff'
                     }}
                   >
-                    <Typography fontSize={25} fontWeight={'bold'}>
+                    <Typography
+                      sx={{
+                        fontSize: { md: 25, xs: 15 }
+                      }}
+                      fontWeight={'bold'}
+                    >
                       Cấp AR
                     </Typography>
                     <Typography fontSize={20} fontWeight={'bold'}>
@@ -75,14 +80,19 @@ function DetailAccout() {
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item md={4} xs={12}>
+                <Grid item md={4} xs={4}>
                   <Box
                     textAlign={'center'}
                     sx={{
                       color: '#fff'
                     }}
                   >
-                    <Typography fontSize={25} fontWeight={'bold'}>
+                    <Typography
+                      sx={{
+                        fontSize: { md: 25, xs: 15 }
+                      }}
+                      fontWeight={'bold'}
+                    >
                       Server
                     </Typography>
                     <Typography fontSize={20} fontWeight={'bold'}>
@@ -90,14 +100,19 @@ function DetailAccout() {
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid item md={4} xs={12}>
+                <Grid item md={4} xs={4}>
                   <Box
                     textAlign={'center'}
                     sx={{
                       color: '#fff'
                     }}
                   >
-                    <Typography fontSize={25} fontWeight={'bold'}>
+                    <Typography
+                      sx={{
+                        fontSize: { md: 25, xs: 15 }
+                      }}
+                      fontWeight={'bold'}
+                    >
                       Tướng 5*
                     </Typography>
                     <Typography fontSize={20} fontWeight={'bold'}>
@@ -106,16 +121,31 @@ function DetailAccout() {
                   </Box>
                 </Grid>
                 <Grid item md={12} xs={12} textAlign="center">
-                  <Typography fontSize={25} fontWeight={'bold'} color="#fff">
+                  <Typography
+                    sx={{
+                      fontSize: { md: 25, xs: 15 }
+                    }}
+                    fontWeight={'bold'}
+                    color="#fff"
+                  >
                     Tướng 5*
                   </Typography>
                   <Divider
-                    sx={{ my: 1, background: 'rgb(255 255 255 / 89%)' }}
+                    sx={{
+                      my: 1,
+                      background: 'rgb(255 255 255 / 89%)'
+                    }}
                   ></Divider>
                 </Grid>
 
                 <Grid item md={12} xs={12} textAlign="center" color="#fff">
-                  <Typography fontSize={25} fontWeight={'bold'} color="#fff">
+                  <Typography
+                    sx={{
+                      fontSize: { md: 25, xs: 15 }
+                    }}
+                    fontWeight={'bold'}
+                    color="#fff"
+                  >
                     Giá: 1.000.000.000 VNĐ
                   </Typography>
                   <Divider
