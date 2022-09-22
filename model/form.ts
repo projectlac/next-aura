@@ -27,3 +27,24 @@ export interface ILogin {
   username: string;
   password: string;
 }
+export interface IRegis extends ILogin {
+  confirmPassword: string;
+  email: string;
+}
+export interface IResetPassword {
+  password: string;
+  confirmPassword: string;
+  token: string;
+}
+// ADD ACCOUNT VIP
+// export interface IAccountVip {
+//   username: string;
+//   password: string;
+//   name: string;
+//   price: number;
+//   description: string;
+//   hero: string;
+//   weapon: string;
+//   server: string;
+//   ar_level: string;
+// }

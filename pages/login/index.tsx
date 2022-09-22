@@ -46,7 +46,7 @@ const validationSchemaRegis = yup.object({
 });
 function Overview() {
   const [loginMode, setLoginMode] = useState<boolean>(true);
-  const { login } = useAuth();
+  const { login, register } = useAuth();
   const initForm = {
     username: '',
     password: ''
@@ -60,8 +60,9 @@ function Overview() {
     const { username, password } = values;
     login(username, password);
   };
-  const onRegis = () => {
-    console.log('submit');
+  const onRegis = (values) => {
+    const { username, password, email } = values;
+    register(username, password, email);
   };
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
   const formikRegis = useCustomForm(
@@ -104,7 +105,7 @@ function Overview() {
                       <TextField
                         sx={{ mt: 2.48 }}
                         name="password"
-                        type="text"
+                        type="password"
                         formik={formikRegis}
                         label="Mật khẩu"
                         variant="outlined"

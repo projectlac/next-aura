@@ -8,15 +8,16 @@ import {
   Typography
 } from '@mui/material';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import BaseLayout from 'src/layouts/BaseLayout';
 import * as yup from 'yup';
 
-import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import TextField from '@/components/Common/Form/TextField';
+import useCustomForm from '@/components/Common/Form/Form';
+import { changePassword } from 'api/auth';
 import { useAuth } from '@/contexts/AuthGuard';
-import { forgotPassword } from 'api/auth';
 const OverviewWrapper = styled(Box)(
   () => `
     overflow: auto;
@@ -25,29 +26,48 @@ const OverviewWrapper = styled(Box)(
     overflow-x: hidden;
 `
 );
+
 const validationSchema = yup.object({
-  email: yup.string().email('Sai định dạng').required('Trường này là bắt buộc')
+  password: yup
+    .string()
+    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+    .required('Trường này là bắt buộc'),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Mật khẩu không giống')
 });
-const initForm = {
-  email: ''
-};
+
 function Overview() {
+  const route = useRouter();
   const { handleSetMessage } = useAuth();
+  const { token } = route.query;
+
+  const initForm = {
+    passwordConfirmation: '',
+    password: ''
+  };
 
   const onSubmit = async (values) => {
-    const { email } = values;
+    const { passwordConfirmation, password } = values;
+    let tokenDefault = '';
     try {
-      await forgotPassword(email).then((res) => {
-        console.log(res);
+      await changePassword({
+        password,
+        confirmPassword: passwordConfirmation,
+        token: token as string
+      }).then((res) => {
+        tokenDefault = res.data;
+        handleSetMessage({
+          type: 'success',
+          message: 'Đổi mật khẩu thành công'
+        });
       });
     } catch (error) {
       handleSetMessage({ type: 'error', message: error.response.data.message });
     }
     // login(username, password);
   };
-
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
-
   return (
     <OverviewWrapper>
       <Head>
@@ -68,21 +88,31 @@ function Overview() {
                       fontSize={19}
                       textTransform="uppercase"
                     >
-                      Quên mật khẩu
+                      Đổi mất khẩu
                     </Typography>
+
                     <TextField
                       id="outlined-basic"
-                      label="Nhập email đăng ký"
+                      label="Mật khẩu mới"
                       variant="outlined"
-                      type="text"
+                      type="password"
                       formik={formik}
                       fullWidth
                       sx={{ mb: 3 }}
-                      name="email"
+                      name="password"
                     />
-
+                    <TextField
+                      id="outlined-basic"
+                      label="Nhập lại mật khẩu mới"
+                      variant="outlined"
+                      type="password"
+                      formik={formik}
+                      fullWidth
+                      sx={{ mb: 3 }}
+                      name="passwordConfirmation"
+                    />
                     <Button variant="contained" fullWidth type="submit">
-                      Quên mật khẩu
+                      Đổi mật khẩu
                     </Button>
                   </Box>
                 </FormatForm>

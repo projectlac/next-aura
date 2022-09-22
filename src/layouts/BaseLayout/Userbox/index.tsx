@@ -19,6 +19,7 @@ import { useAuth } from '@/contexts/AuthGuard';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { styled } from '@mui/material/styles';
+import formatMoney from '@/utility/formatMoney';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -118,7 +119,7 @@ function HeaderUserbox() {
               {userData.username || user.name}
             </UserBoxLabel>
             <UserBoxDescription variant="body2" sx={{ color: `#d33` }}>
-              69.696.969 coin
+              {formatMoney(userData.money) || `0`} coin
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>

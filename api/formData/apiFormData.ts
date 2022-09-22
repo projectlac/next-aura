@@ -5,12 +5,12 @@ let urls = {
   development: 'https://muabanaccgenshin.online/',
   production: 'https://muabanaccgenshin.online/'
 };
-const api = Axios.create({
+const apiFormData = Axios.create({
   baseURL: urls[process.env.NODE_ENV],
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
+    Accept: '*/*',
+    'Content-Type': 'multipart/form-data'
   }
 });
 
-export default api;
+export default apiFormData;

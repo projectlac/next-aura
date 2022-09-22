@@ -2,11 +2,17 @@ import { Grid } from '@mui/material';
 import React from 'react';
 import ProductCollectionItem from './ProductCollectionItem';
 import bg from '@/assets/images/genshin-impact.webp';
+import bgVip from '@/assets/images/mainCategory/Ink_alcohol_2.jpg';
+
 function ProductCollection() {
   return (
     <Grid container columnSpacing={2} rowSpacing={2}>
       <Grid item md={3} xs={12}>
-        <ProductCollectionItem title="Acc Vip" url="/account/vip" image={bg} />
+        <ProductCollectionItem
+          title="Acc Vip"
+          url="/account/vip"
+          image={bgVip}
+        />
       </Grid>
       <Grid item md={3} xs={12}>
         <ProductCollectionItem
