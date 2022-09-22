@@ -2,6 +2,7 @@ import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
 import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import TextField from '@/components/Common/Form/TextField';
+import { useAuth } from '@/contexts/AuthGuard';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import {
   Box,
@@ -12,6 +13,7 @@ import {
   Radio,
   RadioGroup
 } from '@mui/material';
+import { createHero, createWeapon } from 'api/apiTag/tagApi';
 import { useState } from 'react';
 import * as yup from 'yup';
 interface IEdit {
@@ -26,10 +28,10 @@ const initForm = {
   title: '',
   type: 'weapon'
 };
-const onSubmit = () => {
-  console.log('submit?');
-};
+
 function AddTag({ title }: IEdit) {
+  const { handleSetMessage, updateSuccess } = useAuth();
+
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const handleOpenDialog = () => {
@@ -37,6 +39,45 @@ function AddTag({ title }: IEdit) {
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+
+  const onSubmit = (value, { resetForm }) => {
+    const { title, type } = value;
+    if (type === 'weapon') {
+      try {
+        createWeapon(title).then(() => {
+          handleSetMessage({
+            type: 'success',
+            message: 'Thêm vũ khí thành công'
+          });
+          handleCloseDialog();
+          resetForm();
+          updateSuccess();
+        });
+      } catch (error) {
+        handleSetMessage({
+          type: 'error',
+          message: 'Có lỗi xảy ra, kiểm tra lại hoặc liên hệ DEV'
+        });
+      }
+    } else {
+      try {
+        createHero(title).then(() => {
+          handleSetMessage({
+            type: 'success',
+            message: 'Thêm nhân vật thành công'
+          });
+          handleCloseDialog();
+          resetForm();
+          updateSuccess();
+        });
+      } catch (error) {
+        handleSetMessage({
+          type: 'error',
+          message: 'Có lỗi xảy ra, kiểm tra lại hoặc liên hệ DEV'
+        });
+      }
+    }
   };
 
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
@@ -91,7 +132,7 @@ function AddTag({ title }: IEdit) {
                 label="Vũ khí"
               />
               <FormControlLabel
-                value="character"
+                value="hero"
                 control={<Radio />}
                 label="Nhân vật"
               />

@@ -14,7 +14,8 @@ function PageHeader() {
           Danh sách Tag
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, these are your recent transactions
+          Chào {user.name}, thêm và thao tác với thông tin nhân vật và vũ khí ở
+          đây nhé!
         </Typography>
       </Grid>
       <Grid item>

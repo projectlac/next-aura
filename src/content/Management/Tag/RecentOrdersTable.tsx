@@ -23,39 +23,25 @@ import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import { ChangeEvent, FC, useState } from 'react';
 
-import { CryptoOrder, CryptoOrderStatus } from '@/models/crypto_order';
+import Label from '@/components/Label';
+import { IData, IType } from 'model/tag';
 import Delete from './Action/Delete';
 import EditTag from './Action/EditTag';
 
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: CryptoOrder[];
+  cryptoOrders: IData[];
 }
 
 interface Filters {
-  status?: CryptoOrderStatus;
+  type: 'hero' | 'weapon';
 }
 
-const applyFilters = (
-  cryptoOrders: CryptoOrder[],
-  filters: Filters
-): CryptoOrder[] => {
-  return cryptoOrders.filter((cryptoOrder) => {
-    let matches = true;
-
-    if (filters.status && cryptoOrder.status !== filters.status) {
-      matches = false;
-    }
-
-    return matches;
-  });
-};
-
 const applyPagination = (
-  cryptoOrders: CryptoOrder[],
+  cryptoOrders: IData[],
   page: number,
   limit: number
-): CryptoOrder[] => {
+): IData[] => {
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
@@ -63,27 +49,25 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
   const [filters, setFilters] = useState<Filters>({
-    status: null
+    type: null
   });
 
-  const statusOptions = [
-    {
-      id: 'all',
-      name: 'All'
-    },
-    {
-      id: 'completed',
-      name: 'Completed'
-    },
-    {
-      id: 'pending',
-      name: 'Pending'
-    },
-    {
-      id: 'failed',
-      name: 'Failed'
-    }
-  ];
+  const getStatusLabel = (type: IType): JSX.Element => {
+    const map = {
+      hero: {
+        text: 'Nhân vật',
+        color: 'error'
+      },
+      weapon: {
+        text: 'Vũ khí',
+        color: 'success'
+      }
+    };
+
+    const { text, color }: any = map[type];
+
+    return <Label color={color}>{text}</Label>;
+  };
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
@@ -94,7 +78,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value
+      type: value
     }));
   };
 
@@ -104,6 +88,18 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
 
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setLimit(parseInt(event.target.value));
+  };
+
+  const applyFilters = (cryptoOrders: IData[], filters: Filters): IData[] => {
+    return cryptoOrders.filter((cryptoOrder) => {
+      let matches = true;
+
+      if (filters.type && cryptoOrder.type !== filters.type) {
+        matches = false;
+      }
+
+      return matches;
+    });
   };
 
   const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
@@ -123,16 +119,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
             <FormControl fullWidth variant="outlined">
               <InputLabel>Status</InputLabel>
               <Select
-                value={filters.status || 'all'}
+                value={filters.type || 'all'}
                 onChange={handleStatusChange}
                 label="Status"
                 autoWidth
               >
-                {statusOptions.map((statusOption) => (
-                  <MenuItem key={statusOption.id} value={statusOption.id}>
-                    {statusOption.name}
-                  </MenuItem>
-                ))}
+                <MenuItem value={'all'}>All</MenuItem>
+                <MenuItem value={'hero'}>Hero</MenuItem>
+                <MenuItem value={'weapon'}>Weapon</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -164,11 +158,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderID}
+                      {cryptoOrder.desc}
                     </Typography>
                   </TableCell>
 
-                  <TableCell>{cryptoOrder.orderDetails}</TableCell>
+                  <TableCell>{getStatusLabel(cryptoOrder.type)}</TableCell>
 
                   <TableCell align="right">
                     <Typography
@@ -178,10 +172,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {format(new Date(), 'dd/MM/yyyy')}
+                      {format(new Date(cryptoOrder.created_at), 'dd/MM/yyyy')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(new Date(), ' HH:mm:ss')}
+                      {format(new Date(cryptoOrder.created_at), ' HH:mm:ss')}
                     </Typography>
                   </TableCell>
 
@@ -198,7 +192,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         size="small"
                       >
                         {/* <EditTwoToneIcon fontSize="small" /> */}
-                        <EditTag title="Sửa tag" />
+                        <EditTag
+                          title="Sửa tag"
+                          slug={cryptoOrder.slug}
+                          type={cryptoOrder.type}
+                        />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
@@ -210,7 +208,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         color="inherit"
                         size="small"
                       >
-                        <Delete title="Xóa tag" />
+                        <Delete
+                          title="Xóa tag"
+                          slug={cryptoOrder.slug}
+                          type={cryptoOrder.type}
+                        />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

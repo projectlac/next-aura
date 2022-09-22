@@ -1,3 +1,5 @@
+import Label from '@/components/Label';
+import formatMoney from '@/utility/formatMoney';
 import {
   Box,
   Card,
@@ -19,35 +21,32 @@ import {
   Typography,
   useTheme
 } from '@mui/material';
-import { format } from 'date-fns';
+import { IRole, IUser } from 'model/user';
 import PropTypes from 'prop-types';
 import { ChangeEvent, FC, useState } from 'react';
-
-import Label from '@/components/Label';
-import { CryptoOrder, CryptoOrderStatus } from '@/models/crypto_order';
 import ChangeCoin from './Action/ChangeCoin';
 import EditTag from './Action/EditTag';
 
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: CryptoOrder[];
+  cryptoOrders: IUser[];
 }
 
 interface Filters {
-  status?: CryptoOrderStatus;
+  role?: 'ADMIN' | 'MOD' | 'USER';
 }
 
-const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
+const getStatusLabel = (cryptoOrderStatus: IRole): JSX.Element => {
   const map = {
-    failed: {
+    ADMIN: {
       text: 'Admin',
       color: 'error'
     },
-    completed: {
+    USER: {
       text: 'User',
       color: 'success'
     },
-    pending: {
+    CTV: {
       text: 'CTV',
       color: 'warning'
     }
@@ -58,14 +57,11 @@ const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (
-  cryptoOrders: CryptoOrder[],
-  filters: Filters
-): CryptoOrder[] => {
+const applyFilters = (cryptoOrders: IUser[], filters: Filters): IUser[] => {
   return cryptoOrders.filter((cryptoOrder) => {
     let matches = true;
 
-    if (filters.status && cryptoOrder.status !== filters.status) {
+    if (filters.role && cryptoOrder.role !== filters.role) {
       matches = false;
     }
 
@@ -74,10 +70,10 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  cryptoOrders: CryptoOrder[],
+  cryptoOrders: IUser[],
   page: number,
   limit: number
-): CryptoOrder[] => {
+): IUser[] => {
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
@@ -85,27 +81,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
   const [filters, setFilters] = useState<Filters>({
-    status: null
+    role: null
   });
-
-  const statusOptions = [
-    {
-      id: 'all',
-      name: 'All'
-    },
-    {
-      id: 'completed',
-      name: 'Completed'
-    },
-    {
-      id: 'pending',
-      name: 'Pending'
-    },
-    {
-      id: 'failed',
-      name: 'Failed'
-    }
-  ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
@@ -116,7 +93,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value
+      role: value
     }));
   };
 
@@ -145,16 +122,16 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
             <FormControl fullWidth variant="outlined">
               <InputLabel>Status</InputLabel>
               <Select
-                value={filters.status || 'all'}
+                value={filters.role || 'all'}
                 onChange={handleStatusChange}
                 label="Status"
                 autoWidth
               >
-                {statusOptions.map((statusOption) => (
-                  <MenuItem key={statusOption.id} value={statusOption.id}>
-                    {statusOption.name}
-                  </MenuItem>
-                ))}
+                <MenuItem value="all">All</MenuItem>
+
+                <MenuItem value="ADMIN">ADMIN</MenuItem>
+                <MenuItem value="MOD">CTV</MenuItem>
+                <MenuItem value="USER">USER</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -188,7 +165,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderID}
+                      {cryptoOrder.id}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -199,7 +176,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.sourceName}
+                      {cryptoOrder.username}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -210,7 +187,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderDetails}
+                      {cryptoOrder.email}
                     </Typography>
                   </TableCell>
 
@@ -222,14 +199,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {format(new Date(), 'dd/MM/yyyy')}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(new Date(), ' HH:mm:ss')}
+                      {formatMoney(cryptoOrder.money)}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.status)}
+                    {getStatusLabel(cryptoOrder.role)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Đổi role" arrow>

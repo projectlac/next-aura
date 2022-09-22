@@ -1,3 +1,4 @@
+import { useAuth } from '@/contexts/AuthGuard';
 import { CryptoOrder } from '@/models/crypto_order';
 import { Card } from '@mui/material';
 import { getAccountVip } from 'api/apiAccount/account';
@@ -6,6 +7,7 @@ import { useEffect } from 'react';
 import RecentOrdersTable from './RecentOrdersTable';
 
 function RecentOrders() {
+  const { update } = useAuth();
   const cryptoOrders: CryptoOrder[] = [
     {
       id: '1',
@@ -145,7 +147,7 @@ function RecentOrders() {
       offset: 0,
       priceSort: false
     }).then((res) => console.log(res));
-  }, []);
+  }, [update]);
   return (
     <Card sx={{ mb: 5 }}>
       <RecentOrdersTable cryptoOrders={cryptoOrders} />

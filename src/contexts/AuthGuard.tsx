@@ -14,17 +14,22 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<any>(null);
+  const [update, setUpdate] = useState<boolean>(false);
+
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<ISnackBar>(null);
 
   const router = useRouter();
 
+  const updateSuccess = () => {
+    setUpdate(!update);
+  };
   const handleSetMessage = (message: ISnackBar) => {
     setMessage(message);
   };
 
   useEffect(() => {
-    async function loadUserFromCookies() {
+    const loadUserFromCookies = async () => {
       const token = Cookies.get('token');
       if (token) {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -37,7 +42,8 @@ export const AuthProvider = ({ children }) => {
         if (user) setUser(user);
       }
       setLoading(false);
-    }
+      updateSuccess();
+    };
     loadUserFromCookies();
   }, []);
 
@@ -109,7 +115,9 @@ export const AuthProvider = ({ children }) => {
         loading,
         logout,
         handleSetMessage,
-        register
+        register,
+        updateSuccess,
+        update
       }}
     >
       <CustomizedSnackbars message={message} />

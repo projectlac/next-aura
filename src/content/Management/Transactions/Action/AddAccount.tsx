@@ -52,13 +52,12 @@ const initForm = {
   ar: 10,
   weapon: [],
   hero: [],
-
   file: null,
   fileDetail: null
 };
 
 function AddAccount({ title }: IEdit) {
-  const { handleSetMessage } = useAuth();
+  const { handleSetMessage, updateSuccess } = useAuth();
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [preview, setPreview] = useState<string>('');
@@ -103,8 +102,8 @@ function AddAccount({ title }: IEdit) {
 
   useEffect(() => {
     if (openDialog) {
-      getWeapon().then((res) => setWeapon(res.data.data));
-      getHero().then((res) => setHero(res.data.data));
+      getWeapon(999).then((res) => setWeapon(res.data.data));
+      getHero(999).then((res) => setHero(res.data.data));
     }
   }, [openDialog]);
   const onSubmit = async (values, { resetForm }) => {
@@ -151,6 +150,7 @@ function AddAccount({ title }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
+        updateSuccess();
       });
     } catch (error) {
       handleSetMessage({
@@ -301,7 +301,7 @@ function AddAccount({ title }: IEdit) {
                         : theme.colors.primary.main
                     }}
                   >
-                    Upload ảnh
+                    Upload avatar
                   </Button>
                 </label>
               </Box>
@@ -337,7 +337,7 @@ function AddAccount({ title }: IEdit) {
                         : theme.colors.primary.main
                     }}
                   >
-                    Upload ảnh
+                    Upload ảnh chi tiết
                   </Button>
                 </label>
               </Box>

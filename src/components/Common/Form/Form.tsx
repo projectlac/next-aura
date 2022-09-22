@@ -4,7 +4,8 @@ const useCustomForm = (yupBuilder, initialValues, onSubmit) => {
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: yupBuilder,
-    onSubmit: onSubmit
+    onSubmit: onSubmit,
+    enableReinitialize: true
   });
   return formik;
 };

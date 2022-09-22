@@ -86,7 +86,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
                   },
 
                   '& a': {
-                    color: '#e9ebf1',
+                    color: '#fff',
                     textDecoration: 'none',
                     fontSize: 17
                   }
