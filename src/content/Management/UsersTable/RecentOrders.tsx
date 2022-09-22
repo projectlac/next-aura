@@ -1,7 +1,6 @@
 import { useAuth } from '@/contexts/AuthGuard';
 import { Card } from '@mui/material';
 import { getListUser } from 'api/apiUser/userApi';
-import Cookies from 'js-cookie';
 import { IUser } from 'model/user';
 import { useEffect, useState } from 'react';
 import RecentOrdersTable from './RecentOrdersTable';
