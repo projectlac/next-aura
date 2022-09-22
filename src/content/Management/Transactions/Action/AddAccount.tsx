@@ -6,20 +6,20 @@ import Selection from '@/components/Common/Form/Selection';
 import TextField from '@/components/Common/Form/TextField';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 
+import { useAuth } from '@/contexts/AuthGuard';
+import getNameSortAtoB from '@/utility/sortArray';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import { Box, Button, Grid, useTheme } from '@mui/material';
+import { styled } from '@mui/styles';
+import { createAccountVip } from 'api/apiAccount/account';
+import { getHero, getWeapon } from 'api/apiTag/tagApi';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
-import { styled } from '@mui/styles';
-import Image from 'next/image';
-import { getHero, getServer, getWeapon } from 'api/apiTag/tagApi';
-import getNameSortAtoB from '@/utility/sortArray';
 interface IEdit {
   title: string;
 }
-interface IFilm {
-  title: string;
-}
+
 const Input = styled('input')({
   display: 'none'
 });
@@ -33,11 +33,12 @@ const validationSchema = yup.object({
     .min(1, 'Thông tin này là bắt buộc')
     .nullable()
     .required('Thông tin này là bắt buộc'),
-  character: yup
+  hero: yup
     .array()
     .min(1, 'Thông tin này là bắt buộc')
     .nullable()
     .required('Thông tin này là bắt buộc'),
+
   file: yup.mixed().required('File is required'),
   price: yup.number().required('Thông tin này là bắt buộc')
 });
@@ -45,19 +46,19 @@ const initForm = {
   name: '',
   username: '',
   password: '',
-  server: 'Asia',
+  server: 'ASIA',
   detail: '',
+  price: 0,
   ar: 10,
   weapon: [],
+  hero: [],
+
   file: null,
   fileDetail: null
 };
-const onSubmit = (values) => {
-  console.log(values);
 
-  console.log('submit?');
-};
 function AddAccount({ title }: IEdit) {
+  const { handleSetMessage } = useAuth();
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [preview, setPreview] = useState<string>('');
@@ -76,7 +77,7 @@ function AddAccount({ title }: IEdit) {
     formik.handleChange({ target: { name: 'weapon', value: data } });
   };
   const handleSelectedCharacter = (data: string[]) => {
-    formik.handleChange({ target: { name: 'character', value: data } });
+    formik.handleChange({ target: { name: 'hero', value: data } });
   };
   const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
     const objectUrl = URL.createObjectURL(
@@ -101,10 +102,63 @@ function AddAccount({ title }: IEdit) {
   };
 
   useEffect(() => {
-    getWeapon().then((res) => setWeapon(res.data.data));
-    getHero().then((res) => setHero(res.data.data));
-  }, []);
+    if (openDialog) {
+      getWeapon().then((res) => setWeapon(res.data.data));
+      getHero().then((res) => setHero(res.data.data));
+    }
+  }, [openDialog]);
+  const onSubmit = async (values, { resetForm }) => {
+    const {
+      name,
+      username,
+      password,
+      server,
+      detail,
+      price,
+      ar,
+      weapon,
+      file,
+      fileDetail,
+      hero
+    } = values;
 
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('server', server);
+    formData.append('description', detail);
+    formData.append('price', price);
+    formData.append('ar_level', ar);
+    formData.append('weapon', weapon.toString());
+    formData.append('hero', hero.toString());
+
+    if (file.length > 0) {
+      formData.append('avatar', file[0]);
+    }
+
+    if (fileDetail.length > 0) {
+      for (let i = 0; i < fileDetail.length; i++) {
+        formData.append('images', fileDetail[0]);
+      }
+    }
+
+    try {
+      await createAccountVip(formData).then(() => {
+        handleSetMessage({
+          type: 'success',
+          message: 'Tạo tài khoản thành công'
+        });
+        handleCloseDialog();
+        resetForm();
+      });
+    } catch (error) {
+      handleSetMessage({
+        type: 'error',
+        message: 'Có lỗi xảy ra, vui lòng kiểm tra lại thông tin nhập'
+      });
+    }
+  };
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
   return (
     <DialogCommon
@@ -174,7 +228,7 @@ function AddAccount({ title }: IEdit) {
                 <AutocompleteSelection
                   title="Danh sách nhân vật"
                   data={getNameSortAtoB(hero)}
-                  name="character"
+                  name="hero"
                   formik={formik}
                   handleSelected={handleSelectedCharacter}
                   defaultValue={[]}
@@ -210,9 +264,9 @@ function AddAccount({ title }: IEdit) {
                 fullWidth
                 name="server"
                 options={[
-                  { value: 'Asia', title: 'Asia' },
-                  { value: 'America', title: 'America' },
-                  { value: 'Europe', title: 'Europe' },
+                  { value: 'ASIA', title: 'Asia' },
+                  { value: 'AMERICA', title: 'America' },
+                  { value: 'EUROPE', title: 'Europe' },
                   { value: 'TW-HK-MO', title: 'TW-HK-MO' }
                 ]}
               />
@@ -278,7 +332,7 @@ function AddAccount({ title }: IEdit) {
                     variant="contained"
                     component="span"
                     sx={{
-                      background: Boolean(formik.errors.file)
+                      background: Boolean(formik.errors.fileDetail)
                         ? theme.colors.error.main
                         : theme.colors.primary.main
                     }}

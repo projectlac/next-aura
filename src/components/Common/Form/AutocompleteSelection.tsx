@@ -111,8 +111,8 @@ export default function AutocompleteSelection({
           {names.map((name) => (
             <MenuItem
               key={name.id}
-              value={name.slug}
-              style={getStyles(name.slug, personName, theme)}
+              value={name.desc}
+              style={getStyles(name.desc, personName, theme)}
               sx={{
                 fontFamily: 'Montserrat'
               }}

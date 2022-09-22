@@ -1,6 +1,8 @@
 import { CryptoOrder } from '@/models/crypto_order';
 import { Card } from '@mui/material';
+import { getAccountVip } from 'api/apiAccount/account';
 import { subDays } from 'date-fns';
+import { useEffect } from 'react';
 import RecentOrdersTable from './RecentOrdersTable';
 
 function RecentOrders() {
@@ -137,6 +139,13 @@ function RecentOrders() {
     }
   ];
 
+  useEffect(() => {
+    getAccountVip({
+      limit: 10,
+      offset: 0,
+      priceSort: false
+    }).then((res) => console.log(res));
+  }, []);
   return (
     <Card sx={{ mb: 5 }}>
       <RecentOrdersTable cryptoOrders={cryptoOrders} />

@@ -48,3 +48,13 @@ export interface IResetPassword {
 //   server: string;
 //   ar_level: string;
 // }
+
+///GetAcount
+export interface IAccountVip {
+  limit: number;
+  offset: number;
+  priceSort: boolean;
+  server?: string;
+  hero?: string;
+  weapon?: string;
+}

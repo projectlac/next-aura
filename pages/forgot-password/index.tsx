@@ -43,7 +43,6 @@ function Overview() {
     } catch (error) {
       handleSetMessage({ type: 'error', message: error.response.data.message });
     }
-    // login(username, password);
   };
 
   const formik = useCustomForm(validationSchema, initForm, onSubmit);

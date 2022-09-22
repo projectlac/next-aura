@@ -1,6 +1,7 @@
 import CustomizedSnackbars from '@/components/Common/SnackBar/SnackBar';
 import api from 'api/api';
 import { signIn, signUp } from 'api/auth';
+import apiFormData from 'api/formData/apiFormData';
 import { getUser } from 'api/user';
 import Cookies from 'js-cookie';
 import { ISnackBar } from 'model/snackbar';
@@ -27,6 +28,10 @@ export const AuthProvider = ({ children }) => {
       const token = Cookies.get('token');
       if (token) {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        apiFormData.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${token}`;
+
         const { data: user } = await getUser();
 
         if (user) setUser(user);
@@ -47,6 +52,8 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       Cookies.set('token', token, { expires: 60 });
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      apiFormData.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
       const { data: user } = await getUser();
 
       setUser(user);
@@ -77,6 +84,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       Cookies.set('token', token, { expires: 60 });
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      apiFormData.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const { data: user } = await getUser();
       setUser(user);
       router.push('/');
@@ -87,6 +95,8 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove('token');
     setUser(null);
     delete api.defaults.headers.common['Authorization'];
+    delete apiFormData.defaults.headers.common['Authorization'];
+
     window.location.pathname = '/login';
   };
 

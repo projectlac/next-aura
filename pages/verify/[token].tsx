@@ -13,11 +13,12 @@ import { ReactElement } from 'react';
 import BaseLayout from 'src/layouts/BaseLayout';
 import * as yup from 'yup';
 
+import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import TextField from '@/components/Common/Form/TextField';
-import useCustomForm from '@/components/Common/Form/Form';
-import { changePassword } from 'api/auth';
 import { useAuth } from '@/contexts/AuthGuard';
+import { changePassword } from 'api/auth';
+import Cookies from 'js-cookie';
 const OverviewWrapper = styled(Box)(
   () => `
     overflow: auto;
@@ -38,9 +39,9 @@ const validationSchema = yup.object({
 });
 
 function Overview() {
-  const route = useRouter();
+  const router = useRouter();
   const { handleSetMessage } = useAuth();
-  const { token } = route.query;
+  const { token } = router.query;
 
   const initForm = {
     passwordConfirmation: '',
@@ -64,6 +65,10 @@ function Overview() {
       });
     } catch (error) {
       handleSetMessage({ type: 'error', message: error.response.data.message });
+    }
+    if (tokenDefault) {
+      Cookies.set('token', tokenDefault, { expires: 60 });
+      router.push('/');
     }
     // login(username, password);
   };
