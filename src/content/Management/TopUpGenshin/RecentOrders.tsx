@@ -1,14 +1,10 @@
-import { useAuth } from '@/contexts/AuthGuard';
 import { Card } from '@mui/material';
-import { getListUser } from 'api/apiUser/userApi';
-import { IUser } from 'model/user';
-import { useEffect, useState } from 'react';
 import RecentOrdersTable from './RecentOrdersTable';
 
 function RecentOrders() {
-  const [data, setData] = useState<IUser[]>([]);
-  const { update } = useAuth();
-
+  // const [data, setData] = useState<IUser[]>([]);
+  // const { update } = useAuth();
+  const data = [];
   // useEffect(() => {
   //   const callApi = async () => {
   //     await getListUser(999).then((res) => {

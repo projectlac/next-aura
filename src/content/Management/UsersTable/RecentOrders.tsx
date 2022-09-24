@@ -9,14 +9,14 @@ function RecentOrders() {
   const [data, setData] = useState<IUser[]>([]);
   const { update } = useAuth();
 
-  // useEffect(() => {
-  //   const callApi = async () => {
-  //     await getListUser(999).then((res) => {
-  //       setData(res.data.data);
-  //     });
-  //   };
-  //   callApi();
-  // }, [update]);
+  useEffect(() => {
+    const callApi = async () => {
+      await getListUser(999).then((res) => {
+        setData(res.data.data);
+      });
+    };
+    callApi();
+  }, [update]);
 
   return (
     <Card sx={{ mb: 5 }}>
