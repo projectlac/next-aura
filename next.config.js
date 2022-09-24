@@ -11,9 +11,9 @@ const redirects = {
     ];
   },
   images: {
+    domains: ['res.cloudinary.com'],
     disableStaticImages: true
   }
-
 };
 
 module.exports = withImages(redirects);

@@ -132,15 +132,8 @@ function AddAccount({ title }: IEdit) {
     formData.append('weapon', weapon.toString());
     formData.append('hero', hero.toString());
 
-    if (file.length > 0) {
-      formData.append('avatar', file[0]);
-    }
-
-    if (fileDetail.length > 0) {
-      for (let i = 0; i < fileDetail.length; i++) {
-        formData.append('images', fileDetail[0]);
-      }
-    }
+    file && formData.append('avatar', file);
+    fileDetail && formData.append('images', fileDetail);
 
     try {
       await createAccountVip(formData).then(() => {
@@ -150,6 +143,8 @@ function AddAccount({ title }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
+        setPreviewDetail('');
+        setPreview('');
         updateSuccess();
       });
     } catch (error) {
@@ -208,7 +203,7 @@ function AddAccount({ title }: IEdit) {
                 variant="outlined"
                 fullWidth
                 name="password"
-                type="password"
+                type="text"
               />
             </Grid>
             <Grid item md={12} xs={12}>
@@ -285,12 +280,12 @@ function AddAccount({ title }: IEdit) {
               <Box>
                 <Input
                   accept="image/*"
-                  id="change-cover"
+                  id="change-cover-create-account-vip"
                   type="file"
                   name="file"
                   onChange={handleFile}
                 />
-                <label htmlFor="change-cover">
+                <label htmlFor="change-cover-create-account-vip">
                   <Button
                     startIcon={<UploadTwoToneIcon />}
                     variant="contained"
@@ -321,12 +316,12 @@ function AddAccount({ title }: IEdit) {
               <Box>
                 <Input
                   accept="image/*"
-                  id="change-detail"
+                  id="change-detail-create-account-vip"
                   type="file"
                   name="fileDetail"
                   onChange={handleFileDetail}
                 />
-                <label htmlFor="change-detail">
+                <label htmlFor="change-detail-create-account-vip">
                   <Button
                     startIcon={<UploadTwoToneIcon />}
                     variant="contained"

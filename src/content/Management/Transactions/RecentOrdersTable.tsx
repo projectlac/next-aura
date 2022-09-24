@@ -25,48 +25,44 @@ import PropTypes from 'prop-types';
 import { ChangeEvent, FC, useState } from 'react';
 
 import Label from '@/components/Label';
-import { CryptoOrder, CryptoOrderStatus } from '@/models/crypto_order';
+import { IAccountVipAdmin } from 'model/account';
 import DeleteAccount from './Action/DeleteAccount';
 import EditAccount from './Action/EditAccount';
 
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: CryptoOrder[];
+  cryptoOrders: IAccountVipAdmin[];
 }
 
 interface Filters {
-  status?: CryptoOrderStatus;
+  status?: 'true' | 'false';
 }
 
-const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
+const getStatusLabel = (cryptoOrderStatus: boolean): JSX.Element => {
   const map = {
-    failed: {
-      text: 'Failed',
+    false: {
+      text: 'Chưa bán',
       color: 'error'
     },
-    completed: {
-      text: 'Completed',
+    true: {
+      text: 'Đã bán',
       color: 'success'
-    },
-    pending: {
-      text: 'Pending',
-      color: 'warning'
     }
   };
 
-  const { text, color }: any = map[cryptoOrderStatus];
+  const { text, color }: any = map[cryptoOrderStatus.toString()];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  cryptoOrders: CryptoOrder[],
+  cryptoOrders: IAccountVipAdmin[],
   filters: Filters
-): CryptoOrder[] => {
+): IAccountVipAdmin[] => {
   return cryptoOrders.filter((cryptoOrder) => {
     let matches = true;
 
-    if (filters.status && cryptoOrder.status !== filters.status) {
+    if (filters.status && cryptoOrder.is_sold.toString() !== filters.status) {
       matches = false;
     }
 
@@ -75,10 +71,10 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  cryptoOrders: CryptoOrder[],
+  cryptoOrders: IAccountVipAdmin[],
   page: number,
   limit: number
-): CryptoOrder[] => {
+): IAccountVipAdmin[] => {
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
@@ -190,7 +186,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderID}
+                      {cryptoOrder.code}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -201,10 +197,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.sourceName}
+                      {cryptoOrder.username}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.sourceName}
+                      {cryptoOrder.password}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -215,13 +211,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.orderDetails}
+                      {cryptoOrder.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      Giá:{' '}
-                      {numeral(cryptoOrder.amount).format(
-                        `${cryptoOrder.currency}0,0.00`
-                      )}
+                      Giá: {numeral(cryptoOrder.price).format(`0,0`)}
                     </Typography>
                   </TableCell>
 
@@ -233,10 +226,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {format(new Date(), 'dd/MM/yyyy')}
+                      {format(new Date(cryptoOrder.created_at), 'dd/MM/yyyy')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(new Date(), ' HH:mm:ss')}
+                      {format(new Date(cryptoOrder.created_at), ' HH:mm:ss')}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -247,14 +240,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {format(new Date(), 'dd/MM/yyyy')}
+                      {/* {format(cryptoOrder.created_at, 'dd/MM/yyyy')} */}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(new Date(), ' HH:mm:ss')}
+                      {/* {format(cryptoOrder.created_at, ' HH:mm:ss')} */}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.status)}
+                    {getStatusLabel(cryptoOrder.is_sold)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -268,7 +261,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         color="inherit"
                         size="small"
                       >
-                        <EditAccount title="Sửa tài khoản" />
+                        <EditAccount
+                          title="Sửa tài khoản"
+                          slug={cryptoOrder.slug}
+                        />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete Order" arrow>
@@ -280,7 +276,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         color="inherit"
                         size="small"
                       >
-                        <DeleteAccount title="Xóa tài khoản" />
+                        <DeleteAccount
+                          title="Xóa tài khoản"
+                          slug={cryptoOrder.slug}
+                        />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

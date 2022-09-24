@@ -9,3 +9,6 @@ export interface IUser{
   money:string;
 }
 
+export interface IRoleData{
+  role:string, bonus?:number
+}

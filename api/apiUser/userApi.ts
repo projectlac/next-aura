@@ -7,5 +7,5 @@ const checkCall = (key, param) => {
 
 
 export const getListUser = (limit?: number) => {
-  return api.get(`/user?${checkCall('limit',limit)}`);
+  return api.get(`/user-manager?${checkCall('limit',limit)}`);
 };

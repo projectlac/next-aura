@@ -52,9 +52,9 @@ export default function AutocompleteSelection({
     setNames(data);
   }, [data]);
   React.useEffect(() => {
-    if (defaultValue.length > 0) setPersonName(defaultValue);
+    if (defaultValue?.length > 0) setPersonName(defaultValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [defaultValue, data]);
 
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
@@ -94,7 +94,7 @@ export default function AutocompleteSelection({
           fullWidth
           onChange={handleChange}
           error={formik.touched[name] && Boolean(formik.errors[name])}
-          input={<OutlinedInput id="select-multiple-chip" label={title} />}
+          input={<OutlinedInput label={title} />}
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
