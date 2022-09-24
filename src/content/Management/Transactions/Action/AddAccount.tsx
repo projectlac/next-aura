@@ -350,7 +350,7 @@ function AddAccount({ title }: IEdit) {
 
             <Grid item md={12} xs={12}>
               <Button variant="contained" fullWidth type="submit">
-                Thêm
+                {formik.isSubmitting ? 'Loading...' : 'Thêm'}
               </Button>
             </Grid>
           </Grid>
