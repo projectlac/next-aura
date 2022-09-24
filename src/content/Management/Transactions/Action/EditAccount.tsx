@@ -10,11 +10,7 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import { Box, Button, Grid, useTheme } from '@mui/material';
 import { styled } from '@mui/styles';
-import {
-  createAccountVip,
-  editAccountVip,
-  getAccountBySlug
-} from 'api/apiAccount/account';
+import { editAccountVip, getAccountBySlug } from 'api/apiAccount/account';
 import { getHero, getWeapon } from 'api/apiTag/tagApi';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
