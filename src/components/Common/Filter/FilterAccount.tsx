@@ -14,7 +14,8 @@ const FilterBox = styled(Box)({
   zIndex: '9',
   padding: '3px',
   alignItems: 'center',
-  display: 'flex'
+  display: 'flex',
+  top: '20%'
 });
 const FilterCollection = styled(Box)({
   position: 'fixed',
