@@ -53,7 +53,16 @@ export const queryRandomAccount = (param: IQueryRandomAcc) => {
     )}${checkCall('ar', param.ar)}${checkCall('rangeMoney', param.rangeMoney)}`
   );
 };
-
+export const queryRerollAccount = (param: IQueryRandomAcc) => {
+  return apiFormData.get(
+    `/account/get-accounts?type=REROLL&limit=${param.limit}&offset=${
+      param.offset
+    }&priceSort=${param.priceSort}${checkCall(
+      'keyword',
+      param.keyword
+    )}${checkCall('ar', param.ar)}${checkCall('rangeMoney', param.rangeMoney)}`
+  );
+};
 export const queryAccountVip = (param: IQueryVipAcc) => {
   return apiFormData.get(
     `/account/get-accounts?type=VIP&limit=${param.limit}&offset=${
