@@ -5,7 +5,7 @@ import TextField from '@/components/Common/Form/TextField';
 import { useAuth } from '@/contexts/AuthGuard';
 import CurrencyExchangeTwoToneIcon from '@mui/icons-material/CurrencyExchangeTwoTone';
 import { Button } from '@mui/material';
-import { changeMoney, upRole } from 'api/user';
+import { changeMoney } from 'api/user';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
 interface IEdit {
