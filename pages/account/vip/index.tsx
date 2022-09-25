@@ -21,7 +21,7 @@ function AccountVip() {
     rangeMoney: '',
     hero: '',
     weapon: '',
-    priceSort: false,
+    priceSort: true,
     keyword: ''
   });
   const handleFilter = (data) => {

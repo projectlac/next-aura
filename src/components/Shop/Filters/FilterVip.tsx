@@ -18,7 +18,7 @@ interface IProps {
   handleFilter: (data: any) => void;
 }
 function FilterVip({ handleFilter }: IProps) {
-  const [sort, setSort] = useState('false');
+  const [sort, setSort] = useState('true');
   const [ar, setAr] = useState('');
   const [code, setCode] = useState('');
   const [server, setServer] = useState('ASIA');
