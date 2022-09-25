@@ -59,7 +59,7 @@ function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
             height: '175px',
             background: `url(${imageUrl})`,
             width: '100%',
-            backgroundSize: 'cover',
+            backgroundSize: '100% 100%',
             borderRadius: '5px',
             position: 'relative',
             overflow: 'hidden',
