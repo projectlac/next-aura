@@ -1,4 +1,3 @@
-import bg from '@/assets/images/genshin-impact.webp';
 import FilterAccount from '@/components/Common/Filter/FilterAccount';
 import PaginationPage from '@/components/Common/PaginationPage';
 import TitleSpecial from '@/components/Common/TitleSpecial';
