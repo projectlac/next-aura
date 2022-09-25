@@ -20,6 +20,8 @@ import { styled } from '@mui/styles';
 import Image from 'next/image';
 import { useState } from 'react';
 import * as yup from 'yup';
+import { createAccountNomal } from 'api/apiAccount/account';
+import { useAuth } from '@/contexts/AuthGuard';
 interface IEdit {
   title: string;
 }
@@ -28,51 +30,111 @@ const Input = styled('input')({
   display: 'none'
 });
 const validationSchema = yup.object({
-  username: yup.string().required('Email is required'),
-  password: yup
-    .string()
-    .min(6, 'Password should be of minimum 6 characters length')
-    .required('Password là thuộc tính bắt buộc'),
+  name: yup.string().required('Trường này là bắt buộc'),
+  username: yup.string().required('Trường này là bắt buộc'),
+  password: yup.string().required('Password là thuộc tính bắt buộc'),
   ar: yup.string().required('AR là thuộc tính bắt buộc'),
   type: yup.string().required('Loại tài khoản là thuộc tính bắt buộc'),
   file: yup.mixed().required('File is required'),
   price: yup.number().required('Thông tin này là bắt buộc')
 });
 const initForm = {
+  name: '',
   username: '',
   password: '',
-  server: 'Asia',
+  server: 'ASIA',
   detail: '',
-  price: '',
+  price: 0,
   ar: 10,
   type: 'reroll',
-  file: null
+  file: null,
+  fileDetail: null
 };
-const onSubmit = (values) => {
-  console.log(values);
 
-  console.log('submit?');
-};
 function AddAccount({ title }: IEdit) {
+  const { handleSetMessage, updateSuccess } = useAuth();
+
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [preview, setPreview] = useState<string>('');
-
+  const [previewDetail, setPreviewDetail] = useState<string>('');
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-
+  const handleFileDetail = (e: React.FormEvent<HTMLInputElement>) => {
+    if ((e.target as HTMLInputElement).files[0]) {
+      const objectUrl = URL.createObjectURL(
+        (e.target as HTMLInputElement).files[0]
+      );
+      setPreviewDetail(objectUrl);
+      formik.handleChange({
+        target: {
+          name: 'fileDetail',
+          value: (e.target as HTMLInputElement).files[0]
+        }
+      });
+    }
+  };
   const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
-    const objectUrl = URL.createObjectURL(
-      (e.target as HTMLInputElement).files[0]
-    );
-    setPreview(objectUrl);
-    formik.handleChange({
-      target: { name: 'file', value: (e.target as HTMLInputElement).files[0] }
-    });
+    if ((e.target as HTMLInputElement).files[0]) {
+      const objectUrl = URL.createObjectURL(
+        (e.target as HTMLInputElement).files[0]
+      );
+      setPreview(objectUrl);
+      formik.handleChange({
+        target: { name: 'file', value: (e.target as HTMLInputElement).files[0] }
+      });
+    }
+  };
+
+  const onSubmit = async (values, { resetForm }) => {
+    const {
+      name,
+      username,
+      password,
+      server,
+      detail,
+      price,
+      ar,
+      type,
+      file,
+      fileDetail
+    } = values;
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('server', server);
+    formData.append('description', detail);
+    formData.append('price', price);
+    formData.append('ar_level', ar);
+    formData.append('type', type);
+
+    file && formData.append('avatar', file);
+    fileDetail && formData.append('images', fileDetail);
+
+    try {
+      await createAccountNomal(formData).then(() => {
+        handleSetMessage({
+          type: 'success',
+          message: `Tạo tài khoản ${type} thành công`
+        });
+        handleCloseDialog();
+        resetForm();
+        setPreviewDetail('');
+        setPreview('');
+        updateSuccess();
+      });
+    } catch (error) {
+      handleSetMessage({
+        type: 'error',
+        message: 'Có lỗi xảy ra, vui lòng kiểm tra lại thông tin nhập'
+      });
+    }
   };
 
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
@@ -95,6 +157,17 @@ function AddAccount({ title }: IEdit) {
       <Box>
         <FormatForm formik={formik}>
           <Grid container columnSpacing={2} rowSpacing={3}>
+            <Grid item md={12} xs={12}>
+              <TextField
+                formik={formik}
+                label="Tiêu đê"
+                placeholder=""
+                variant="outlined"
+                fullWidth
+                name="name"
+                type="text"
+              />
+            </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 formik={formik}
@@ -113,7 +186,7 @@ function AddAccount({ title }: IEdit) {
                 variant="outlined"
                 fullWidth
                 name="password"
-                type="password"
+                type="text"
               />
             </Grid>
 
@@ -145,9 +218,9 @@ function AddAccount({ title }: IEdit) {
                 fullWidth
                 name="server"
                 options={[
-                  { value: 'Asia', title: 'Asia' },
-                  { value: 'America', title: 'America' },
-                  { value: 'Europe', title: 'Europe' },
+                  { value: 'ASIA', title: 'Asia' },
+                  { value: 'AMERICA', title: 'America' },
+                  { value: 'EUROPE', title: 'Europe' },
                   { value: 'TW-HK-MO', title: 'TW-HK-MO' }
                 ]}
               />
@@ -159,7 +232,7 @@ function AddAccount({ title }: IEdit) {
                 variant="outlined"
                 fullWidth
                 name="price"
-                type="text"
+                type="number"
               />
             </Grid>
             <Grid item xs={12}>
@@ -182,28 +255,28 @@ function AddAccount({ title }: IEdit) {
                   }}
                 >
                   <FormControlLabel
-                    value="reroll"
+                    value="REROLL"
                     control={<Radio />}
                     label="Reroll"
                   />
                   <FormControlLabel
-                    value="random"
+                    value="RANDOM"
                     control={<Radio />}
                     label="Random"
                   />
                 </RadioGroup>
               </FormControl>
             </Grid>
-            <Grid item md={12} xs={12}>
+            <Grid item md={6} xs={12}>
               <Box>
                 <Input
                   accept="image/*"
-                  id="change-cover"
+                  id="change-cover-create-account-vip"
                   type="file"
                   name="file"
                   onChange={handleFile}
                 />
-                <label htmlFor="change-cover">
+                <label htmlFor="change-cover-create-account-vip">
                   <Button
                     startIcon={<UploadTwoToneIcon />}
                     variant="contained"
@@ -214,12 +287,10 @@ function AddAccount({ title }: IEdit) {
                         : theme.colors.primary.main
                     }}
                   >
-                    Upload ảnh
+                    Upload avatar
                   </Button>
                 </label>
               </Box>
-            </Grid>
-            <Grid item md={12} xs={12}>
               {preview && (
                 <Box width={200} height={150}>
                   <Image
@@ -231,6 +302,43 @@ function AddAccount({ title }: IEdit) {
                 </Box>
               )}
             </Grid>
+
+            <Grid item md={6} xs={12}>
+              <Box>
+                <Input
+                  accept="image/*"
+                  id="change-detail-create-account-vip"
+                  type="file"
+                  name="fileDetail"
+                  onChange={handleFileDetail}
+                />
+                <label htmlFor="change-detail-create-account-vip">
+                  <Button
+                    startIcon={<UploadTwoToneIcon />}
+                    variant="contained"
+                    component="span"
+                    sx={{
+                      background: Boolean(formik.errors.fileDetail)
+                        ? theme.colors.error.main
+                        : theme.colors.primary.main
+                    }}
+                  >
+                    Upload ảnh chi tiết
+                  </Button>
+                </label>
+              </Box>
+              {previewDetail && (
+                <Box width={200} height={150}>
+                  <Image
+                    src={previewDetail}
+                    layout="responsive"
+                    width={200}
+                    height={150}
+                  ></Image>
+                </Box>
+              )}
+            </Grid>
+
             <Grid item md={12} xs={12}>
               <Button variant="contained" fullWidth type="submit">
                 Thêm

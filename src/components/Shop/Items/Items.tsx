@@ -3,6 +3,7 @@ import React from 'react';
 import eff from '@/assets/images/effect/pngwing.png';
 import Link from 'next/link';
 import bg from '@/assets/images/da-ban.png';
+import formatMoney from '@/utility/formatMoney';
 interface IProps {
   title: string;
   url: string;
@@ -112,13 +113,13 @@ function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
               <span
                 style={{ fontSize: '17px', fontWeight: 'bold', color: '#d33' }}
               >
-                {price}
+                {formatMoney(price)}
               </span>
             </Typography>
           </Grid>
         </Grid>
         <Divider sx={{ mt: 1, mb: 1.5 }} />
-        <Box textAlign={'center'}>Giá: {des}</Box>
+        <Box textAlign={'center'}>{des}</Box>
       </Box>
     </Card>
   );

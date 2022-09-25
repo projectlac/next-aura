@@ -7,3 +7,6 @@ export const getUser = () => {
 export const upRole= (id:number,param:IRoleData) =>{
   return api.patch(`/user-manager/set-role/${id}`,param)
 }
+export const changeMoney= (id:number,param:string) =>{
+  return api.patch(`/user-manager/set-money/${id}`,{money:param})
+}

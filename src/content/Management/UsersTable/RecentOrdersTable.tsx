@@ -236,7 +236,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         color="inherit"
                         size="small"
                       >
-                        <ChangeCoin title="Sửa tiền" />
+                        <ChangeCoin title="Sửa tiền" id={cryptoOrder.id} />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

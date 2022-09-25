@@ -9,142 +9,60 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import React, { useState } from 'react';
+import { getHero, getWeapon } from 'api/apiTag/tagApi';
+import React, { useEffect, useState } from 'react';
 interface IFilm {
-  title: string;
+  desc: string;
 }
-const top100Films: IFilm[] = [
-  { title: 'The Shawshank Redemption' },
-  { title: 'The Godfather' },
-  { title: 'The Godfather: Part II' },
-  { title: 'The Dark Knight' },
-  { title: '12 Angry Men' },
-  { title: "Schindler's List" },
-  { title: 'Pulp Fiction' },
-  {
-    title: 'The Lord of the Rings: The Return of the King'
-  },
-  { title: 'The Good, the Bad and the Ugly' },
-  { title: 'Fight Club' },
-  {
-    title: 'The Lord of the Rings: The Fellowship of the Ring'
-  },
-  {
-    title: 'Star Wars: Episode V - The Empire Strikes Back'
-  },
-  { title: 'Forrest Gump' },
-  { title: 'Inception' },
-  {
-    title: 'The Lord of the Rings: The Two Towers'
-  },
-  { title: "One Flew Over the Cuckoo's Nest" },
-  { title: 'Goodfellas' },
-  { title: 'The Matrix' },
-  { title: 'Seven Samurai' },
-  {
-    title: 'Star Wars: Episode IV - A New Hope'
-  },
-  { title: 'City of God' },
-  { title: 'Se7en' },
-  { title: 'The Silence of the Lambs' },
-  { title: "It's a Wonderful Life" },
-  { title: 'Life Is Beautiful' },
-  { title: 'The Usual Suspects' },
-  { title: 'Léon: The Professional' },
-  { title: 'Spirited Away' },
-  { title: 'Saving Private Ryan' },
-  { title: 'Once Upon a Time in the West' },
-  { title: 'American History X' },
-  { title: 'Interstellar' },
-  { title: 'Casablanca' },
-  { title: 'City Lights' },
-  { title: 'Psycho' },
-  { title: 'The Green Mile' },
-  { title: 'The Intouchables' },
-  { title: 'Modern Times' },
-  { title: 'Raiders of the Lost Ark' },
-  { title: 'Rear Window' },
-  { title: 'The Pianist' },
-  { title: 'The Departed' },
-  { title: 'Terminator 2: Judgment Day' },
-  { title: 'Back to the Future' },
-  { title: 'Whiplash' },
-  { title: 'Gladiator' },
-  { title: 'Memento' },
-  { title: 'The Prestige' },
-  { title: 'The Lion King' },
-  { title: 'Apocalypse Now' },
-  { title: 'Alien' },
-  { title: 'Sunset Boulevard' },
-  {
-    title:
-      'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb'
-  },
-  { title: 'The Great Dictator' },
-  { title: 'Cinema Paradiso' },
-  { title: 'The Lives of Others' },
-  { title: 'Grave of the Fireflies' },
-  { title: 'Paths of Glory' },
-  { title: 'Django Unchained' },
-  { title: 'The Shining' },
-  { title: 'WALL·E' },
-  { title: 'American Beauty' },
-  { title: 'The Dark Knight Rises' },
-  { title: 'Princess Mononoke' },
-  { title: 'Aliens' },
-  { title: 'Oldboy' },
-  { title: 'Once Upon a Time in America' },
-  { title: 'Witness for the Prosecution' },
-  { title: 'Das Boot' },
-  { title: 'Citizen Kane' },
-  { title: 'North by Northwest' },
-  { title: 'Vertigo' },
-  {
-    title: 'Star Wars: Episode VI - Return of the Jedi'
-  },
-  { title: 'Reservoir Dogs' },
-  { title: 'Braveheart' },
-  { title: 'M' },
-  { title: 'Requiem for a Dream' },
-  { title: 'Amélie' },
-  { title: 'A Clockwork Orange' },
-  { title: 'Like Stars on Earth' },
-  { title: 'Taxi Driver' },
-  { title: 'Lawrence of Arabia' },
-  { title: 'Double Indemnity' },
-  {
-    title: 'Eternal Sunshine of the Spotless Mind'
-  },
-  { title: 'Amadeus' },
-  { title: 'To Kill a Mockingbird' },
-  { title: 'Toy Story 3' },
-  { title: 'Logan' },
-  { title: 'Full Metal Jacket' },
-  { title: 'Dangal' },
-  { title: 'The Sting' },
-  { title: '2001: A Space Odyssey' },
-  { title: "Singin' in the Rain" },
-  { title: 'Toy Story' },
-  { title: 'Bicycle Thieves' },
-  { title: 'The Kid' },
-  { title: 'Inglourious Basterds' },
-  { title: 'Snatch' },
-  { title: '3 Idiots' },
-  { title: 'Monty Python and the Holy Grail' }
-];
-function FilterVip() {
-  const [currency, setCurrency] = useState('EUR');
-  const [sort, setSort] = useState('UP');
-  const [server, setServer] = useState('Asia');
+interface IProps {
+  handleFilter: (data: any) => void;
+}
+function FilterVip({ handleFilter }: IProps) {
+  const [sort, setSort] = useState('false');
+  const [ar, setAr] = useState('');
+  const [code, setCode] = useState('');
+  const [server, setServer] = useState('ASIA');
+  const [rangeMoney, setRangeMoney] = useState('');
+  const [inputValueHero, setInputValueHero] = useState<IFilm[]>([]);
+  const [inputValueWeapon, setInputValueWeapon] = useState<IFilm[]>([]);
+  const [optionHero, setOptionHero] = useState([]);
+  const [optionWeapon, setOptionWeapon] = useState([]);
 
+  useEffect(() => {
+    getWeapon(999).then((res) => setOptionWeapon(res.data.data));
+    getHero(999).then((res) => setOptionHero(res.data.data));
+  }, [inputValueHero]);
+  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === 'ar') {
+      setAr(e.target.value);
+    } else {
+      setCode(e.target.value);
+    }
+  };
   const handleChange = (event) => {
-    setCurrency(event.target.value);
+    setRangeMoney(event.target.value);
   };
   const handleChangeSort = (event) => {
     setSort(event.target.value);
   };
   const handleChangeServer = (event) => {
     setServer(event.target.value);
+  };
+
+  const submit = () => {
+    var isTrueSet = sort === 'true';
+
+    let data = {
+      ar: ar,
+      server: server,
+      rangeMoney: rangeMoney,
+      hero: inputValueHero && inputValueHero.map((d) => d.desc).toString(),
+      weapon:
+        inputValueWeapon && inputValueWeapon.map((d) => d.desc).toString(),
+      priceSort: isTrueSet,
+      keyword: code
+    };
+    handleFilter(data);
   };
   return (
     <Card
@@ -170,9 +88,13 @@ function FilterVip() {
           <Autocomplete
             multiple
             id="tags-standard"
-            options={top100Films}
-            getOptionLabel={(option: IFilm) => option.title}
-            defaultValue={[]}
+            options={optionHero}
+            value={inputValueHero}
+            onChange={(event: any, newValue: any) => {
+              console.log(event.type);
+              setInputValueHero(newValue);
+            }}
+            getOptionLabel={(option: IFilm) => option.desc}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -186,9 +108,13 @@ function FilterVip() {
           <Autocomplete
             multiple
             id="tags-standard"
-            options={top100Films}
-            getOptionLabel={(option: IFilm) => option.title}
-            defaultValue={[]}
+            options={optionWeapon}
+            getOptionLabel={(option: IFilm) => option.desc}
+            value={inputValueWeapon}
+            onChange={(event: any, newValue: any) => {
+              console.log(event.type);
+              setInputValueWeapon(newValue);
+            }}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -203,8 +129,10 @@ function FilterVip() {
             fullWidth
             id="outlined-required"
             label="AR"
+            name="ar"
             type={'number'}
             placeholder="Nhập AR thấp nhất"
+            onChange={handleChangeInput}
           />
         </Grid>
         <Grid item xs={12}>
@@ -213,11 +141,23 @@ function FilterVip() {
             select
             label="Tìm theo giá"
             fullWidth
-            value={currency}
+            value={rangeMoney}
             onChange={handleChange}
           >
-            <MenuItem value="EUR">EUR</MenuItem>
-            <MenuItem value="1">Dưới 500k</MenuItem>
+            <MenuItem value="" disabled>
+              Chọn giá
+            </MenuItem>
+            <MenuItem value="1-10000">10k trở xuống</MenuItem>
+            <MenuItem value="10000-50000">10K - 50K</MenuItem>
+            <MenuItem value="50000-100000">50K - 100K</MenuItem>
+            <MenuItem value="100000-200000">100K - 200K</MenuItem>
+            <MenuItem value="200000-300000">200K - 300K</MenuItem>
+            <MenuItem value="300000-400000">300K - 400K</MenuItem>
+            <MenuItem value="400000-500000">400K - 500K</MenuItem>
+            <MenuItem value="500000-800000">500K - 800K</MenuItem>
+            <MenuItem value="800000-1000000">800K - 1tr</MenuItem>
+            <MenuItem value="1000000-5000000">1tr - 5tr</MenuItem>
+            <MenuItem value="5000000-999999999">Trên 5tr</MenuItem>
           </TextField>
         </Grid>
 
@@ -230,8 +170,8 @@ function FilterVip() {
             value={sort}
             onChange={handleChangeSort}
           >
-            <MenuItem value="UP">Tăng dần</MenuItem>
-            <MenuItem value="Down">Giảm dần</MenuItem>
+            <MenuItem value="true">Tăng dần</MenuItem>
+            <MenuItem value="false">Giảm dần</MenuItem>
           </TextField>
         </Grid>
         <Grid item md={6} xs={12}>
@@ -243,9 +183,10 @@ function FilterVip() {
             value={server}
             onChange={handleChangeServer}
           >
-            <MenuItem value="Asia">Asia</MenuItem>
-            <MenuItem value="America">America</MenuItem>
-            <MenuItem value="Europe">Europe</MenuItem>
+            <MenuItem value="ASIA">Asia</MenuItem>
+            <MenuItem value="AMERICA">America</MenuItem>
+            <MenuItem value="EUROPE">Europe</MenuItem>
+            <MenuItem value="TW-HK-MO">TW-HK-MO</MenuItem>
           </TextField>
         </Grid>
         <Grid item xs={12}>
@@ -253,13 +194,17 @@ function FilterVip() {
             fullWidth
             id="outlined-required"
             label="Mã số"
+            name="code"
             type={'number'}
+            onChange={handleChangeInput}
           />
         </Grid>
       </Grid>
       <Divider sx={{ mt: 1, mb: 1 }}></Divider>
       <Box textAlign={'center'}>
-        <Button variant="contained">Tìm kiếm</Button>
+        <Button variant="contained" onClick={submit}>
+          Tìm kiếm
+        </Button>
       </Box>
     </Card>
   );

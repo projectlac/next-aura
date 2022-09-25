@@ -6,13 +6,46 @@ import FilterVip from '@/components/Shop/Filters/FilterVip';
 import Items from '@/components/Shop/Items/Items';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Box, Container, Grid } from '@mui/material';
+import { queryAccountVip } from 'api/apiAccount/account';
+import { IAccountShop } from 'model/account';
 import Head from 'next/head';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 function AccountVip() {
+  const [data, setData] = useState<IAccountShop[]>([]);
   const [open, setOpen] = useState<boolean>(false);
+  const [total, setTotal] = useState<number>(0);
+  const [page, setPage] = useState<number>(0);
+  const [filter, setFilter] = useState({
+    ar: '',
+    server: 'ASIA',
+    rangeMoney: '',
+    hero: '',
+    weapon: '',
+    priceSort: false,
+    keyword: ''
+  });
+  const handleFilter = (data) => {
+    setFilter(data);
+    setPage(0);
+  };
+  useEffect(() => {
+    const param = {
+      ...filter,
+      limit: 9,
+      offset: page
+    };
+    queryAccountVip(param).then((res) => {
+      setData(res.data.data);
+      setTotal(res.data.total);
+    });
+  }, [page, filter]);
   const toggleOpen = () => {
     setOpen(!open);
+  };
+  const handlePage = (event: React.ChangeEvent<unknown>, value: number) => {
+    console.log(event.type);
+    setPage((value - 1) * 9);
   };
   return (
     <Box>
@@ -26,29 +59,34 @@ function AccountVip() {
           <Grid container columnSpacing={2}>
             <Grid item xs={12} md={3}>
               <FilterAccount open={open} toggleOpen={toggleOpen}>
-                <FilterVip />
+                <FilterVip handleFilter={handleFilter} />
               </FilterAccount>
             </Grid>
 
             <Grid item xs={12} md={9}>
               <Grid container columnSpacing={1.5} rowSpacing={2}>
-                {[...Array(9)].map((d, i) => {
+                {data.map((d, i) => {
                   return (
                     <Grid item xs={12} md={4} key={i}>
                       <Items
-                        title={`Acc ${d ? d : 1}`}
-                        url="/account/details/123"
-                        imageUrl={bg}
-                        price="123.123"
-                        code="12"
-                        des="Đây là acc vip"
-                        isSold={i % 2 === 0 ? true : false}
+                        title={d.name}
+                        url={`/account/details/${d.slug}`}
+                        imageUrl={d.avatar}
+                        price={d.price}
+                        code={d.code}
+                        des={d.description}
+                        isSold={d.is_sold}
                       ></Items>
                     </Grid>
                   );
                 })}
               </Grid>
-              <PaginationPage numberOfPage={10} />
+              {total > 9 && (
+                <PaginationPage
+                  numberOfPage={Math.ceil(total / 9)}
+                  onChange={handlePage}
+                />
+              )}
             </Grid>
           </Grid>
         </Box>

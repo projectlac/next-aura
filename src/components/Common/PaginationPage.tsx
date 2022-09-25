@@ -3,11 +3,13 @@ import React from 'react';
 
 interface IPaging {
   numberOfPage: number;
+  onChange(event: React.ChangeEvent<unknown>, value: number): void;
 }
-function PaginationPage({ numberOfPage }: IPaging) {
+function PaginationPage({ numberOfPage, onChange }: IPaging) {
   return (
     <Pagination
       count={numberOfPage}
+      onChange={onChange}
       variant="outlined"
       shape="rounded"
       sx={{

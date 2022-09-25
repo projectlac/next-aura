@@ -10,3 +10,12 @@ export interface IAccountVipAdmin{
     name:string,
     slug:string
 }
+export interface IAccountShop {
+    name: string;
+    slug: string;
+    avatar: string;
+    price: string;
+    code: string;
+    description: string;
+    is_sold: boolean;
+  }

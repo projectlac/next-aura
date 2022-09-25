@@ -58,3 +58,25 @@ export interface IAccountVip {
   hero?: string;
   weapon?: string;
 }
+
+export interface IQueryRandomAcc {
+  limit: number;
+  offset: number;
+  priceSort: boolean;
+  ar: string;
+  keyword: string;
+  rangeMoney?: string;
+}
+
+
+export interface IQueryVipAcc {
+  limit: number;
+  offset: number;
+  priceSort: boolean;
+  ar: string;
+  hero: string;
+  weapon: string;
+  server: string;
+  keyword: string;
+  rangeMoney?: string;
+}
