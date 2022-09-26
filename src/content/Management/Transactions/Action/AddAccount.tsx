@@ -28,7 +28,6 @@ const validationSchema = yup.object({
   username: yup.string().required('Thông tin này là bắt buộc'),
   password: yup.string().required('Password là thuộc tính bắt buộc'),
   ar: yup.string().required('AR là thuộc tính bắt buộc'),
-
   hero: yup
     .array()
     .min(1, 'Thông tin này là bắt buộc')
