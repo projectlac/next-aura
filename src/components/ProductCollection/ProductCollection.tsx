@@ -3,6 +3,8 @@ import React from 'react';
 import ProductCollectionItem from './ProductCollectionItem';
 import bg from '@/assets/images/genshin-impact.webp';
 import bgVip from '@/assets/images/mainCategory/Ink_alcohol_2.jpg';
+import rrr from '@/assets/images/mainCategory/rerroll.png';
+
 import Link from 'next/link';
 import eff from '@/assets/images/effect/pngwing.png';
 function ProductCollection() {
@@ -19,7 +21,7 @@ function ProductCollection() {
         <ProductCollectionItem
           title="Acc Reroll"
           url="/account/reroll"
-          image={bg}
+          image={rrr}
         />
       </Grid>
       <Grid item md={3} xs={12}>

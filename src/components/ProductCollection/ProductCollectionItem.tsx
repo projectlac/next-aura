@@ -33,6 +33,7 @@ function ProductCollectionItem({ title, url, image }: ICollectionItemProps) {
             background: `url(${image})`,
             width: '100%',
             backgroundSize: 'cover',
+            backgrouadPosition: 'center center',
             borderRadius: '5px',
             position: 'relative',
             overflow: 'hidden',
