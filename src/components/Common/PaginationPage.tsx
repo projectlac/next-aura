@@ -4,10 +4,12 @@ import React from 'react';
 interface IPaging {
   numberOfPage: number;
   onChange(event: React.ChangeEvent<unknown>, value: number): void;
+  index: number;
 }
-function PaginationPage({ numberOfPage, onChange }: IPaging) {
+function PaginationPage({ numberOfPage, onChange, index }: IPaging) {
   return (
     <Pagination
+      page={index ? index : 1}
       count={numberOfPage}
       onChange={onChange}
       variant="outlined"

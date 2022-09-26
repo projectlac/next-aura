@@ -8,6 +8,7 @@ import { Box, Container, Grid } from '@mui/material';
 import { queryAccountVip } from 'api/apiAccount/account';
 import { IAccountShop } from 'model/account';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { ReactElement, useEffect, useState } from 'react';
 
 interface IVipAccFilter {
@@ -20,10 +21,13 @@ interface IVipAccFilter {
   rangeMoney?: string;
 }
 function AccountVip() {
+  const router = useRouter();
+  const { page: pageHistory } = router.query;
+
   const [data, setData] = useState<IAccountShop[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
-  const [page, setPage] = useState<number>(0);
+
   const [filter, setFilter] = useState<IVipAccFilter>({
     ar: '',
     server: 'ASIA',
@@ -35,26 +39,31 @@ function AccountVip() {
   });
   const handleFilter = (data) => {
     setFilter(data);
-    setPage(0);
+    router.push(`/account/vip`);
   };
+
   useEffect(() => {
+    let tempPage = pageHistory ? (+pageHistory - 1) * 9 : 0;
+
     executeScroll();
     const param = {
       ...filter,
       limit: 9,
-      offset: page
+      offset: tempPage
     };
+
     queryAccountVip(param).then((res) => {
       setData(res.data.data);
       setTotal(res.data.total);
     });
-  }, [page, filter]);
+  }, [pageHistory, filter]);
+
   const toggleOpen = () => {
     setOpen(!open);
   };
   const handlePage = (event: React.ChangeEvent<unknown>, value: number) => {
     console.log(event.type);
-    setPage((value - 1) * 9);
+    router.push(`/account/vip?page=${value}`);
   };
 
   const executeScroll = () => {
@@ -114,6 +123,7 @@ function AccountVip() {
                 <PaginationPage
                   numberOfPage={Math.ceil(total / 9)}
                   onChange={handlePage}
+                  index={+pageHistory}
                 />
               )}
             </Grid>

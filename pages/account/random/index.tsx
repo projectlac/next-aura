@@ -8,9 +8,12 @@ import { Box, Container, Grid } from '@mui/material';
 import { queryRandomAccount } from 'api/apiAccount/account';
 import { IAccountShop } from 'model/account';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { ReactElement, useEffect, useState } from 'react';
 
 function AccountRandom() {
+  const router = useRouter();
+  const { page: pageHistory } = router.query;
   const [open, setOpen] = useState<boolean>(false);
   const [data, setData] = useState<IAccountShop[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -30,7 +33,7 @@ function AccountRandom() {
     setSort(isTrueSet);
     setAr(ar);
     setCode(code);
-    setPage(0);
+    router.push(`/account/random`);
   };
 
   const toggleOpen = () => {
@@ -38,13 +41,13 @@ function AccountRandom() {
   };
   const handlePage = (event: React.ChangeEvent<unknown>, value: number) => {
     console.log(event.type);
-    setPage((value - 1) * 9);
+    router.push(`/account/random?page=${value}`);
   };
   useEffect(() => {
     executeScroll();
     queryRandomAccount({
       limit: 9,
-      offset: page,
+      offset: pageHistory ? (+pageHistory - 1) * 9 : 0,
       ar: ar,
       keyword: code,
       rangeMoney: priceRange,
@@ -102,6 +105,7 @@ function AccountRandom() {
                 <PaginationPage
                   numberOfPage={Math.ceil(total / 9)}
                   onChange={handlePage}
+                  index={+pageHistory}
                 />
               )}
             </Grid>
