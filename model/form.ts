@@ -53,7 +53,7 @@ export interface IResetPassword {
 export interface IAccountVip {
   limit: number;
   offset: number;
-  priceSort: boolean;
+  priceSort: boolean | '';
   server?: string;
   hero?: string;
   weapon?: string;
@@ -62,17 +62,16 @@ export interface IAccountVip {
 export interface IQueryRandomAcc {
   limit: number;
   offset: number;
-  priceSort: boolean;
+  priceSort: boolean | '';
   ar: string;
   keyword: string;
   rangeMoney?: string;
 }
 
-
 export interface IQueryVipAcc {
   limit: number;
   offset: number;
-  priceSort: boolean;
+  priceSort: boolean | '';
   ar: string;
   hero: string;
   weapon: string;

@@ -10,18 +10,27 @@ import { IAccountShop } from 'model/account';
 import Head from 'next/head';
 import { ReactElement, useEffect, useState } from 'react';
 
+interface IVipAccFilter {
+  priceSort: boolean | '';
+  ar: string;
+  hero: string;
+  weapon: string;
+  server: string;
+  keyword: string;
+  rangeMoney?: string;
+}
 function AccountVip() {
   const [data, setData] = useState<IAccountShop[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
   const [page, setPage] = useState<number>(0);
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<IVipAccFilter>({
     ar: '',
     server: 'ASIA',
     rangeMoney: '',
     hero: '',
     weapon: '',
-    priceSort: true,
+    priceSort: '',
     keyword: ''
   });
   const handleFilter = (data) => {
@@ -29,6 +38,7 @@ function AccountVip() {
     setPage(0);
   };
   useEffect(() => {
+    executeScroll();
     const param = {
       ...filter,
       limit: 9,
@@ -46,6 +56,16 @@ function AccountVip() {
     console.log(event.type);
     setPage((value - 1) * 9);
   };
+
+  const executeScroll = () => {
+    const id = 'scrollTo';
+    const yOffset = -95;
+    const element = document.getElementById(id);
+    const y = element?.getBoundingClientRect().top + window.scrollY + yOffset;
+
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  };
+
   return (
     <Box>
       <Head>
@@ -62,11 +82,19 @@ function AccountVip() {
               </FilterAccount>
             </Grid>
 
-            <Grid item xs={12} md={9}>
+            <Grid item xs={12} md={9} id="scrollTo">
               <Grid container columnSpacing={1.5} rowSpacing={2}>
                 {data.map((d, i) => {
                   return (
-                    <Grid item xs={12} md={4} key={i}>
+                    <Grid
+                      item
+                      xs={12}
+                      md={4}
+                      key={i}
+                      sx={{
+                        display: 'flex'
+                      }}
+                    >
                       <Items
                         title={d.name}
                         url={`/account/details/${d.slug}`}
@@ -75,6 +103,8 @@ function AccountVip() {
                         code={d.code}
                         des={d.description}
                         isSold={d.is_sold}
+                        ar_level={d.ar_level}
+                        server={d.server}
                       ></Items>
                     </Grid>
                   );

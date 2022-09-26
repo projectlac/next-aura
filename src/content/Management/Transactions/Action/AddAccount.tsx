@@ -1,11 +1,11 @@
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
-import AutocompleteSelection from '@/components/Common/Form/AutocompleteSelection';
 import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import Selection from '@/components/Common/Form/Selection';
 import TextField from '@/components/Common/Form/TextField';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 
+import AutoCompleteHarder from '@/components/Common/Form/AutoCompleteHarder';
 import { useAuth } from '@/contexts/AuthGuard';
 import getNameSortAtoB from '@/utility/sortArray';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
@@ -29,11 +29,6 @@ const validationSchema = yup.object({
   password: yup.string().required('Password là thuộc tính bắt buộc'),
   ar: yup.string().required('AR là thuộc tính bắt buộc'),
   weapon: yup
-    .array()
-    .min(1, 'Thông tin này là bắt buộc')
-    .nullable()
-    .required('Thông tin này là bắt buộc'),
-  hero: yup
     .array()
     .min(1, 'Thông tin này là bắt buộc')
     .nullable()
@@ -72,10 +67,10 @@ function AddAccount({ title }: IEdit) {
     setOpenDialog(false);
   };
 
-  const handleSelectedWeapon = (data: string[]) => {
+  const handleSelectedWeapon = (data: any) => {
     formik.handleChange({ target: { name: 'weapon', value: data } });
   };
-  const handleSelectedCharacter = (data: string[]) => {
+  const handleSelectedCharacter = (data: any) => {
     formik.handleChange({ target: { name: 'hero', value: data } });
   };
   const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
@@ -102,8 +97,14 @@ function AddAccount({ title }: IEdit) {
 
   useEffect(() => {
     if (openDialog) {
-      getWeapon(999).then((res) => setWeapon(res.data.data));
-      getHero(999).then((res) => setHero(res.data.data));
+      getWeapon(999).then((res) => {
+        let temp = res.data.data.map((d) => ({ desc: d.desc, slug: d.slug }));
+        setWeapon(temp);
+      });
+      getHero(999).then((res) => {
+        let temp = res.data.data.map((d) => ({ desc: d.desc, slug: d.slug }));
+        setHero(temp);
+      });
     }
   }, [openDialog]);
   const onSubmit = async (values, { resetForm }) => {
@@ -208,25 +209,27 @@ function AddAccount({ title }: IEdit) {
             </Grid>
             <Grid item md={12} xs={12}>
               <Box>
-                <AutocompleteSelection
+                <AutoCompleteHarder
                   title="Danh sách vũ khí"
                   data={getNameSortAtoB(weapon)}
+                  id="create-vip-weapon"
                   name="weapon"
                   formik={formik}
-                  handleSelected={handleSelectedWeapon}
                   defaultValue={[]}
+                  handleSelected={handleSelectedWeapon}
                 />
               </Box>
             </Grid>
             <Grid item md={12} xs={12}>
               <Box>
-                <AutocompleteSelection
+                <AutoCompleteHarder
                   title="Danh sách nhân vật"
                   data={getNameSortAtoB(hero)}
+                  id="create-vip-hero"
                   name="hero"
                   formik={formik}
-                  handleSelected={handleSelectedCharacter}
                   defaultValue={[]}
+                  handleSelected={handleSelectedCharacter}
                 />
               </Box>
             </Grid>
@@ -349,7 +352,14 @@ function AddAccount({ title }: IEdit) {
             </Grid>
 
             <Grid item md={12} xs={12}>
-              <Button variant="contained" fullWidth type="submit">
+              <Button
+                variant="contained"
+                fullWidth
+                type="submit"
+                onClick={() => {
+                  console.log(formik.errors);
+                }}
+              >
                 {formik.isSubmitting ? 'Loading...' : 'Thêm'}
               </Button>
             </Grid>

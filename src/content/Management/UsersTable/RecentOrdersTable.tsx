@@ -51,7 +51,6 @@ const getStatusLabel = (cryptoOrderStatus: IRole): JSX.Element => {
       color: 'warning'
     }
   };
-  console.log(cryptoOrderStatus);
 
   const { text, color }: any = map[cryptoOrderStatus];
 
@@ -222,6 +221,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                             title="Sửa role"
                             role={cryptoOrder.role}
                             id={cryptoOrder.id}
+                            type={cryptoOrder.account_type}
+                            bonus={cryptoOrder.bonus}
                           />
                         </IconButton>
                       </Tooltip>

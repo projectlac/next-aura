@@ -25,7 +25,7 @@ const validationSchema = yup.object({
   code: yup.string().required('Trường này là bắt buộc')
 });
 const initForm = {
-  homeNetwork: 'Viettel',
+  homeNetwork: 'VIETTEL',
   cost: '',
   seri: '',
   code: ''
@@ -170,10 +170,13 @@ function TopUp() {
                         fullWidth
                         name="homeNetwork"
                         options={[
-                          { value: 'Viettel', title: 'Viettel' },
-                          { value: 'MobiPhone', title: 'MobiPhone' },
-                          { value: 'VinaPhone', title: 'VinaPhone' },
-                          { value: 'VietnamMobile', title: 'VietnamMobile' }
+                          { value: 'VIETTEL', title: 'Viettel' },
+                          { value: 'MOBIFONE', title: 'MobiPhone' },
+                          { value: 'VINAPHONE', title: 'VinaPhone' },
+                          { value: 'VIETNAMOBILE', title: 'VietnamMobile' },
+                          { value: 'ZING', title: 'Zing' },
+                          { value: 'GATE', title: 'Gate' },
+                          { value: 'GARENA', title: 'Garena' }
                         ]}
                       />
                     </Grid>
@@ -187,10 +190,13 @@ function TopUp() {
                         options={[
                           { value: '10000', title: '10.000 VND' },
                           { value: '20000', title: '20.000 VND' },
+                          { value: '30000', title: '30.000 VND' },
                           { value: '50000', title: '50.000 VND' },
                           { value: '100000', title: '100.000 VND' },
                           { value: '200000', title: '200.000 VND' },
-                          { value: '500000', title: '500.000 VND' }
+                          { value: '300000', title: '300.000 VND' },
+                          { value: '500000', title: '500.000 VND' },
+                          { value: '1000000', title: '1.000.000 VND' }
                         ]}
                       />
                     </Grid>
@@ -217,7 +223,7 @@ function TopUp() {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Button fullWidth variant="contained">
+                      <Button fullWidth variant="contained" type="submit">
                         Nạp
                       </Button>
                     </Grid>

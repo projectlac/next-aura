@@ -12,13 +12,24 @@ interface IProps {
   code: string;
   des: string;
   isSold: boolean;
+  server?: any;
+  ar_level?: string;
 }
-function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
+function Items({
+  title,
+  url,
+  imageUrl,
+  price,
+  code,
+  isSold,
+  server,
+  ar_level
+}: IProps) {
   return (
     <Card
       sx={{
         background: '#fff',
-
+        width: '100%',
         // background: `url(${bg})`,
         backgroundSize: 'cover',
         boxShadow: 'none',
@@ -84,9 +95,10 @@ function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
             textAlign={'center'}
             fontWeight={'900'}
             fontFamily="Roboto"
-            fontSize={25}
+            fontSize={15}
+            minHeight="45px"
             color={'primary'}
-            textTransform="uppercase"
+            textTransform="capitalize"
             className={`${isSold ? 'disable-link' : ''}`}
             sx={{
               cursor: 'pointer'
@@ -94,7 +106,35 @@ function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
           >
             {title}
           </Typography>
-        </Link>
+        </Link>{' '}
+        <Divider sx={{ my: 1 }} />
+        <Grid container columnSpacing={1.5}>
+          <Grid item xs={6}>
+            <Typography fontSize={15} fontWeight="600">
+              AR <br />{' '}
+              <span
+                style={{ fontSize: '17px', fontWeight: 'bold', color: '#d33' }}
+              >
+                {ar_level}
+              </span>
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography fontSize={15} fontWeight="600" textAlign="right">
+              Server <br />
+              <span
+                style={{
+                  fontSize: '17px',
+                  fontWeight: 'bold',
+                  color: '#d33',
+                  textTransform: 'capitalize'
+                }}
+              >
+                {server?.slug}
+              </span>
+            </Typography>
+          </Grid>
+        </Grid>
         <Divider sx={{ my: 1 }} />
         <Grid container columnSpacing={1.5}>
           <Grid item xs={6}>
@@ -118,8 +158,8 @@ function Items({ title, url, imageUrl, price, code, des, isSold }: IProps) {
             </Typography>
           </Grid>
         </Grid>
-        <Divider sx={{ mt: 1, mb: 1.5 }} />
-        <Box textAlign={'center'}>{des}</Box>
+        {/* <Divider sx={{ mt: 1, mb: 1.5 }} /> */}
+        {/* <Box textAlign={'center'}>{des}</Box> */}
       </Box>
     </Card>
   );

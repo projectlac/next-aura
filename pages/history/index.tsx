@@ -1,8 +1,9 @@
 import Table from '@/components/Table/Table';
 import { ProtectGuess } from '@/contexts/ProtectGuess';
 import { Box, Card, Container, styled } from '@mui/material';
+import { getHistory } from 'api/user';
 import Head from 'next/head';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import BaseLayout from 'src/layouts/BaseLayout';
 
 const OverviewWrapper = styled(Box)(
@@ -15,6 +16,9 @@ const OverviewWrapper = styled(Box)(
 );
 
 function Overview() {
+  useEffect(() => {
+    getHistory().then((res) => console.log(res.data));
+  }, []);
   return (
     <ProtectGuess>
       <OverviewWrapper>

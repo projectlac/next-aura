@@ -40,6 +40,7 @@ function AccountReroll() {
     setPage((value - 1) * 9);
   };
   useEffect(() => {
+    executeScroll();
     queryRerollAccount({
       limit: 9,
       offset: page,
@@ -52,6 +53,17 @@ function AccountReroll() {
       setTotal(res.data.total);
     });
   }, [page, sort, ar, code]);
+
+  const executeScroll = () => {
+    const id = 'scrollTo';
+    const yOffset = -95;
+    const element = document.getElementById(id);
+    const y =
+      element?.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  };
+
   return (
     <Box>
       <Head>
@@ -68,7 +80,7 @@ function AccountReroll() {
               </FilterAccount>
             </Grid>
             <Grid item xs={12} md={9}>
-              <Grid container columnSpacing={1.5} rowSpacing={2}>
+              <Grid container columnSpacing={1.5} rowSpacing={2} id="scrollTo">
                 {data.map((d, i) => {
                   return (
                     <Grid item xs={12} md={4} key={i}>

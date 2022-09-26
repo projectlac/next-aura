@@ -1,4 +1,5 @@
 import DialogCommonWithoutIcon from '@/components/Common/DialogCommon/DialogCommonWithoutIcon';
+import { useAuth } from '@/contexts/AuthGuard';
 import BaseLayout from '@/layouts/BaseLayout';
 import formatMoney from '@/utility/formatMoney';
 import {
@@ -10,7 +11,7 @@ import {
   Grid,
   Typography
 } from '@mui/material';
-import { getAccountBySlug } from 'api/apiAccount/account';
+import { buyAccount, getAccountBySlug } from 'api/apiAccount/account';
 
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -25,8 +26,10 @@ interface IDetail {
   hero: any;
   price: string;
   images: string[];
+  desc: string;
 }
 function DetailAccout() {
+  const { handleSetMessage } = useAuth();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const customeSlider = useRef<any>();
@@ -40,9 +43,23 @@ function DetailAccout() {
     setOpenDialog(false);
   };
 
-  const buyAccount = () => {
-    router.push('/history');
-    handleCloseDialog();
+  const buyAccountSubmit = async () => {
+    try {
+      await buyAccount(slug as string).then(() => {
+        handleSetMessage({
+          type: 'success',
+          message: 'Bạn đã mua tài khoản thành công'
+        });
+        router.push('/history');
+        handleCloseDialog();
+      });
+    } catch (error) {
+      handleSetMessage({
+        type: 'error',
+        message:
+          'Có lỗi xảy ra, nếu mất tiền, vui lòng liên hệ với Admin để kiểm tra lại'
+      });
+    }
   };
 
   useEffect(() => {
@@ -53,8 +70,10 @@ function DetailAccout() {
           server: res.data.server.desc,
           hero: res.data.hero,
           price: res.data.price,
-          images: res.data.images
+          images: res.data.images,
+          desc: res.data.description
         };
+
         setData(temp);
         setLoading(false);
       });
@@ -157,23 +176,6 @@ function DetailAccout() {
                       </Typography>
                     </Box>
                   </Grid>
-                  {/* <Grid item md={12} xs={12} textAlign="center">
-                  <Typography
-                    sx={{
-                      fontSize: { md: 25, xs: 15 }
-                    }}
-                    fontWeight={'bold'}
-                    color="#fff"
-                  >
-                    Tướng 5*
-                  </Typography>
-                  <Divider
-                    sx={{
-                      my: 1,
-                      background: 'rgb(255 255 255 / 89%)'
-                    }}
-                  ></Divider>
-                </Grid> */}
 
                   <Grid item md={12} xs={12} textAlign="center" color="#fff">
                     <Typography
@@ -186,10 +188,20 @@ function DetailAccout() {
                       Giá: {formatMoney(data?.price)} VNĐ
                     </Typography>
                     <Divider
-                      sx={{ my: 1, background: 'rgb(255 255 255 / 89%)' }}
+                      sx={{ mt: 1, background: 'rgb(255 255 255 / 89%)' }}
                     ></Divider>
                   </Grid>
-
+                  <Grid item md={12} xs={12} textAlign="center">
+                    <Typography
+                      sx={{
+                        fontSize: { md: 20, xs: 15 }
+                      }}
+                      fontWeight={'bold'}
+                      color="#fff"
+                    >
+                      {data?.desc}
+                    </Typography>
+                  </Grid>
                   <Grid item md={6} xs={12} textAlign="center">
                     <DialogCommonWithoutIcon
                       titleButton={'Mua ngay'}
@@ -207,7 +219,10 @@ function DetailAccout() {
                       <Divider sx={{ my: 2 }} />
                       <Grid container>
                         <Grid item md={6} xs={12} textAlign="center">
-                          <Button variant="contained" onClick={buyAccount}>
+                          <Button
+                            variant="contained"
+                            onClick={buyAccountSubmit}
+                          >
                             Xác nhận
                           </Button>
                         </Grid>

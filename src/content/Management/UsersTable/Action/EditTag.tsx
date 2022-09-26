@@ -1,11 +1,12 @@
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
+import { TextField as MuiTextField } from '@mui/material';
 import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import Selection from '@/components/Common/Form/Selection';
 import TextField from '@/components/Common/Form/TextField';
 import { useAuth } from '@/contexts/AuthGuard';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import { Button } from '@mui/material';
+import { Autocomplete, Button } from '@mui/material';
 import { upRole } from 'api/user';
 import { IRoleData } from 'model/user';
 import { useEffect, useState } from 'react';
@@ -15,23 +16,39 @@ interface IEdit {
   title: string;
   role: string;
   id: number;
+  bonus: number | null;
+  type: string | null;
 }
 
 const validationSchema = yup.object({
-  role: yup.string().required('Tên tài khoản is required'),
-  bonus: yup.number().min(0).max(100)
+  role: yup.string().required('Chức vụ is required'),
+  bonus: yup.number().when('role', {
+    is: (val) => val == 'MOD',
+    then: (schema) => schema.required('% là bắt buộc').min(0).max(100),
+    otherwise: (schema) => schema.notRequired()
+  }),
+
+  type: yup.string().when('role', {
+    is: (val) => val == 'MOD',
+    then: (schema) => schema.required('Loại acc là bắt buộc'),
+    otherwise: (schema) => schema.notRequired()
+  })
 });
 
-function EditTag({ title, role, id }: IEdit) {
+function EditTag({ title, role, id, bonus, type }: IEdit) {
   const { handleSetMessage, updateSuccess } = useAuth();
-
+  const [value, setValue] = useState<string[]>([]);
   const [initForm, setInitForm] = useState({
     role: '',
-    bonus: ''
+    bonus: 0,
+    type: ''
   });
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
+  const setAccType = (data: string[]) => {
+    formik.handleChange({ target: { name: 'type', value: data.toString() } });
+  };
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -39,8 +56,8 @@ function EditTag({ title, role, id }: IEdit) {
     setOpenDialog(false);
   };
   const onSubmit = async (value, { resetForm }) => {
-    const { role, bonus } = value;
-    let param: IRoleData = { role, bonus };
+    const { role, bonus, type } = value;
+    let param: IRoleData = { role, bonus, account_type: type };
     if (role === 'USER') {
       param = { role };
     }
@@ -64,7 +81,13 @@ function EditTag({ title, role, id }: IEdit) {
   };
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
   useEffect(() => {
-    setInitForm({ ...initForm, role: role });
+    setInitForm({
+      ...initForm,
+      role: role,
+      type: type,
+      bonus: bonus ? bonus : 0
+    });
+    setValue(type?.split(','));
   }, [role, openDialog]);
   return (
     <DialogCommon
@@ -90,20 +113,49 @@ function EditTag({ title, role, id }: IEdit) {
           ]}
         />
         {formik.values.role === 'MOD' && (
-          <TextField
-            sx={{
-              mb: 2
-            }}
-            formik={formik}
-            label="Phần trăm cộng tác viên hưởng"
-            placeholder=""
-            variant="outlined"
-            fullWidth
-            name="bonus"
-            type="number"
-          />
+          <>
+            <TextField
+              sx={{
+                mb: 2
+              }}
+              formik={formik}
+              label="Phần trăm cộng tác viên hưởng"
+              placeholder=""
+              variant="outlined"
+              fullWidth
+              name="bonus"
+              type="number"
+              InputLabelProps={{ shrink: true }}
+            />
+            <Autocomplete
+              sx={{
+                mb: 2
+              }}
+              multiple
+              value={value}
+              onChange={(event: any, newValue: any) => {
+                console.log(event.type);
+                setValue(newValue);
+                setAccType(newValue);
+              }}
+              options={['VIP', 'REROLL', 'RANDOM']}
+              renderInput={(params) => (
+                <MuiTextField
+                  {...params}
+                  label="Loại acc có thể đăng"
+                  name="type"
+                  error={formik.touched.type && Boolean(formik.errors.type)}
+                />
+              )}
+            />
+          </>
         )}
-        <Button variant="contained" fullWidth type="submit">
+        <Button
+          variant="contained"
+          fullWidth
+          type="submit"
+          onClick={() => console.log(formik.errors)}
+        >
           {formik.isSubmitting ? 'Loading...' : 'UPROLE'}
         </Button>
       </FormatForm>

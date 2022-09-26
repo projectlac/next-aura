@@ -76,7 +76,7 @@ function ChangeCoin({ title, id }: IEdit) {
           placeholder=""
           variant="outlined"
           fullWidth
-          name="bonus"
+          name="money"
           type="number"
         />
         <p>*Nếu truyền vào giá trị âm, thì có nghĩa là trừ và ngược lại</p>

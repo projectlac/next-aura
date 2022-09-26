@@ -1,3 +1,4 @@
+import api from 'api/api';
 import apiFormData from 'api/formData/apiFormData';
 import { IAccountVip, IQueryRandomAcc, IQueryVipAcc } from 'model/form';
 
@@ -33,15 +34,11 @@ export const createAccountNomal = (data: FormData) => {
   return apiFormData.post('/account/create-account', data);
 };
 
-// export const getAccountNomalFromDashboard = (param: IAccountVip) => {
-//   return apiFormData.get(
-//     `/account/get-accounts-by-admin?type=VIP&limit=${param.limit}&offset=${param.offset}&priceSort=${
-//       param.priceSort
-//     }${checkCall(param.hero)}${checkCall(param.server)}${checkCall(
-//       param.weapon
-//     )}`
-//   );
-// };
+export const getAccountNomalFromDashboard = (limit: number) => {
+  return apiFormData.get(
+    `/account/get-accounts-by-admin?type=REROLL,RANDOM&limit=${limit}&offset=0`
+  );
+};
 
 export const queryRandomAccount = (param: IQueryRandomAcc) => {
   return apiFormData.get(
@@ -73,6 +70,13 @@ export const queryAccountVip = (param: IQueryVipAcc) => {
     )}${checkCall('ar', param.ar)}${checkCall(
       'server',
       param.server
-    )}${checkCall('hero', param.hero)}${checkCall('weapon', param.weapon)}${checkCall('rangeMoney', param.rangeMoney)}`
+    )}${checkCall('hero', param.hero)}${checkCall(
+      'weapon',
+      param.weapon
+    )}${checkCall('rangeMoney', param.rangeMoney)}`
   );
+};
+
+export const buyAccount = (slug: string) => {
+  return api.post(`/buy-account`, { slugs: [slug] });
 };

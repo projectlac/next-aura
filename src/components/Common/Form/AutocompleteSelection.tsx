@@ -34,8 +34,8 @@ interface CharacterProps {
   formik: any;
   name: string;
   handleSelected: (data: string[]) => void;
-  defaultValue: string[];
   title: string;
+  defaultValue?: string[];
 }
 export default function AutocompleteSelection({
   data,

@@ -1,5 +1,5 @@
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
-import AutocompleteSelection from '@/components/Common/Form/AutocompleteSelection';
+import AutoCompleteHarder from '@/components/Common/Form/AutoCompleteHarder';
 import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import Selection from '@/components/Common/Form/Selection';
@@ -103,8 +103,14 @@ function EditAccout({ title, slug }: IEdit) {
 
   useEffect(() => {
     const callApi = async () => {
-      await getWeapon(999).then((res) => setWeapon(res.data.data));
-      await getHero(999).then((res) => setHero(res.data.data));
+      getWeapon(999).then((res) => {
+        let temp = res.data.data.map((d) => ({ slug: d.slug, desc: d.desc }));
+        setWeapon(temp);
+      });
+      getHero(999).then((res) => {
+        let temp = res.data.data.map((d) => ({ slug: d.slug, desc: d.desc }));
+        setHero(temp);
+      });
       await getAccountBySlug(slug).then((res) => {
         const data = res.data;
 
@@ -116,8 +122,8 @@ function EditAccout({ title, slug }: IEdit) {
           detail: data.description,
           price: data.price,
           ar: data.ar_level,
-          weapon: data.weapons.map((d) => d.desc),
-          hero: data.heroes.map((d) => d.desc),
+          weapon: data.weapons,
+          hero: data.heroes,
           avatar: data.avatar,
           images: data.images,
           file: null,
@@ -228,9 +234,10 @@ function EditAccout({ title, slug }: IEdit) {
             </Grid>
             <Grid item md={12} xs={12}>
               <Box>
-                <AutocompleteSelection
+                <AutoCompleteHarder
                   title="Danh sách vũ khí"
                   name="weapon"
+                  id={`edit-weapon-${slug}`}
                   formik={formik}
                   handleSelected={handleSelectedWeapon}
                   defaultValue={defaultData.weapon}
@@ -240,9 +247,10 @@ function EditAccout({ title, slug }: IEdit) {
             </Grid>
             <Grid item md={12} xs={12}>
               <Box>
-                <AutocompleteSelection
+                <AutoCompleteHarder
                   title="Danh sách nhân vật"
                   name="hero"
+                  id={`edit-hero-${slug}`}
                   formik={formik}
                   handleSelected={handleSelectedCharacter}
                   defaultValue={defaultData.hero}
@@ -323,7 +331,6 @@ function EditAccout({ title, slug }: IEdit) {
 
               {preview ? (
                 <Box width={200} height={150}>
-                  {console.log('true')}
                   <Image
                     src={preview}
                     layout="responsive"

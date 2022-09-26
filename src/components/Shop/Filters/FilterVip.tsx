@@ -170,8 +170,8 @@ function FilterVip({ handleFilter }: IProps) {
             value={sort}
             onChange={handleChangeSort}
           >
-            <MenuItem value="true">Tăng dần</MenuItem>
-            <MenuItem value="false">Giảm dần</MenuItem>
+            <MenuItem value="true"> Giảm dần</MenuItem>
+            <MenuItem value="false">Tăng dần</MenuItem>
           </TextField>
         </Grid>
         <Grid item md={6} xs={12}>

@@ -20,7 +20,7 @@ const validationSchema = yup.object({
   social: yup.string().required('Trường này là bắt buộc')
 });
 const initForm = {
-  pack: 'Không nguyệt chúc phúc',
+  pack: '105000|Gói nạp không nguyệt chúc phúc x1',
   uid: '',
   username: '',
   password: '',
@@ -68,12 +68,75 @@ export default function VerticalTabs() {
                         name="pack"
                         options={[
                           {
-                            value: 'Không nguyệt chúc phúc',
-                            title: 'Không nguyệt chúc phúc (109k)'
+                            value: '105000|Gói nạp không nguyệt chúc phúc x1',
+                            title:
+                              '105,000 đ - Gói nạp không nguyệt chúc phúc x1'
                           },
                           {
-                            value: 'Không nguyệt chúc phúc1',
-                            title: 'Không nguyệt chúc phúc1 (109k)'
+                            value: '209000|Gói nạp không nguyệt chúc phúc x2',
+                            title:
+                              '209,000 đ - Gói nạp không nguyệt chúc phúc x2'
+                          },
+                          {
+                            value: '315000|Gói nạp không nguyệt chúc phúc x3',
+                            title:
+                              '315,000 đ - Gói nạp không nguyệt chúc phúc x3'
+                          },
+                          {
+                            value:
+                              '316000|Goi nạp không nguyệt chúc phúc + Nhật kí',
+                            title:
+                              '316,000 đ - Goi nạp không nguyệt chúc phúc + Nhật kí'
+                          },
+                          {
+                            value:
+                              '525000|Gói nạp không nguyệt + Bài ca chân châu',
+                            title:
+                              '525,000 đ - Gói nạp không nguyệt + Bài ca chân châu'
+                          },
+                          {
+                            value: '210000|Gói nạp nhật ký hành trình',
+                            title: '210,000 đ - Gói nạp nhật ký hành trình'
+                          },
+                          {
+                            value: '420000|Gói nạp bài ca chân châu',
+                            title: '420,000 đ - Gói nạp bài ca chân châu'
+                          },
+                          {
+                            value: '106000|Gói nạp 300 đá sáng thế',
+                            title: '106,000 đ - Gói nạp 300 đá sáng thế'
+                          },
+                          {
+                            value: '310000|Gói nạp 980 đá sáng thế',
+                            title: '310,000 đ - Gói nạp 980 đá sáng thế'
+                          },
+                          {
+                            value: '620000|Gói nạp 1980 đá sáng thế',
+                            title: '620,000 đ - Gói nạp 1980 đá sáng thế'
+                          },
+                          {
+                            value: '1000000|Gói nạp 3280 đá sáng thế',
+                            title: '1,000,000 đ - Gói nạp 3280 đá sáng thế'
+                          },
+                          {
+                            value: '2000000|Gói nạp 6480 đá sáng thế x1',
+                            title: '2,000,000 đ - Gói nạp 6480 đá sáng thế x1'
+                          },
+                          {
+                            value: '4000000|Gói nạp 6480 đá sáng thế x2',
+                            title: '4,000,000 đ - Gói nạp 6480 đá sáng thế x2'
+                          },
+                          {
+                            value: '6000000|Gói nạp 6480 đá sáng thế x3',
+                            title: '6,000,000 đ - Gói nạp 6480 đá sáng thế x3'
+                          },
+                          {
+                            value: '8000000|Gói nạp 6480 đá sáng thế x4',
+                            title: '8,000,000 đ - Gói nạp 6480 đá sáng thế x4'
+                          },
+                          {
+                            value: '10000000|Gói nạp 6480 đá sáng thế x5',
+                            title: '10,000,000 đ - Gói nạp 6480 đá sáng thế x5'
                           }
                         ]}
                       />
