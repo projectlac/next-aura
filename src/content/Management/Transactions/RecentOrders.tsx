@@ -13,7 +13,7 @@ function RecentOrders() {
     getAccountVipFromDashboard({
       limit: 999,
       offset: 0,
-      priceSort: false
+      priceSort: ''
     }).then((res) => setData(res.data.data));
   }, [update]);
   return (
