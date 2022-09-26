@@ -59,12 +59,14 @@ function AddAccount({ title }: IEdit) {
   const [previewDetail, setPreviewDetail] = useState<string>('');
   const [weapon, setWeapon] = useState([]);
   const [hero, setHero] = useState([]);
+  const [trigger, setTrigger] = useState<boolean>(false);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setTrigger(false);
   };
 
   const handleSelectedWeapon = (data: any) => {
@@ -105,6 +107,7 @@ function AddAccount({ title }: IEdit) {
         let temp = res.data.data.map((d) => ({ desc: d.desc, slug: d.slug }));
         setHero(temp);
       });
+      setTrigger(true);
     }
   }, [openDialog]);
   const onSubmit = async (values, { resetForm }) => {
@@ -130,8 +133,8 @@ function AddAccount({ title }: IEdit) {
     formData.append('description', detail);
     formData.append('price', price);
     formData.append('ar_level', ar);
-    formData.append('weapon', weapon.toString());
-    formData.append('hero', hero.toString());
+    formData.append('weapon', weapon.map((d) => d.desc).toString());
+    formData.append('hero', hero.map((d) => d.desc).toString());
 
     file && formData.append('avatar', file);
     fileDetail && formData.append('images', fileDetail);
@@ -210,6 +213,7 @@ function AddAccount({ title }: IEdit) {
             <Grid item md={12} xs={12}>
               <Box>
                 <AutoCompleteHarder
+                  trigger={trigger}
                   title="Danh sách vũ khí"
                   data={getNameSortAtoB(weapon)}
                   id="create-vip-weapon"
@@ -223,6 +227,7 @@ function AddAccount({ title }: IEdit) {
             <Grid item md={12} xs={12}>
               <Box>
                 <AutoCompleteHarder
+                  trigger={trigger}
                   title="Danh sách nhân vật"
                   data={getNameSortAtoB(hero)}
                   id="create-vip-hero"

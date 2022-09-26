@@ -1,14 +1,15 @@
 import { Autocomplete, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface IAutocomplete {
   data: any;
   name: string;
   title: string;
   formik: any;
-  handleSelected: (data: string[]) => void;
+  handleSelected: (data: any) => void;
   defaultValue: any;
   id: string;
+  trigger: boolean;
 }
 interface IData {
   desc: string;
@@ -18,6 +19,7 @@ function AutoCompleteHarder({
   data,
   title,
   name,
+  trigger,
   handleSelected,
   formik,
   defaultValue,
@@ -27,7 +29,7 @@ function AutoCompleteHarder({
 
   useEffect(() => {
     setInputValueHero(defaultValue);
-  }, [data, defaultValue]);
+  }, [data, trigger]);
   return (
     <Autocomplete
       multiple
@@ -38,8 +40,8 @@ function AutoCompleteHarder({
         console.log(event.type);
 
         setInputValueHero(newValue);
-        let temp = newValue.map((d) => d.desc);
-        handleSelected(temp);
+        // let temp = newValue.map((d) => d.desc);
+        handleSelected(newValue);
       }}
       isOptionEqualToValue={(option, value) => option.desc === value.desc}
       getOptionLabel={(option: IData) => option.desc}

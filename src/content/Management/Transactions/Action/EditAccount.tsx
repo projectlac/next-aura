@@ -41,6 +41,8 @@ function EditAccout({ title, slug }: IEdit) {
   const { handleSetMessage, updateSuccess } = useAuth();
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [trigger, setTrigger] = useState<boolean>(false);
+
   const [preview, setPreview] = useState<string>('');
   const [previewDetail, setPreviewDetail] = useState<string>('');
   const [weapon, setWeapon] = useState([]);
@@ -66,12 +68,15 @@ function EditAccout({ title, slug }: IEdit) {
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    setTrigger(false);
   };
 
-  const handleSelectedWeapon = (data: string[]) => {
+  const handleSelectedWeapon = (data: any) => {
+    console.log(data);
     formik.handleChange({ target: { name: 'weapon', value: data } });
   };
-  const handleSelectedCharacter = (data: string[]) => {
+  const handleSelectedCharacter = (data: any) => {
+    console.log(data);
     formik.handleChange({ target: { name: 'hero', value: data } });
   };
   const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
@@ -127,6 +132,7 @@ function EditAccout({ title, slug }: IEdit) {
         };
 
         setDefaultData(temp);
+        setTrigger(true);
       });
     };
     if (openDialog) {
@@ -177,7 +183,7 @@ function EditAccout({ title, slug }: IEdit) {
     } catch (error) {
       handleSetMessage({
         type: 'error',
-        message: 'Có lỗi xảy ra, vui lòng kiểm tra lại thông tin nhập'
+        message: error.response.data.message
       });
     }
   };
@@ -231,6 +237,7 @@ function EditAccout({ title, slug }: IEdit) {
             <Grid item md={12} xs={12}>
               <Box>
                 <AutoCompleteHarder
+                  trigger={trigger}
                   title="Danh sách vũ khí"
                   name="weapon"
                   id={`edit-weapon-${slug}`}
@@ -244,6 +251,7 @@ function EditAccout({ title, slug }: IEdit) {
             <Grid item md={12} xs={12}>
               <Box>
                 <AutoCompleteHarder
+                  trigger={trigger}
                   title="Danh sách nhân vật"
                   name="hero"
                   id={`edit-hero-${slug}`}
