@@ -28,6 +28,7 @@ import Label from '@/components/Label';
 import { IAccountVipAdmin } from 'model/account';
 import DeleteAccount from './Action/DeleteAccount';
 import EditAccount from './Action/EditAccount';
+import { sliceString } from '@/utility/sliceString';
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -211,7 +212,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.name}
+                      {sliceString(cryptoOrder.name)}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
                       Giá: {numeral(cryptoOrder.price).format(`0,0`)}

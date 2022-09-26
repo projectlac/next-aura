@@ -27,7 +27,7 @@ function AutoCompleteHarder({
 
   useEffect(() => {
     setInputValueHero(defaultValue);
-  }, [data]);
+  }, [data, defaultValue]);
   return (
     <Autocomplete
       multiple

@@ -156,8 +156,8 @@ function EditAccout({ title, slug }: IEdit) {
     formData.append('description', detail);
     formData.append('price', price);
     formData.append('ar_level', ar);
-    formData.append('weapon', weapon.toString());
-    formData.append('hero', hero.toString());
+    formData.append('weapon', weapon.map((d) => d.desc).toString());
+    formData.append('hero', hero.map((d) => d.desc).toString());
 
     file && formData.append('avatar', file);
     fileDetail && formData.append('images', fileDetail);
