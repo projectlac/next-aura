@@ -22,6 +22,13 @@ function ProductCollection() {
 
   useEffect(() => {
     getInfoAllAccount().then((res) => setDataAccVip(res.data[0]));
+    setDataAccRandom({
+      inStock: 0,
+      sold: 0,
+      total: '0',
+      type: '0'
+    });
+    setDataAccReroll({ inStock: 0, sold: 0, total: '0', type: '0' });
   });
   return (
     <Grid container columnSpacing={2} rowSpacing={2}>

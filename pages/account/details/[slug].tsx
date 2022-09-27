@@ -68,7 +68,7 @@ function DetailAccout() {
         let temp: IDetail = {
           ar_level: res.data.ar_level,
           server: res.data.server.desc,
-          hero: res.data.hero,
+          hero: res.data.heros,
           price: res.data.price,
           images: res.data.avatar,
           desc: res.data.description
