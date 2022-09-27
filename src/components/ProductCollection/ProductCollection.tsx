@@ -4,6 +4,8 @@ import ProductCollectionItem from './ProductCollectionItem';
 import bg from '@/assets/images/genshin-impact.webp';
 import bgVip from '@/assets/images/mainCategory/Ink_alcohol_2.jpg';
 import rrr from '@/assets/images/mainCategory/rerroll.png';
+import random from '@/assets/images/mainCategory/random.png';
+import napgame from '@/assets/images/mainCategory/napgame.png';
 
 import Link from 'next/link';
 import eff from '@/assets/images/effect/pngwing.png';
@@ -28,7 +30,7 @@ function ProductCollection() {
         <ProductCollectionItem
           title="Acc Random"
           url="/account/random"
-          image={bg}
+          image={random}
         />
       </Grid>
       <Grid item md={3} xs={12}>
@@ -52,7 +54,7 @@ function ProductCollection() {
               className="eff"
               sx={{
                 height: '175px',
-                background: `url(${bg})`,
+                background: `url(${napgame})`,
                 width: '100%',
                 backgroundSize: 'cover',
                 borderRadius: '5px',

@@ -5,10 +5,11 @@ import { Container, Grid } from '@mui/material';
 import Head from 'next/head';
 
 import RecentOrders from '@/content/Management/UsersTable/RecentOrders';
+import { ProtectAdminContent } from '@/contexts/ProtectAdminContent';
 
 function UserManagement() {
   return (
-    <>
+    <ProtectAdminContent>
       <Head>
         <title>Danh sách user</title>
       </Head>
@@ -28,7 +29,7 @@ function UserManagement() {
           </Grid>
         </Grid>
       </Container>
-    </>
+    </ProtectAdminContent>
   );
 }
 

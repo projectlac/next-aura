@@ -210,7 +210,7 @@ function SidebarMenu() {
                     onClick={closeSidebar}
                     startIcon={<BrightnessLowTwoToneIcon />}
                   >
-                    Cryptocurrency
+                    Thống kê
                   </Button>
                 </NextLink>
               </ListItem>
@@ -359,34 +359,37 @@ function SidebarMenu() {
             </List>
           </SubMenuWrapper>
         </List> */}
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Genshin Impact
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
-              <ListItem component="div">
-                <NextLink href="/management/tag" passHref>
-                  <Button
-                    className={
-                      currentRoute === '/management/tag' ? 'active' : ''
-                    }
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<BallotTwoToneIcon />}
-                  >
-                    Vũ khí và nhân vật
-                  </Button>
-                </NextLink>
-              </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List>
+
+        {user && user?.role === 'ADMIN' && (
+          <List
+            component="div"
+            subheader={
+              <ListSubheader component="div" disableSticky>
+                Genshin Impact
+              </ListSubheader>
+            }
+          >
+            <SubMenuWrapper>
+              <List component="div">
+                <ListItem component="div">
+                  <NextLink href="/management/tag" passHref>
+                    <Button
+                      className={
+                        currentRoute === '/management/tag' ? 'active' : ''
+                      }
+                      disableRipple
+                      component="a"
+                      onClick={closeSidebar}
+                      startIcon={<BallotTwoToneIcon />}
+                    >
+                      Vũ khí và nhân vật
+                    </Button>
+                  </NextLink>
+                </ListItem>
+              </List>
+            </SubMenuWrapper>
+          </List>
+        )}
         {/* <List
           component="div"
           subheader={

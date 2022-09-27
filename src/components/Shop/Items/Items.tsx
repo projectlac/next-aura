@@ -97,7 +97,7 @@ function Items({
             fontFamily="Roboto"
             fontSize={15}
             minHeight="45px"
-            color={'primary'}
+            color={'#333'}
             textTransform="capitalize"
             className={`${isSold ? 'disable-link' : ''}`}
             sx={{
