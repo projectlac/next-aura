@@ -1,10 +1,5 @@
-import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import * as yup from 'yup';
-import useCustomForm from '../Common/Form/Form';
+import { useAuth } from '@/contexts/AuthGuard';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {
   Button,
   Card,
@@ -13,10 +8,17 @@ import {
   IconButton,
   Tooltip
 } from '@mui/material';
-import Selection from '../Common/Form/Selection';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
+import { getCode } from 'api/apiUser/userApi';
+import * as React from 'react';
+import * as yup from 'yup';
+import useCustomForm from '../Common/Form/Form';
 import FormatForm from '../Common/Form/FormatForm';
+import Selection from '../Common/Form/Selection';
 import TextField from '../Common/Form/TextField';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -35,13 +37,18 @@ const validationSchema = yup.object({
   seri: yup.string().required('Trường này là bắt buộc'),
   code: yup.string().required('Trường này là bắt buộc')
 });
+const validationBankSchema = yup.object({
+  bank: yup.string().required('Trường này là bắt buộc')
+});
 const initForm = {
   homeNetwork: 'Viettel',
   cost: '',
   seri: '',
   code: ''
 };
-
+const initBankForm = {
+  bank: 'MOMO'
+};
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -73,7 +80,10 @@ enum CopyTextDefaut {
   COPIED = 'Compied!'
 }
 export default function TopUpMobile() {
+  const { handleSetMessage } = useAuth();
+
   const [value, setValue] = React.useState(0);
+  const [code, setCode] = React.useState<string>('');
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
 
   const [copyText, setCopyTexy] = React.useState(CopyTextDefaut.COPY);
@@ -89,7 +99,29 @@ export default function TopUpMobile() {
     setValue(newValue);
     console.log(event.type);
   };
+  const onSubmitBank = async (values) => {
+    const { bank } = values;
+    try {
+      await getCode(bank).then((res) => {
+        setCode(res.data);
+        handleSetMessage({
+          type: 'success',
+          message: 'Lấy mã thành công'
+        });
+      });
+    } catch (error) {
+      handleSetMessage({
+        type: 'error',
+        message: 'Có lỗi xảy ra, vui lòng kiểm tra lại thông tin nhập'
+      });
+    }
+  };
 
+  const formikBank = useCustomForm(
+    validationBankSchema,
+    initBankForm,
+    onSubmitBank
+  );
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -274,7 +306,7 @@ export default function TopUpMobile() {
               <tr>
                 <td>
                   <Typography fontSize={15}>
-                    VCBank <br />
+                    ACB Bank <br />
                     (Nguyễn Minh Trung)
                   </Typography>
                 </td>
@@ -286,13 +318,13 @@ export default function TopUpMobile() {
                     }}
                   >
                     <Typography fontSize={17} mr={1}>
-                      0251002753092
+                      28693487
                     </Typography>
                     <Tooltip title={copyText} arrow placement="right">
                       <IconButton
                         aria-label="copy"
                         onClick={() => {
-                          copySomething('0251002753092');
+                          copySomething('28693487');
                         }}
                       >
                         <ContentCopyIcon
@@ -351,21 +383,38 @@ export default function TopUpMobile() {
             Lấy nội dung chuyển tiền
           </Typography>
           <Box textAlign={'center'}>
-            <Box
-              sx={{
-                width: '250px',
-                background: 'rgb(0 0 0 / 27%)',
-                height: '45px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '8px',
-                margin: '8px auto'
-              }}
-            >
-              Huhu
-            </Box>
-            <Button variant="contained">Lấy mã</Button>
+            <FormatForm formik={formikBank}>
+              <Selection
+                formik={formikBank}
+                label="Chọn ngân hàng"
+                variant="outlined"
+                sx={{
+                  width: '250px'
+                }}
+                name="bank"
+                options={[
+                  { value: 'MOMO', title: 'Momo' },
+                  { value: 'ACB', title: 'ACB' }
+                ]}
+              />
+              <Box
+                sx={{
+                  width: '250px',
+                  background: 'rgb(0 0 0 / 27%)',
+                  height: '45px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '8px',
+                  margin: '8px auto'
+                }}
+              >
+                {code}
+              </Box>
+              <Button variant="contained" type="submit">
+                Lấy mã
+              </Button>
+            </FormatForm>
           </Box>
 
           <Typography color="error" fontSize={17} fontWeight={600} mt={3}>

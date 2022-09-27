@@ -25,7 +25,7 @@ interface IDetail {
   server: string;
   hero: any;
   price: string;
-  images: string[];
+  images: string;
   desc: string;
 }
 function DetailAccout() {
@@ -70,7 +70,7 @@ function DetailAccout() {
           server: res.data.server.desc,
           hero: res.data.hero,
           price: res.data.price,
-          images: res.data.images,
+          images: res.data.avatar,
           desc: res.data.description
         };
 
@@ -254,12 +254,10 @@ function DetailAccout() {
               )}
             </Box>
           </Box>
-          {data?.images &&
-            data.images.map((d, i) => (
-              <div key={i}>
-                <Image src={d} width={1352} height={690}></Image>
-              </div>
-            ))}
+
+          <div>
+            <Image src={data?.images} width={1352} height={690}></Image>
+          </div>
         </Slider>
       </Box>
     </Container>

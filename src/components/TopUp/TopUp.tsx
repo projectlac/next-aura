@@ -2,6 +2,7 @@ import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import Selection from '@/components/Common/Form/Selection';
 import TextField from '@/components/Common/Form/TextField';
+import { useAuth } from '@/contexts/AuthGuard';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import {
   Button,
@@ -15,6 +16,7 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
+import { getCode } from 'api/apiUser/userApi';
 import * as React from 'react';
 import * as yup from 'yup';
 
@@ -24,12 +26,20 @@ const validationSchema = yup.object({
   seri: yup.string().required('Trường này là bắt buộc'),
   code: yup.string().required('Trường này là bắt buộc')
 });
+const validationBankSchema = yup.object({
+  bank: yup.string().required('Trường này là bắt buộc')
+});
 const initForm = {
   homeNetwork: 'VIETTEL',
   cost: '',
   seri: '',
   code: ''
 };
+
+const initBankForm = {
+  bank: 'MOMO'
+};
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -74,7 +84,8 @@ enum CopyTextDefaut {
   COPIED = 'Compied!'
 }
 function TopUp() {
-  const formik = useCustomForm(validationSchema, initForm, onSubmit);
+  const { handleSetMessage } = useAuth();
+  const [code, setCode] = React.useState<string>('');
   const [value, setValue] = React.useState(0);
   const [copyText, setCopyTexy] = React.useState(CopyTextDefaut.COPY);
 
@@ -89,6 +100,32 @@ function TopUp() {
     console.log(event.type);
     setValue(newValue);
   };
+
+  const onSubmitBank = async (values) => {
+    const { bank } = values;
+    try {
+      await getCode(bank).then((res) => {
+        setCode(res.data);
+        handleSetMessage({
+          type: 'success',
+          message: 'Lấy mã thành công'
+        });
+      });
+    } catch (error) {
+      handleSetMessage({
+        type: 'error',
+        message: 'Có lỗi xảy ra, vui lòng kiểm tra lại thông tin nhập'
+      });
+    }
+  };
+
+  const formik = useCustomForm(validationSchema, initForm, onSubmit);
+  const formikBank = useCustomForm(
+    validationBankSchema,
+    initBankForm,
+    onSubmitBank
+  );
+
   return (
     <Box
       sx={{
@@ -294,78 +331,82 @@ function TopUp() {
           <Typography fontSize={13}>Chuyển khoản online</Typography>
           <Box mt={2}>
             <table className="table-payment">
-              <tr>
-                <th style={{ width: '30%' }}>Thông tin</th>
-                <th>Số tài khoản</th>
-              </tr>
-              <tr>
-                <td>
-                  <Typography fontSize={15}>
-                    VCBank <br />
-                    (Nguyễn Minh Trung)
-                  </Typography>
-                </td>
-                <td>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Typography fontSize={17} mr={2}>
-                      0251002753092
+              <thead>
+                <tr>
+                  <th style={{ width: '30%' }}>Thông tin</th>
+                  <th>Số tài khoản</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <Typography fontSize={15}>
+                      ACB Bank <br />
+                      (Nguyễn Minh Trung)
                     </Typography>
-                    <Tooltip title={copyText} arrow placement="right">
-                      <IconButton
-                        aria-label="copy"
-                        onClick={() => {
-                          copySomething('0251002753092');
-                        }}
-                      >
-                        <ContentCopyIcon
-                          sx={{
-                            color: '#fff'
+                  </td>
+                  <td>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Typography fontSize={17} mr={2}>
+                        28693487
+                      </Typography>
+                      <Tooltip title={copyText} arrow placement="right">
+                        <IconButton
+                          aria-label="copy"
+                          onClick={() => {
+                            copySomething('28693487');
                           }}
-                        />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <Typography fontSize={15}>
-                    Momo
-                    <br /> ( Nguyễn Minh Trung)
-                  </Typography>
-                </td>
-                <td>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Typography fontSize={17} mr={2}>
-                      0382512487
-                    </Typography>{' '}
-                    <Tooltip title={copyText} arrow placement="right">
-                      <IconButton
-                        aria-label="copy"
-                        onClick={() => {
-                          copySomething('0382512487');
-                        }}
-                      >
-                        <ContentCopyIcon
-                          sx={{
-                            color: '#fff'
+                        >
+                          <ContentCopyIcon
+                            sx={{
+                              color: '#fff'
+                            }}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <Typography fontSize={15}>
+                      Momo
+                      <br /> ( Nguyễn Minh Trung)
+                    </Typography>
+                  </td>
+                  <td>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Typography fontSize={17} mr={2}>
+                        0382512487
+                      </Typography>{' '}
+                      <Tooltip title={copyText} arrow placement="right">
+                        <IconButton
+                          aria-label="copy"
+                          onClick={() => {
+                            copySomething('0382512487');
                           }}
-                        />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </td>
-              </tr>
+                        >
+                          <ContentCopyIcon
+                            sx={{
+                              color: '#fff'
+                            }}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </Box>
           <Typography
@@ -378,21 +419,67 @@ function TopUp() {
             Lấy nội dung chuyển tiền
           </Typography>
           <Box textAlign={'center'}>
-            <Box
-              sx={{
-                width: '250px',
-                background: 'rgb(0 0 0 / 27%)',
-                height: '45px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '8px',
-                margin: '8px auto'
-              }}
-            >
-              Huhu
-            </Box>
-            <Button variant="contained">Lấy mã</Button>
+            <FormatForm formik={formikBank}>
+              <Selection
+                formik={formikBank}
+                label="Chọn ngân hàng"
+                variant="outlined"
+                sx={{
+                  width: '250px',
+
+                  '& label': {
+                    color: '#fff',
+
+                    '&:hover': {
+                      color: '#fff'
+                    },
+                    '&.Mui-focused': {
+                      color: '#fff'
+                    }
+                  },
+                  '& .MuiOutlinedInput-root': {
+                    color: '#fff',
+                    '& fieldset': {
+                      borderColor: 'white',
+                      color: '#fff'
+                    },
+                    '&:hover fieldset': {
+                      borderColor: 'white',
+                      color: '#fff'
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: 'white',
+                      color: '#fff'
+                    }
+                  },
+                  '& svg': {
+                    color: '#fff'
+                  }
+                }}
+                name="bank"
+                options={[
+                  { value: 'MOMO', title: 'Momo' },
+                  { value: 'ACB', title: 'ACB' }
+                ]}
+              />
+              <Box
+                sx={{
+                  width: '250px',
+                  background: 'rgb(0 0 0 / 27%)',
+                  height: '45px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '8px',
+                  margin: '8px auto'
+                }}
+              >
+                {code}
+              </Box>
+              <Button variant="contained" type="submit">
+                Lấy mã
+              </Button>
+            </FormatForm>
           </Box>
 
           <Typography color="error" fontSize={17} fontWeight={600} mt={3}>

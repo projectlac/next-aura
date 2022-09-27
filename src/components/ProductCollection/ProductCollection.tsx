@@ -7,7 +7,22 @@ import ProductCollectionItem from './ProductCollectionItem';
 
 import eff from '@/assets/images/effect/pngwing.png';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { getInfoAllAccount } from 'api/apiAccount/account';
+interface IAll {
+  inStock: number;
+  sold: number;
+  total: string;
+  type: string;
+}
 function ProductCollection() {
+  const [dataAccVip, setDataAccVip] = useState<IAll>();
+  const [dataAccRandom, setDataAccRandom] = useState<IAll>();
+  const [dataAccReroll, setDataAccReroll] = useState<IAll>();
+
+  useEffect(() => {
+    getInfoAllAccount().then((res) => setDataAccVip(res.data[0]));
+  });
   return (
     <Grid container columnSpacing={2} rowSpacing={2}>
       <Grid item md={3} xs={12}>
@@ -15,6 +30,7 @@ function ProductCollection() {
           title="Acc Vip"
           url="/account/vip"
           image={bgVip}
+          data={dataAccVip}
         />
       </Grid>
       <Grid item md={3} xs={12}>
@@ -22,6 +38,7 @@ function ProductCollection() {
           title="Acc Reroll"
           url="/account/reroll"
           image={rrr}
+          data={dataAccRandom}
         />
       </Grid>
       <Grid item md={3} xs={12}>
@@ -29,6 +46,7 @@ function ProductCollection() {
           title="Acc Random"
           url="/account/random"
           image={random}
+          data={dataAccReroll}
         />
       </Grid>
       <Grid item md={3} xs={12}>
@@ -88,7 +106,7 @@ function ProductCollection() {
             <Grid container columnSpacing={1.5}>
               <Grid item md={6} xs={6}>
                 <Typography fontSize={15} fontWeight="600">
-                  Đã nạp <br />{' '}
+                  Yêu cầu <br />{' '}
                   <span
                     style={{
                       fontSize: '17px',

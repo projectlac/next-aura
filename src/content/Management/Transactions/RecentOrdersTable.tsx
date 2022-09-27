@@ -234,40 +234,56 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {/* {format(cryptoOrder.created_at, 'dd/MM/yyyy')} */}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {/* {format(cryptoOrder.created_at, ' HH:mm:ss')} */}
-                    </Typography>
+                    {cryptoOrder.is_sold && (
+                      <>
+                        <Typography
+                          variant="body1"
+                          fontWeight="bold"
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                        >
+                          {format(
+                            new Date(cryptoOrder?.updated_at),
+                            'dd/MM/yyyy'
+                          )}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          noWrap
+                        >
+                          {format(
+                            new Date(cryptoOrder?.updated_at),
+                            ' HH:mm:ss'
+                          )}
+                        </Typography>
+                      </>
+                    )}
                   </TableCell>
                   <TableCell align="right">
                     {getStatusLabel(cryptoOrder.is_sold)}
                   </TableCell>
                   <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditAccount
-                          title="Sửa tài khoản"
-                          slug={cryptoOrder.slug}
-                        />
-                      </IconButton>
-                    </Tooltip>
+                    {!cryptoOrder.is_sold && (
+                      <Tooltip title="Edit Order" arrow>
+                        <IconButton
+                          sx={{
+                            '&:hover': {
+                              background: theme.colors.primary.lighter
+                            },
+                            color: theme.palette.primary.main
+                          }}
+                          color="inherit"
+                          size="small"
+                        >
+                          <EditAccount
+                            title="Sửa tài khoản"
+                            slug={cryptoOrder.slug}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                     <Tooltip title="Delete Order" arrow>
                       <IconButton
                         sx={{

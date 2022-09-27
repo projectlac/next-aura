@@ -10,7 +10,10 @@ import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import { Box, Button, Grid, useTheme } from '@mui/material';
 import { styled } from '@mui/styles';
-import { editAccountVip, getAccountBySlug } from 'api/apiAccount/account';
+import {
+  editAccountVip,
+  getAccountBySlugToManager
+} from 'api/apiAccount/account';
 import { getHero, getWeapon } from 'api/apiTag/tagApi';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -44,7 +47,7 @@ function EditAccout({ title, slug }: IEdit) {
   const [trigger, setTrigger] = useState<boolean>(false);
 
   const [preview, setPreview] = useState<string>('');
-  const [previewDetail, setPreviewDetail] = useState<string>('');
+
   const [weapon, setWeapon] = useState([]);
   const [hero, setHero] = useState([]);
   const [defaultData, setDefaultData] = useState<any>({
@@ -59,8 +62,7 @@ function EditAccout({ title, slug }: IEdit) {
     hero: [],
     avatar: '',
     images: '',
-    file: null,
-    fileDetail: null
+    file: null
   });
 
   const handleOpenDialog = () => {
@@ -89,18 +91,6 @@ function EditAccout({ title, slug }: IEdit) {
       target: { name: 'file', value: (e.target as HTMLInputElement).files[0] }
     });
   };
-  const handleFileDetail = (e: React.FormEvent<HTMLInputElement>) => {
-    const objectUrl = URL.createObjectURL(
-      (e.target as HTMLInputElement).files[0]
-    );
-    setPreviewDetail(objectUrl);
-    formik.handleChange({
-      target: {
-        name: 'fileDetail',
-        value: (e.target as HTMLInputElement).files[0]
-      }
-    });
-  };
 
   useEffect(() => {
     const callApi = async () => {
@@ -112,13 +102,13 @@ function EditAccout({ title, slug }: IEdit) {
         let temp = res.data.data.map((d) => ({ slug: d.slug, desc: d.desc }));
         setHero(temp);
       });
-      await getAccountBySlug(slug).then((res) => {
+      await getAccountBySlugToManager(slug).then((res) => {
         const data = res.data;
 
         let temp = {
           name: data.name,
           username: data.username,
-          password: '',
+          password: data.password,
           server: data.server.desc,
           detail: data.description,
           price: data.price,
@@ -127,8 +117,7 @@ function EditAccout({ title, slug }: IEdit) {
           hero: data.heroes,
           avatar: data.avatar,
           images: data.images,
-          file: null,
-          fileDetail: null
+          file: null
         };
 
         setDefaultData(temp);
@@ -150,7 +139,7 @@ function EditAccout({ title, slug }: IEdit) {
       ar,
       weapon,
       file,
-      fileDetail,
+
       hero
     } = values;
 
@@ -166,7 +155,6 @@ function EditAccout({ title, slug }: IEdit) {
     formData.append('hero', hero.map((d) => d.desc).toString());
 
     file && formData.append('avatar', file);
-    fileDetail && formData.append('images', fileDetail);
 
     try {
       await editAccountVip(slug, formData).then(() => {
@@ -176,7 +164,7 @@ function EditAccout({ title, slug }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
-        setPreviewDetail('');
+
         setPreview('');
         updateSuccess();
       });
@@ -231,7 +219,7 @@ function EditAccout({ title, slug }: IEdit) {
                 variant="outlined"
                 fullWidth
                 name="password"
-                type="password"
+                type="text"
               />
             </Grid>
             <Grid item md={12} xs={12}>
@@ -354,56 +342,6 @@ function EditAccout({ title, slug }: IEdit) {
                       ></Image>
                     </Box>
                   )}
-                </Box>
-              )}
-            </Grid>
-
-            <Grid item md={6} xs={12}>
-              <Box>
-                <Input
-                  accept="image/*"
-                  id={`change-detail-edit-account-vip${slug}`}
-                  type="file"
-                  name="fileDetail"
-                  onChange={handleFileDetail}
-                />
-                <label htmlFor={`change-detail-edit-account-vip${slug}`}>
-                  <Button
-                    startIcon={<UploadTwoToneIcon />}
-                    variant="contained"
-                    component="span"
-                    sx={{
-                      background: Boolean(formik.errors.fileDetail)
-                        ? theme.colors.error.main
-                        : theme.colors.primary.main
-                    }}
-                  >
-                    Upload ảnh chi tiết
-                  </Button>
-                </label>
-              </Box>
-              {previewDetail !== '' ? (
-                <Box width={200} height={150}>
-                  <Image
-                    src={previewDetail}
-                    layout="responsive"
-                    width={200}
-                    height={150}
-                  ></Image>
-                </Box>
-              ) : (
-                <Box sx={{ display: 'flex' }}>
-                  {defaultData.images &&
-                    defaultData.images.map((d, i) => (
-                      <Box width={200} height={150} key={i}>
-                        <Image
-                          src={d}
-                          layout="responsive"
-                          width={200}
-                          height={150}
-                        ></Image>
-                      </Box>
-                    ))}
                 </Box>
               )}
             </Grid>

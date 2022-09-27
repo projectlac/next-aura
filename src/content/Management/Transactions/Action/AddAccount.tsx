@@ -47,8 +47,7 @@ const initForm = {
   ar: 10,
   weapon: [],
   hero: [],
-  file: null,
-  fileDetail: null
+  file: null
 };
 
 function AddAccount({ title }: IEdit) {
@@ -56,7 +55,7 @@ function AddAccount({ title }: IEdit) {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [preview, setPreview] = useState<string>('');
-  const [previewDetail, setPreviewDetail] = useState<string>('');
+
   const [weapon, setWeapon] = useState([]);
   const [hero, setHero] = useState([]);
   const [trigger, setTrigger] = useState<boolean>(false);
@@ -84,18 +83,6 @@ function AddAccount({ title }: IEdit) {
       target: { name: 'file', value: (e.target as HTMLInputElement).files[0] }
     });
   };
-  const handleFileDetail = (e: React.FormEvent<HTMLInputElement>) => {
-    const objectUrl = URL.createObjectURL(
-      (e.target as HTMLInputElement).files[0]
-    );
-    setPreviewDetail(objectUrl);
-    formik.handleChange({
-      target: {
-        name: 'fileDetail',
-        value: (e.target as HTMLInputElement).files[0]
-      }
-    });
-  };
 
   useEffect(() => {
     if (openDialog) {
@@ -121,7 +108,7 @@ function AddAccount({ title }: IEdit) {
       ar,
       weapon,
       file,
-      fileDetail,
+
       hero
     } = values;
 
@@ -135,9 +122,7 @@ function AddAccount({ title }: IEdit) {
     formData.append('ar_level', ar);
     formData.append('weapon', weapon.map((d) => d.desc).toString());
     formData.append('hero', hero.map((d) => d.desc).toString());
-
     file && formData.append('avatar', file);
-    fileDetail && formData.append('images', fileDetail);
 
     try {
       await createAccountVip(formData).then(() => {
@@ -147,7 +132,7 @@ function AddAccount({ title }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
-        setPreviewDetail('');
+
         setPreview('');
         updateSuccess();
       });
@@ -312,42 +297,6 @@ function AddAccount({ title }: IEdit) {
                 <Box width={200} height={150}>
                   <Image
                     src={preview}
-                    layout="responsive"
-                    width={200}
-                    height={150}
-                  ></Image>
-                </Box>
-              )}
-            </Grid>
-
-            <Grid item md={6} xs={12}>
-              <Box>
-                <Input
-                  accept="image/*"
-                  id="change-detail-create-account-vip"
-                  type="file"
-                  name="fileDetail"
-                  onChange={handleFileDetail}
-                />
-                <label htmlFor="change-detail-create-account-vip">
-                  <Button
-                    startIcon={<UploadTwoToneIcon />}
-                    variant="contained"
-                    component="span"
-                    sx={{
-                      background: Boolean(formik.errors.fileDetail)
-                        ? theme.colors.error.main
-                        : theme.colors.primary.main
-                    }}
-                  >
-                    Upload ảnh chi tiết
-                  </Button>
-                </label>
-              </Box>
-              {previewDetail && (
-                <Box width={200} height={150}>
-                  <Image
-                    src={previewDetail}
                     layout="responsive"
                     width={200}
                     height={150}

@@ -1,14 +1,24 @@
-import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
-import React from 'react';
 import eff from '@/assets/images/effect/pngwing.png';
+import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
+interface IAll {
+  inStock: number;
+  sold: number;
+  total: string;
+  type: string;
+}
 interface ICollectionItemProps {
   title: string;
-
+  data: IAll;
   image: string;
   url?: string;
 }
-function ProductCollectionItem({ title, url, image }: ICollectionItemProps) {
+function ProductCollectionItem({
+  data,
+  title,
+  url,
+  image
+}: ICollectionItemProps) {
   return (
     <Card
       sx={{
@@ -71,7 +81,7 @@ function ProductCollectionItem({ title, url, image }: ICollectionItemProps) {
               <span
                 style={{ fontSize: '17px', fontWeight: 'bold', color: '#d33' }}
               >
-                123
+                {data?.total || 0}
               </span>
             </Typography>
           </Grid>
@@ -81,7 +91,7 @@ function ProductCollectionItem({ title, url, image }: ICollectionItemProps) {
               <span
                 style={{ fontSize: '17px', fontWeight: 'bold', color: '#d33' }}
               >
-                123
+                {data?.sold || 0}
               </span>
             </Typography>
           </Grid>

@@ -1,9 +1,10 @@
 import Table from '@/components/Table/Table';
+import { useAuth } from '@/contexts/AuthGuard';
 import { ProtectGuess } from '@/contexts/ProtectGuess';
 import { Box, Card, Container, styled } from '@mui/material';
 import { getHistory } from 'api/user';
 import Head from 'next/head';
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import BaseLayout from 'src/layouts/BaseLayout';
 
 const OverviewWrapper = styled(Box)(
@@ -16,9 +17,11 @@ const OverviewWrapper = styled(Box)(
 );
 
 function Overview() {
+  const { update } = useAuth();
+  const [data, setData] = useState([]);
   useEffect(() => {
-    getHistory().then((res) => console.log(res.data));
-  }, []);
+    getHistory().then((res) => setData(res.data.data));
+  }, [update]);
   return (
     <ProtectGuess>
       <OverviewWrapper>
@@ -29,7 +32,7 @@ function Overview() {
         <Container maxWidth="md" sx={{ mt: 15 }}>
           <Box py={3}>
             <Card>
-              <Table />
+              <Table data={data} />
             </Card>
           </Box>
         </Container>

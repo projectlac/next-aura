@@ -20,6 +20,9 @@ export const getAccountVipFromDashboard = (param: IAccountVip) => {
     )}${checkCall('weapon', param.weapon)}`
   );
 };
+export const getAccountBySlugToManager = (slug: string) => {
+  return apiFormData.get(`/account/get-account-to-manager/${slug}`);
+};
 export const getAccountBySlug = (slug: string) => {
   return apiFormData.get(`/account/${slug}`);
 };
@@ -80,3 +83,8 @@ export const queryAccountVip = (param: IQueryVipAcc) => {
 export const buyAccount = (slug: string) => {
   return api.post(`/buy-account`, { slugs: [slug] });
 };
+
+// get total
+export const getInfoAllAccount = () =>{
+  return api.get('/account')
+}

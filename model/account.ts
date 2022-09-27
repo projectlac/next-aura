@@ -5,10 +5,13 @@ export interface IAccountVipAdmin {
   password: string;
   price: string;
   created_at: string;
+
+
   is_sold: boolean;
   description: string;
   name: string;
   slug: string;
+  updated_at?: string;
 }
 export interface IAccountShop {
   name: string;
