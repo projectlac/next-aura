@@ -1,14 +1,12 @@
-import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
-import React from 'react';
-import ProductCollectionItem from './ProductCollectionItem';
-import bg from '@/assets/images/genshin-impact.webp';
 import bgVip from '@/assets/images/mainCategory/Ink_alcohol_2.jpg';
-import rrr from '@/assets/images/mainCategory/rerroll.png';
-import random from '@/assets/images/mainCategory/random.png';
 import napgame from '@/assets/images/mainCategory/napgame.png';
+import random from '@/assets/images/mainCategory/random.png';
+import rrr from '@/assets/images/mainCategory/rerroll.png';
+import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
+import ProductCollectionItem from './ProductCollectionItem';
 
-import Link from 'next/link';
 import eff from '@/assets/images/effect/pngwing.png';
+import Link from 'next/link';
 function ProductCollection() {
   return (
     <Grid container columnSpacing={2} rowSpacing={2}>
