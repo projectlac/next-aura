@@ -2,33 +2,28 @@ import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
 import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import Selection from '@/components/Common/Form/Selection';
-import TextField from '@/components/Common/Form/TextField';
 import { useAuth } from '@/contexts/AuthGuard';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import { Button } from '@mui/material';
-import { upRole } from 'api/user';
-import { IRoleData } from 'model/user';
-import { useEffect, useState } from 'react';
+import { changeStatusDeposit } from 'api/apiDeposit/account';
+import { useState } from 'react';
 import * as yup from 'yup';
-
 interface IEdit {
   title: string;
-  role: string;
+
   id: number;
 }
 
 const validationSchema = yup.object({
-  role: yup.string().required('Tên tài khoản is required'),
-  bonus: yup.number().min(0).max(100)
+  status: yup.string().required('Trạng thái không được để trống')
 });
 
-function EditTag({ title, role, id }: IEdit) {
+function EditTag({ title, id }: IEdit) {
   const { handleSetMessage, updateSuccess } = useAuth();
 
-  const [initForm, setInitForm] = useState({
-    role: '',
-    bonus: ''
-  });
+  const initForm = {
+    status: 'SUCCESS'
+  };
 
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
@@ -39,17 +34,13 @@ function EditTag({ title, role, id }: IEdit) {
     setOpenDialog(false);
   };
   const onSubmit = async (value, { resetForm }) => {
-    const { role, bonus } = value;
-    let param: IRoleData = { role, bonus };
-    if (role === 'USER') {
-      param = { role };
-    }
-    // console.log(param);
+    const { status } = value;
+
     try {
-      await upRole(id, param).then(() => {
+      await changeStatusDeposit(id, status).then(() => {
         handleSetMessage({
           type: 'success',
-          message: 'Thay đổi role thành công'
+          message: 'Thay đổi trạng thái thành công'
         });
         handleCloseDialog();
         resetForm();
@@ -63,12 +54,10 @@ function EditTag({ title, role, id }: IEdit) {
     }
   };
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
-  useEffect(() => {
-    setInitForm({ ...initForm, role: role });
-  }, [role, openDialog]);
+
   return (
     <DialogCommon
-      icon={<EditTwoToneIcon />}
+      icon={<SettingsSuggestIcon />}
       title={title}
       openDialog={openDialog}
       handleOpenDialog={handleOpenDialog}
@@ -77,34 +66,21 @@ function EditTag({ title, role, id }: IEdit) {
       <FormatForm formik={formik}>
         <Selection
           formik={formik}
-          label="Role"
+          label="Thay đổi trạng thái"
           variant="outlined"
           fullWidth
-          name="role"
+          name="status"
           sx={{
             my: 2
           }}
           options={[
-            { value: 'USER', title: 'Người dùng' },
-            { value: 'MOD', title: 'Cộng tác viên' }
+            { value: 'SUCCESS', title: 'Hoàn thành' },
+            { value: 'ERROD', title: 'Lỗi' }
           ]}
         />
-        {formik.values.role === 'MOD' && (
-          <TextField
-            sx={{
-              mb: 2
-            }}
-            formik={formik}
-            label="Phần trăm cộng tác viên hưởng"
-            placeholder=""
-            variant="outlined"
-            fullWidth
-            name="bonus"
-            type="number"
-          />
-        )}
+
         <Button variant="contained" fullWidth type="submit">
-          {formik.isSubmitting ? 'Loading...' : 'UPROLE'}
+          {formik.isSubmitting ? 'Loading...' : 'Đổi trạng thái'}
         </Button>
       </FormatForm>
     </DialogCommon>

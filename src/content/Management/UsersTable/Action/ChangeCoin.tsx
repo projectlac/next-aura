@@ -36,7 +36,6 @@ function ChangeCoin({ title, id }: IEdit) {
   const onSubmit = async (value, { resetForm }) => {
     const { money } = value;
 
-    // console.log(param);
     try {
       await changeMoney(id, money).then(() => {
         handleSetMessage({

@@ -60,7 +60,7 @@ function EditTag({ title, role, id, bonus, type }: IEdit) {
     if (role === 'USER') {
       param = { role };
     }
-    // console.log(param);
+
     try {
       await upRole(id, param).then(() => {
         handleSetMessage({

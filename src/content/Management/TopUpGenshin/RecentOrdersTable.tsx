@@ -1,5 +1,4 @@
 import Label from '@/components/Label';
-import formatMoney from '@/utility/formatMoney';
 import {
   Box,
   Card,
@@ -21,48 +20,48 @@ import {
   Typography,
   useTheme
 } from '@mui/material';
-import { IRole, IUser } from 'model/user';
+import { format } from 'date-fns';
+import { IGetDeposit, IStatus } from 'model/deposit';
 import PropTypes from 'prop-types';
 import { ChangeEvent, FC, useState } from 'react';
-import ChangeCoin from './Action/ChangeCoin';
 import EditTag from './Action/EditTag';
 
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: IUser[];
+  cryptoOrders: IGetDeposit[];
 }
 
 interface Filters {
-  role?: 'ADMIN' | 'MOD' | 'USER';
+  role?: 'PENDING' | 'SUCCESS';
 }
 
-const getStatusLabel = (cryptoOrderStatus: IRole): JSX.Element => {
+const getStatusLabel = (cryptoOrderStatus: IStatus): JSX.Element => {
+  console.log(cryptoOrderStatus);
+
   const map = {
-    ADMIN: {
-      text: 'Admin',
+    PENDING: {
+      text: 'PENDING',
       color: 'error'
     },
-    USER: {
-      text: 'User',
+    SUCCESS: {
+      text: 'SUCCESS',
       color: 'success'
-    },
-    MOD: {
-      text: 'CTV',
-      color: 'warning'
     }
   };
-  console.log(cryptoOrderStatus);
 
   const { text, color }: any = map[cryptoOrderStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (cryptoOrders: IUser[], filters: Filters): IUser[] => {
+const applyFilters = (
+  cryptoOrders: IGetDeposit[],
+  filters: Filters
+): IGetDeposit[] => {
   return cryptoOrders.filter((cryptoOrder) => {
     let matches = true;
 
-    if (filters.role && cryptoOrder.role !== filters.role) {
+    if (filters.role && cryptoOrder.status !== filters.role) {
       matches = false;
     }
 
@@ -71,10 +70,10 @@ const applyFilters = (cryptoOrders: IUser[], filters: Filters): IUser[] => {
 };
 
 const applyPagination = (
-  cryptoOrders: IUser[],
+  cryptoOrders: IGetDeposit[],
   page: number,
   limit: number
-): IUser[] => {
+): IGetDeposit[] => {
   return cryptoOrders.slice(page * limit, page * limit + limit);
 };
 
@@ -129,9 +128,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                 autoWidth
               >
                 <MenuItem value="all">All</MenuItem>
-                <MenuItem value="ADMIN">ADMIN</MenuItem>
-                <MenuItem value="MOD">CTV</MenuItem>
-                <MenuItem value="USER">USER</MenuItem>
+                <MenuItem value="PENDING">PENDING</MenuItem>
+                <MenuItem value="SUCCESS">SUCCESS</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -144,12 +142,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Account ID</TableCell>
-              <TableCell>Username</TableCell>
-              <TableCell>Email</TableCell>
-
-              <TableCell align="right">Web Coin</TableCell>
-              <TableCell align="right">Role</TableCell>
+              <TableCell width={'30%'}>Gói nạp</TableCell>
+              <TableCell>Thông tin</TableCell>
+              <TableCell align="right">Ngày mua</TableCell>
+              <TableCell align="right">Trạng thái</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -165,21 +161,45 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.id}
+                      {cryptoOrder.pack}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.username}
+                      <b>Username: </b> {cryptoOrder.username} |{' '}
+                      <b>Password: </b>
+                      {cryptoOrder.password}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      <b>Social: </b> {cryptoOrder.phone} | <b>Ingame: </b>
+                      {cryptoOrder.name}
+                    </Typography>
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      <b>Server: </b> {cryptoOrder.server} |{' '}
+                      {cryptoOrder.note && (
+                        <>
+                          <b>Note</b>
+                          {cryptoOrder.note}
+                        </>
+                      )}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="right">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -187,56 +207,28 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.email}
+                      {format(new Date(cryptoOrder.created_at), 'dd/MM/yyyy')}
                     </Typography>
-                  </TableCell>
-
-                  <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {formatMoney(cryptoOrder.money)}
+                    <Typography>
+                      {format(new Date(cryptoOrder.created_at), 'hh:mm:ss')}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.role)}
+                    {getStatusLabel(cryptoOrder.status)}
                   </TableCell>
                   <TableCell align="right">
-                    {cryptoOrder.role !== 'ADMIN' && (
-                      <Tooltip title="Đổi role" arrow>
-                        <IconButton
-                          sx={{
-                            '&:hover': {
-                              background: theme.colors.primary.lighter
-                            },
-                            color: theme.palette.primary.main
-                          }}
-                          color="inherit"
-                          size="small"
-                        >
-                          <EditTag
-                            title="Sửa role"
-                            role={cryptoOrder.role}
-                            id={cryptoOrder.id}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    )}
-
-                    <Tooltip title="Sửa tiền" arrow>
+                    <Tooltip title="Đổi trạng thái" arrow>
                       <IconButton
                         sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
+                          '&:hover': {
+                            background: theme.colors.success.lighter
+                          },
+                          color: theme.palette.success.main
                         }}
-                        color="inherit"
+                        color="success"
                         size="small"
                       >
-                        <ChangeCoin title="Sửa tiền" />
+                        <EditTag title="Đổi trạng thái" id={cryptoOrder.id} />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

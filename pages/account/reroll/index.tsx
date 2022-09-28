@@ -1,4 +1,5 @@
 import FilterAccount from '@/components/Common/Filter/FilterAccount';
+import OgTag from '@/components/Common/OgTag';
 import PaginationPage from '@/components/Common/PaginationPage';
 import TitleSpecial from '@/components/Common/TitleSpecial';
 import FilterRandom from '@/components/Shop/Filters/FilterRandom';
@@ -71,6 +72,7 @@ function AccountReroll() {
     <Box>
       <Head>
         <title>Account Reroll Mới Nhất</title>
+        <OgTag title="Account Reroll Mới Nhất" />
       </Head>
 
       <Container maxWidth="lg" sx={{ mt: 15 }}>

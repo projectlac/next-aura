@@ -1,4 +1,5 @@
 import FilterAccount from '@/components/Common/Filter/FilterAccount';
+import OgTag from '@/components/Common/OgTag';
 import PaginationPage from '@/components/Common/PaginationPage';
 import TitleSpecial from '@/components/Common/TitleSpecial';
 import FilterRandom from '@/components/Shop/Filters/FilterRandom';
@@ -72,6 +73,7 @@ function AccountRandom() {
     <Box>
       <Head>
         <title>Account Random Mới Nhất</title>
+        <OgTag title="Account Random Mới Nhất" />
       </Head>
 
       <Container maxWidth="lg" sx={{ mt: 15 }}>

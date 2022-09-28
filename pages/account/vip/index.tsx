@@ -1,4 +1,5 @@
 import FilterAccount from '@/components/Common/Filter/FilterAccount';
+import OgTag from '@/components/Common/OgTag';
 import PaginationPage from '@/components/Common/PaginationPage';
 import TitleSpecial from '@/components/Common/TitleSpecial';
 import FilterVip from '@/components/Shop/Filters/FilterVip';
@@ -79,6 +80,7 @@ function AccountVip() {
     <Box>
       <Head>
         <title>Account Vip Nhất</title>
+        <OgTag title="Account Vip Nhất" />
       </Head>
 
       <Container maxWidth="lg" sx={{ mt: 15 }}>

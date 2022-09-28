@@ -5,6 +5,7 @@ import BaseLayout from 'src/layouts/BaseLayout';
 import Head from 'next/head';
 
 import ProductCollection from '@/components/ProductCollection/ProductCollection';
+import OgTag from '@/components/Common/OgTag';
 
 const OverviewWrapper = styled(Box)(
   () => `
@@ -19,7 +20,10 @@ function Overview() {
   return (
     <OverviewWrapper>
       <Head>
-        <title>Genshin Shop</title>
+        <title>
+          MuabanGenshin.com - Website bán acc Genshin uy tính, hàng đầu Việt Nam
+        </title>
+        <OgTag title="MuabanGenshin.com - Website bán acc Genshin uy tính, hàng đầu Việt Nam" />
       </Head>
 
       <Container maxWidth="lg" sx={{ mt: 30 }}>

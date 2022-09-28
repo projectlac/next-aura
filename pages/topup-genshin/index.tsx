@@ -2,6 +2,8 @@ import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import Selection from '@/components/Common/Form/Selection';
 import TextField from '@/components/Common/Form/TextField';
+import OgTag from '@/components/Common/OgTag';
+import TableDeposit from '@/components/Table/TableDeposit';
 import { useAuth } from '@/contexts/AuthGuard';
 import { ProtectGuess } from '@/contexts/ProtectGuess';
 import BaseLayout from '@/layouts/BaseLayout';
@@ -9,6 +11,7 @@ import { Button, Card, Container, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { createDeposit, getDeposit } from 'api/apiDeposit/account';
+import Head from 'next/head';
 import * as React from 'react';
 import * as yup from 'yup';
 
@@ -34,8 +37,8 @@ const initForm = {
 
 export default function VerticalTabs() {
   const { handleSetMessage, update, updateSuccess } = useAuth();
-  // const [history, setHistory] = React.useState([]);
-  const onSubmit = async (values) => {
+  const [history, setHistory] = React.useState([]);
+  const onSubmit = async (values, { resetForm }) => {
     const { pack, uid, username, password, server, ingame, social, note } =
       values;
     try {
@@ -54,6 +57,7 @@ export default function VerticalTabs() {
           type: 'success',
           message: 'Yêu cầu nạp thành công'
         });
+        resetForm();
       });
     } catch (error) {
       handleSetMessage({ type: 'error', message: error.response.data.message });
@@ -61,8 +65,8 @@ export default function VerticalTabs() {
   };
 
   React.useEffect(() => {
-    getDeposit().then(() => {
-      // setHistory(res.data);
+    getDeposit().then((res) => {
+      setHistory(res.data.data);
     });
   }, [update]);
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
@@ -72,6 +76,10 @@ export default function VerticalTabs() {
   // },[])
   return (
     <ProtectGuess>
+      <Head>
+        <title>Nạp đá sáng thế Genshin, pack Genshin </title>
+        <OgTag title="Nạp đá sáng thế Genshin, pack Genshin" />
+      </Head>
       <Container maxWidth="lg" sx={{ mt: 20, mb: 10 }}>
         <Card sx={{ p: 3 }}>
           <FormatForm formik={formik}>
@@ -273,7 +281,9 @@ export default function VerticalTabs() {
                   >
                     Lịch sử nạp
                   </Typography>
-                  <Box></Box>
+                  <Box>
+                    <TableDeposit data={history} />
+                  </Box>
                 </Box>
               </Grid>
             </Grid>

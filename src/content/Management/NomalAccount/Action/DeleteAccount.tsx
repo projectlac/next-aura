@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
+import { useAuth } from '@/contexts/AuthGuard';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { Box, Button, Divider, Grid } from '@mui/material';
 import { deleteAccount } from 'api/apiAccount/account';
-import { useAuth } from '@/contexts/AuthGuard';
+import { useState } from 'react';
 
 interface IEdit {
   title: string;
@@ -21,9 +21,9 @@ function DeleteAccount({ title, slug }: IEdit) {
     setOpenDialog(false);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     try {
-      deleteAccount(slug).then(() => {
+      await deleteAccount(slug).then(() => {
         handleSetMessage({
           type: 'warning',
           message: 'Xóa tài khoản thành công'
