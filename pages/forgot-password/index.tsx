@@ -8,7 +8,7 @@ import {
   Typography
 } from '@mui/material';
 import Head from 'next/head';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import BaseLayout from 'src/layouts/BaseLayout';
 import * as yup from 'yup';
 
@@ -20,7 +20,7 @@ import { forgotPassword } from 'api/auth';
 const OverviewWrapper = styled(Box)(
   () => `
     overflow: auto;
-
+    min-height: calc(100vh - 370px);
     flex: 1;
     overflow-x: hidden;
 `
@@ -33,12 +33,12 @@ const initForm = {
 };
 function Overview() {
   const { handleSetMessage } = useAuth();
-
+  const [success, setSuccess] = useState(false);
   const onSubmit = async (values) => {
     const { email } = values;
     try {
-      await forgotPassword(email).then((res) => {
-        console.log(res);
+      await forgotPassword(email).then(() => {
+        setSuccess(true);
       });
     } catch (error) {
       handleSetMessage({ type: 'error', message: error.response.data.message });
@@ -58,33 +58,40 @@ function Overview() {
           <Grid container justifyContent="center">
             <Grid md={6} item>
               <Card>
-                <FormatForm formik={formik}>
-                  <Box p={10}>
-                    <Typography
-                      mb={3}
-                      textAlign="center"
-                      fontWeight="bold"
-                      fontSize={19}
-                      textTransform="uppercase"
-                    >
-                      Quên mật khẩu
-                    </Typography>
-                    <TextField
-                      id="outlined-basic"
-                      label="Nhập email đăng ký"
-                      variant="outlined"
-                      type="text"
-                      formik={formik}
-                      fullWidth
-                      sx={{ mb: 3 }}
-                      name="email"
-                    />
-
-                    <Button variant="contained" fullWidth type="submit">
-                      Quên mật khẩu
-                    </Button>
+                {success ? (
+                  <Box padding={3} textAlign={'center'}>
+                    Một mail đã gửi tới email của bạn, vui lòng kiểm tra và làm
+                    theo hướng dẫn.
                   </Box>
-                </FormatForm>
+                ) : (
+                  <FormatForm formik={formik}>
+                    <Box p={10}>
+                      <Typography
+                        mb={3}
+                        textAlign="center"
+                        fontWeight="bold"
+                        fontSize={19}
+                        textTransform="uppercase"
+                      >
+                        Quên mật khẩu
+                      </Typography>
+                      <TextField
+                        id="outlined-basic"
+                        label="Nhập email đăng ký"
+                        variant="outlined"
+                        type="text"
+                        formik={formik}
+                        fullWidth
+                        sx={{ mb: 3 }}
+                        name="email"
+                      />
+
+                      <Button variant="contained" fullWidth type="submit">
+                        {formik.isSubmitting ? 'Loading...' : 'Quên mật khẩu'}
+                      </Button>
+                    </Box>
+                  </FormatForm>
+                )}
               </Card>
             </Grid>
           </Grid>

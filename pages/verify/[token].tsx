@@ -40,7 +40,7 @@ const validationSchema = yup.object({
 
 function Overview() {
   const router = useRouter();
-  const { handleSetMessage } = useAuth();
+  const { handleSetMessage, updateSuccess } = useAuth();
   const { token } = router.query;
 
   const initForm = {
@@ -68,6 +68,7 @@ function Overview() {
     }
     if (tokenDefault) {
       Cookies.set('token', tokenDefault, { expires: 60 });
+      updateSuccess();
       router.push('/');
     }
     // login(username, password);

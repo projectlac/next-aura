@@ -2,11 +2,13 @@ import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import Selection from '@/components/Common/Form/Selection';
 import TextField from '@/components/Common/Form/TextField';
+import { useAuth } from '@/contexts/AuthGuard';
 import { ProtectGuess } from '@/contexts/ProtectGuess';
 import BaseLayout from '@/layouts/BaseLayout';
 import { Button, Card, Container, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { createDeposit, getDeposit } from 'api/apiDeposit/account';
 import * as React from 'react';
 import * as yup from 'yup';
 
@@ -20,7 +22,7 @@ const validationSchema = yup.object({
   social: yup.string().required('Trường này là bắt buộc')
 });
 const initForm = {
-  pack: '105000|Gói nạp không nguyệt chúc phúc x1',
+  pack: '1',
   uid: '',
   username: '',
   password: '',
@@ -30,14 +32,44 @@ const initForm = {
   note: ''
 };
 
-const onSubmit = (values) => {
-  console.log(values);
-  console.log('submit?');
-};
-
 export default function VerticalTabs() {
+  const { handleSetMessage, update, updateSuccess } = useAuth();
+  // const [history, setHistory] = React.useState([]);
+  const onSubmit = async (values) => {
+    const { pack, uid, username, password, server, ingame, social, note } =
+      values;
+    try {
+      await createDeposit({
+        pack: +pack,
+        uuid: uid,
+        username,
+        password,
+        server,
+        name: ingame,
+        phone: social,
+        note
+      }).then(() => {
+        updateSuccess();
+        handleSetMessage({
+          type: 'success',
+          message: 'Yêu cầu nạp thành công'
+        });
+      });
+    } catch (error) {
+      handleSetMessage({ type: 'error', message: error.response.data.message });
+    }
+  };
+
+  React.useEffect(() => {
+    getDeposit().then(() => {
+      // setHistory(res.data);
+    });
+  }, [update]);
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
 
+  // React.useEffect(()=>{
+
+  // },[])
   return (
     <ProtectGuess>
       <Container maxWidth="lg" sx={{ mt: 20, mb: 10 }}>
@@ -68,74 +100,72 @@ export default function VerticalTabs() {
                         name="pack"
                         options={[
                           {
-                            value: '105000|Gói nạp không nguyệt chúc phúc x1',
+                            value: '1',
                             title:
                               '105,000 đ - Gói nạp không nguyệt chúc phúc x1'
                           },
                           {
-                            value: '209000|Gói nạp không nguyệt chúc phúc x2',
+                            value: '2',
                             title:
                               '209,000 đ - Gói nạp không nguyệt chúc phúc x2'
                           },
                           {
-                            value: '315000|Gói nạp không nguyệt chúc phúc x3',
+                            value: '3',
                             title:
                               '315,000 đ - Gói nạp không nguyệt chúc phúc x3'
                           },
                           {
-                            value:
-                              '316000|Goi nạp không nguyệt chúc phúc + Nhật kí',
+                            value: '4',
                             title:
                               '316,000 đ - Goi nạp không nguyệt chúc phúc + Nhật kí'
                           },
                           {
-                            value:
-                              '525000|Gói nạp không nguyệt + Bài ca chân châu',
+                            value: '5',
                             title:
                               '525,000 đ - Gói nạp không nguyệt + Bài ca chân châu'
                           },
                           {
-                            value: '210000|Gói nạp nhật ký hành trình',
+                            value: '6',
                             title: '210,000 đ - Gói nạp nhật ký hành trình'
                           },
                           {
-                            value: '420000|Gói nạp bài ca chân châu',
+                            value: '7',
                             title: '420,000 đ - Gói nạp bài ca chân châu'
                           },
                           {
-                            value: '106000|Gói nạp 300 đá sáng thế',
+                            value: '8',
                             title: '106,000 đ - Gói nạp 300 đá sáng thế'
                           },
                           {
-                            value: '310000|Gói nạp 980 đá sáng thế',
+                            value: '9',
                             title: '310,000 đ - Gói nạp 980 đá sáng thế'
                           },
                           {
-                            value: '620000|Gói nạp 1980 đá sáng thế',
+                            value: '10',
                             title: '620,000 đ - Gói nạp 1980 đá sáng thế'
                           },
                           {
-                            value: '1000000|Gói nạp 3280 đá sáng thế',
+                            value: '11',
                             title: '1,000,000 đ - Gói nạp 3280 đá sáng thế'
                           },
                           {
-                            value: '2000000|Gói nạp 6480 đá sáng thế x1',
+                            value: '12',
                             title: '2,000,000 đ - Gói nạp 6480 đá sáng thế x1'
                           },
                           {
-                            value: '4000000|Gói nạp 6480 đá sáng thế x2',
+                            value: '13',
                             title: '4,000,000 đ - Gói nạp 6480 đá sáng thế x2'
                           },
                           {
-                            value: '6000000|Gói nạp 6480 đá sáng thế x3',
+                            value: '14',
                             title: '6,000,000 đ - Gói nạp 6480 đá sáng thế x3'
                           },
                           {
-                            value: '8000000|Gói nạp 6480 đá sáng thế x4',
+                            value: '15',
                             title: '8,000,000 đ - Gói nạp 6480 đá sáng thế x4'
                           },
                           {
-                            value: '10000000|Gói nạp 6480 đá sáng thế x5',
+                            value: '16',
                             title: '10,000,000 đ - Gói nạp 6480 đá sáng thế x5'
                           }
                         ]}
