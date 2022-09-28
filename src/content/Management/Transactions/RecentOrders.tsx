@@ -11,7 +11,7 @@ function RecentOrders() {
 
   useEffect(() => {
     getAccountVipFromDashboard({
-      limit: 999,
+      limit: 9999,
       offset: 0,
       priceSort: ''
     }).then((res) => setData(res.data.data));

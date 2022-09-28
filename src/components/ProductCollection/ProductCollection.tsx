@@ -6,9 +6,9 @@ import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
 import ProductCollectionItem from './ProductCollectionItem';
 
 import eff from '@/assets/images/effect/pngwing.png';
+import { getInfoAllAccount } from 'api/apiAccount/account';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { getInfoAllAccount } from 'api/apiAccount/account';
 interface IAll {
   inStock: number;
   sold: number;
@@ -29,7 +29,7 @@ function ProductCollection() {
       type: '0'
     });
     setDataAccReroll({ inStock: 0, sold: 0, total: '0', type: '0' });
-  });
+  }, []);
   return (
     <Grid container columnSpacing={2} rowSpacing={2}>
       <Grid item md={3} xs={12}>

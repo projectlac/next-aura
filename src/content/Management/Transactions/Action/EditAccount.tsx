@@ -74,11 +74,9 @@ function EditAccout({ title, slug }: IEdit) {
   };
 
   const handleSelectedWeapon = (data: any) => {
-    console.log(data);
     formik.handleChange({ target: { name: 'weapon', value: data } });
   };
   const handleSelectedCharacter = (data: any) => {
-    console.log(data);
     formik.handleChange({ target: { name: 'hero', value: data } });
   };
   const handleFile = (e: React.FormEvent<HTMLInputElement>) => {

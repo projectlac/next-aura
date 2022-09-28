@@ -47,8 +47,7 @@ const initForm = {
   price: 0,
   ar: 10,
   type: 'reroll',
-  file: null,
-  fileDetail: null
+  file: null
 };
 
 function AddAccount({ title }: IEdit) {
@@ -57,27 +56,14 @@ function AddAccount({ title }: IEdit) {
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [preview, setPreview] = useState<string>('');
-  const [previewDetail, setPreviewDetail] = useState<string>('');
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  const handleFileDetail = (e: React.FormEvent<HTMLInputElement>) => {
-    if ((e.target as HTMLInputElement).files[0]) {
-      const objectUrl = URL.createObjectURL(
-        (e.target as HTMLInputElement).files[0]
-      );
-      setPreviewDetail(objectUrl);
-      formik.handleChange({
-        target: {
-          name: 'fileDetail',
-          value: (e.target as HTMLInputElement).files[0]
-        }
-      });
-    }
-  };
+
   const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
     if ((e.target as HTMLInputElement).files[0]) {
       const objectUrl = URL.createObjectURL(
@@ -91,18 +77,8 @@ function AddAccount({ title }: IEdit) {
   };
 
   const onSubmit = async (values, { resetForm }) => {
-    const {
-      name,
-      username,
-      password,
-      server,
-      detail,
-      price,
-      ar,
-      type,
-      file,
-      fileDetail
-    } = values;
+    const { name, username, password, server, detail, price, ar, type, file } =
+      values;
 
     const formData = new FormData();
     formData.append('name', name);
@@ -115,7 +91,6 @@ function AddAccount({ title }: IEdit) {
     formData.append('type', type);
 
     file && formData.append('avatar', file);
-    fileDetail && formData.append('images', fileDetail);
 
     try {
       await createAccountNomal(formData).then(() => {
@@ -125,7 +100,7 @@ function AddAccount({ title }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
-        setPreviewDetail('');
+
         setPreview('');
         updateSuccess();
       });
@@ -303,45 +278,9 @@ function AddAccount({ title }: IEdit) {
               )}
             </Grid>
 
-            <Grid item md={6} xs={12}>
-              <Box>
-                <Input
-                  accept="image/*"
-                  id="change-detail-create-account-vip"
-                  type="file"
-                  name="fileDetail"
-                  onChange={handleFileDetail}
-                />
-                <label htmlFor="change-detail-create-account-vip">
-                  <Button
-                    startIcon={<UploadTwoToneIcon />}
-                    variant="contained"
-                    component="span"
-                    sx={{
-                      background: Boolean(formik.errors.fileDetail)
-                        ? theme.colors.error.main
-                        : theme.colors.primary.main
-                    }}
-                  >
-                    Upload ảnh chi tiết
-                  </Button>
-                </label>
-              </Box>
-              {previewDetail && (
-                <Box width={200} height={150}>
-                  <Image
-                    src={previewDetail}
-                    layout="responsive"
-                    width={200}
-                    height={150}
-                  ></Image>
-                </Box>
-              )}
-            </Grid>
-
             <Grid item md={12} xs={12}>
               <Button variant="contained" fullWidth type="submit">
-                Thêm
+                {formik.isSubmitting ? 'Loading...' : 'Thêm'}
               </Button>
             </Grid>
           </Grid>
