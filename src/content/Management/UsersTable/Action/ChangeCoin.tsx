@@ -44,6 +44,7 @@ function ChangeCoin({ title, id }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
+
         updateSuccess();
       });
     } catch (error) {

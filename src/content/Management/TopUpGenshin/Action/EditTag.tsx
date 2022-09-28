@@ -75,7 +75,7 @@ function EditTag({ title, id }: IEdit) {
           }}
           options={[
             { value: 'SUCCESS', title: 'Hoàn thành' },
-            { value: 'ERROD', title: 'Lỗi' }
+            { value: 'ERROR', title: 'Lỗi' }
           ]}
         />
 

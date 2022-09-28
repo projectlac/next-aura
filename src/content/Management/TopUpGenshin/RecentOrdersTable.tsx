@@ -46,6 +46,10 @@ const getStatusLabel = (cryptoOrderStatus: IStatus): JSX.Element => {
     SUCCESS: {
       text: 'SUCCESS',
       color: 'success'
+    },
+    ERROR: {
+      text: 'ERROR',
+      color: 'error'
     }
   };
 
@@ -130,6 +134,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                 <MenuItem value="all">All</MenuItem>
                 <MenuItem value="PENDING">PENDING</MenuItem>
                 <MenuItem value="SUCCESS">SUCCESS</MenuItem>
+                <MenuItem value="ERROR">ERROR</MenuItem>
               </Select>
             </FormControl>
           </Box>

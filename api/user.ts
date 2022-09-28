@@ -12,5 +12,5 @@ export const changeMoney = (id: number, param: string) => {
 };
 
 export const getHistory = () => {
-  return api.get(`/history`);
+  return api.get(`/history/buy-account`);
 };
