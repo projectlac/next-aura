@@ -416,8 +416,11 @@ export default function TopUpMobile() {
               </Button>
             </FormatForm>
           </Box>
-
-          <Typography color="error" fontSize={17} fontWeight={600} mt={3}>
+          <Typography color="error" fontSize={15} fontWeight={600} mt={3}>
+            <b>Lưu ý!!!</b> Một mã chỉ sử dụng được 10 phút lấy mã, vui lòng nạp
+            ngay. Sau 10 phút hãy ấn lấy mã mới để nạp!
+          </Typography>
+          <Typography color="error" fontSize={15} fontWeight={600}>
             <b>Lưu ý!!!</b> Hệ thống cộng tiền tự động, nên vui lòng chuyển đúng
             nội dung ở trên
           </Typography>
