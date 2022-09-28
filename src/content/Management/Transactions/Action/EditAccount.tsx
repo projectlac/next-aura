@@ -113,8 +113,8 @@ function EditAccout({ title, slug }: IEdit) {
           ar: data.ar_level,
           weapon: data.weapons,
           hero: data.heroes,
-          avatar: data.avatar,
-          images: data.images,
+          avatar: data.avatar.url,
+
           file: null
         };
 

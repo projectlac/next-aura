@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
-import { Box } from '@mui/material';
+import { Box, Button, Divider, Grid } from '@mui/material';
+import { deleteAccount } from 'api/apiAccount/account';
+import { useAuth } from '@/contexts/AuthGuard';
 
 interface IEdit {
   title: string;
+  slug: string;
 }
-function DeleteAccount({ title }: IEdit) {
+function DeleteAccount({ title, slug }: IEdit) {
+  const { handleSetMessage, updateSuccess } = useAuth();
+
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const handleOpenDialog = () => {
@@ -16,6 +21,24 @@ function DeleteAccount({ title }: IEdit) {
     setOpenDialog(false);
   };
 
+  const onSubmit = () => {
+    try {
+      deleteAccount(slug).then(() => {
+        handleSetMessage({
+          type: 'warning',
+          message: 'Xóa tài khoản thành công'
+        });
+        handleCloseDialog();
+
+        updateSuccess();
+      });
+    } catch (error) {
+      handleSetMessage({
+        type: 'error',
+        message: 'Có lỗi xảy ra, kiểm tra lại hoặc liên hệ DEV'
+      });
+    }
+  };
   return (
     <DialogCommon
       icon={<DeleteTwoToneIcon fontSize="small" />}
@@ -24,7 +47,27 @@ function DeleteAccount({ title }: IEdit) {
       handleOpenDialog={handleOpenDialog}
       handleCloseDialog={handleCloseDialog}
     >
-      <Box>HUHU</Box>
+      <Box textAlign={'center'}>
+        <p>Bạn có chắc muốn xóa tài khoản này?</p>
+        <p>Sau khi xóa sẽ không thể hoàn lại</p>
+        <Divider sx={{ my: 1 }}></Divider>
+        <Grid container>
+          <Grid item md={6} xs={12} textAlign="center">
+            <Button variant="contained" onClick={onSubmit}>
+              Xác nhận
+            </Button>
+          </Grid>
+          <Grid item md={6} xs={12} textAlign="center">
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleCloseDialog}
+            >
+              Đóng
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
     </DialogCommon>
   );
 }

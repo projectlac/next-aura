@@ -91,16 +91,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       name: 'All'
     },
     {
-      id: 'completed',
-      name: 'Completed'
+      id: 'true',
+      name: 'Đã bán'
     },
     {
-      id: 'pending',
-      name: 'Pending'
-    },
-    {
-      id: 'failed',
-      name: 'Failed'
+      id: 'false',
+      name: 'Chưa bán'
     }
   ];
 
@@ -167,7 +163,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               <TableCell>Account ID</TableCell>
               <TableCell>Info</TableCell>
               <TableCell>Title</TableCell>
-
+              <TableCell>Loại ACC</TableCell>
               <TableCell align="right">Thời gian tạo</TableCell>
               <TableCell align="right">Thời gian bán</TableCell>
               <TableCell align="right">Status</TableCell>
@@ -217,7 +213,16 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       Giá: {numeral(cryptoOrder.price).format(`0,0`)}
                     </Typography>
                   </TableCell>
-
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {cryptoOrder.type}
+                    </Typography>
+                  </TableCell>
                   <TableCell align="right">
                     <Typography
                       variant="body1"
@@ -278,7 +283,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                         color="inherit"
                         size="small"
                       >
-                        <DeleteAccount title="Xóa tài khoản" />
+                        <DeleteAccount
+                          title="Xóa tài khoản"
+                          slug={cryptoOrder.slug}
+                        />
                       </IconButton>
                     </Tooltip>
                   </TableCell>

@@ -37,6 +37,10 @@ export const createAccountNomal = (data: FormData) => {
   return apiFormData.post('/account/create-account', data);
 };
 
+export const updateAccountNomal = (slug: string, data: FormData) => {
+  return apiFormData.put(`/account/update-account/${slug}`, data);
+};
+
 export const getAccountNomalFromDashboard = (limit: number) => {
   return apiFormData.get(
     `/account/get-accounts-by-admin?type=REROLL,RANDOM&limit=${limit}&offset=0`
@@ -85,6 +89,6 @@ export const buyAccount = (slug: string) => {
 };
 
 // get total
-export const getInfoAllAccount = () =>{
-  return api.get('/account')
-}
+export const getInfoAllAccount = () => {
+  return api.get('/account');
+};

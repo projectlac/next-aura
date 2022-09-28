@@ -1,6 +1,7 @@
 import eff from '@/assets/images/effect/pngwing.png';
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
+import CountUp from 'react-countup';
 interface IAll {
   inStock: number;
   sold: number;
@@ -81,7 +82,7 @@ function ProductCollectionItem({
               <span
                 style={{ fontSize: '17px', fontWeight: 'bold', color: '#d33' }}
               >
-                {data?.total || 0}
+                {data?.total ? <CountUp end={+data?.total} duration={1} /> : 0}
               </span>
             </Typography>
           </Grid>
@@ -91,7 +92,7 @@ function ProductCollectionItem({
               <span
                 style={{ fontSize: '17px', fontWeight: 'bold', color: '#d33' }}
               >
-                {data?.sold || 0}
+                {data?.sold ? <CountUp end={+data?.total} duration={1} /> : 0}
               </span>
             </Typography>
           </Grid>

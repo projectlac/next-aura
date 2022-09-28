@@ -21,14 +21,13 @@ function ProductCollection() {
   const [dataAccReroll, setDataAccReroll] = useState<IAll>();
 
   useEffect(() => {
-    getInfoAllAccount().then((res) => setDataAccVip(res.data[0]));
-    setDataAccRandom({
-      inStock: 0,
-      sold: 0,
-      total: '0',
-      type: '0'
+    getInfoAllAccount().then((res) => {
+      res.data.map((d) => {
+        if (d.type === 'VIP') setDataAccVip(d);
+        if (d.type === 'REROLL') setDataAccReroll(d);
+        if (d.type === 'RANDOM') setDataAccRandom(d);
+      });
     });
-    setDataAccReroll({ inStock: 0, sold: 0, total: '0', type: '0' });
   }, []);
   return (
     <Grid container columnSpacing={2} rowSpacing={2}>

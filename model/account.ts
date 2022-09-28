@@ -6,12 +6,12 @@ export interface IAccountVipAdmin {
   price: string;
   created_at: string;
 
-
   is_sold: boolean;
   description: string;
   name: string;
   slug: string;
   updated_at?: string;
+  type?: string;
 }
 export interface IAccountShop {
   name: string;

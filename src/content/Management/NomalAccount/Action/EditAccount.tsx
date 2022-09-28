@@ -20,7 +20,8 @@ import {
 import { styled } from '@mui/styles';
 import {
   createAccountNomal,
-  getAccountBySlugToManager
+  getAccountBySlugToManager,
+  updateAccountNomal
 } from 'api/apiAccount/account';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -39,7 +40,7 @@ const validationSchema = yup.object({
   password: yup.string().required('Password là thuộc tính bắt buộc'),
   ar: yup.string().required('AR là thuộc tính bắt buộc'),
   type: yup.string().required('Loại tài khoản là thuộc tính bắt buộc'),
-  file: yup.mixed().required('File is required'),
+
   price: yup.number().required('Thông tin này là bắt buộc')
 });
 
@@ -99,7 +100,7 @@ function EditAccount({ title, slug }: IEdit) {
     file && formData.append('avatar', file);
 
     try {
-      await createAccountNomal(formData).then(() => {
+      await updateAccountNomal(slug, formData).then(() => {
         handleSetMessage({
           type: 'success',
           message: `Sửa tài khoản ${type} thành công`
@@ -133,7 +134,7 @@ function EditAccount({ title, slug }: IEdit) {
         price: data.price,
         ar: data.ar_level,
         type: data.type,
-        avatar: data.avatar,
+        avatar: data.avatar.url,
 
         file: null
       };
@@ -265,12 +266,12 @@ function EditAccount({ title, slug }: IEdit) {
               <Box>
                 <Input
                   accept="image/*"
-                  id="change-cover-create-account-vip"
+                  id={`change-cover-create-account-normal-${slug}`}
                   type="file"
                   name="file"
                   onChange={handleFile}
                 />
-                <label htmlFor="change-cover-create-account-vip">
+                <label htmlFor={`change-cover-create-account-normal-${slug}`}>
                   <Button
                     startIcon={<UploadTwoToneIcon />}
                     variant="contained"
@@ -285,7 +286,7 @@ function EditAccount({ title, slug }: IEdit) {
                   </Button>
                 </label>
               </Box>
-              {preview && (
+              {preview ? (
                 <Box width={200} height={150}>
                   <Image
                     src={preview}
@@ -294,12 +295,25 @@ function EditAccount({ title, slug }: IEdit) {
                     height={150}
                   ></Image>
                 </Box>
+              ) : (
+                <Box sx={{ display: 'flex' }}>
+                  {defaultData.avatar && (
+                    <Box width={200} height={150}>
+                      <Image
+                        src={defaultData.avatar}
+                        layout="responsive"
+                        width={200}
+                        height={150}
+                      ></Image>
+                    </Box>
+                  )}
+                </Box>
               )}
             </Grid>
 
             <Grid item md={12} xs={12}>
               <Button variant="contained" fullWidth type="submit">
-                {formik.isSubmitting ? 'Loading...' : 'Thêm'}
+                {formik.isSubmitting ? 'Loading...' : 'Sửa'}
               </Button>
             </Grid>
           </Grid>
