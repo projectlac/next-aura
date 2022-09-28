@@ -256,7 +256,7 @@ function DetailAccout() {
           </Box>
 
           <div>
-            <Image src={data?.images} width={1352} height={690}></Image>
+            <Image src={data?.images} width={1352} height={720}></Image>
           </div>
         </Slider>
       </Box>
