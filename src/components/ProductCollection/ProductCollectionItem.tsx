@@ -92,7 +92,7 @@ function ProductCollectionItem({
               <span
                 style={{ fontSize: '17px', fontWeight: 'bold', color: '#d33' }}
               >
-                {data?.sold ? <CountUp end={+data?.total} duration={1} /> : 0}
+                {data?.sold ? <CountUp end={+data?.sold} duration={1} /> : 0}
               </span>
             </Typography>
           </Grid>
