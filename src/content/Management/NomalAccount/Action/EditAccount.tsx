@@ -19,7 +19,6 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/styles';
 import {
-  createAccountNomal,
   getAccountBySlugToManager,
   updateAccountNomal
 } from 'api/apiAccount/account';
