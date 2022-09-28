@@ -340,7 +340,7 @@ export default function TopUpMobile() {
               <tr>
                 <td>
                   <Typography fontSize={15}>
-                    Momo
+                    Momo {`(>6000VND)`}
                     <br /> ( Nguyễn Minh Trung)
                   </Typography>
                 </td>
