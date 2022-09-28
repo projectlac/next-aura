@@ -86,7 +86,7 @@ function AccountReroll() {
               <Grid container columnSpacing={1.5} rowSpacing={2} id="scrollTo">
                 {data.map((d, i) => {
                   return (
-                    <Grid item xs={12} md={4} key={i}>
+                    <Grid item xs={12} md={4} sm={6} key={i}>
                       <Items
                         title={d.name}
                         url={`/account/details/${d.slug}`}

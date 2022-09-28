@@ -31,7 +31,7 @@ function ProductCollection() {
   }, []);
   return (
     <Grid container columnSpacing={2} rowSpacing={2}>
-      <Grid item md={3} xs={12}>
+      <Grid item md={3} sm={6} xs={12}>
         <ProductCollectionItem
           title="Acc Vip"
           url="/account/vip"
@@ -39,7 +39,7 @@ function ProductCollection() {
           data={dataAccVip}
         />
       </Grid>
-      <Grid item md={3} xs={12}>
+      <Grid item md={3} sm={6} xs={12}>
         <ProductCollectionItem
           title="Acc Reroll"
           url="/account/reroll"
@@ -47,7 +47,7 @@ function ProductCollection() {
           data={dataAccRandom}
         />
       </Grid>
-      <Grid item md={3} xs={12}>
+      <Grid item md={3} sm={6} xs={12}>
         <ProductCollectionItem
           title="Acc Random"
           url="/account/random"
@@ -55,7 +55,7 @@ function ProductCollection() {
           data={dataAccReroll}
         />
       </Grid>
-      <Grid item md={3} xs={12}>
+      <Grid item md={3} sm={6} xs={12}>
         <Card
           sx={{
             background: '#fff',

@@ -99,6 +99,7 @@ function AccountVip() {
                       item
                       xs={12}
                       md={4}
+                      sm={6}
                       key={i}
                       sx={{
                         display: 'flex'
