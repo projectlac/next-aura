@@ -21,9 +21,9 @@ function Overview() {
     <OverviewWrapper>
       <Head>
         <title>
-          MuabanGenshin.com - Website bán acc Genshin uy tính, hàng đầu Việt Nam
+          MuabanGenshin.com - Website bán acc Genshin uy tín, hàng đầu Việt Nam
         </title>
-        <OgTag title="MuabanGenshin.com - Website bán acc Genshin uy tính, hàng đầu Việt Nam" />
+        <OgTag title="MuabanGenshin.com - Website bán acc Genshin uy tín, hàng đầu Việt Nam" />
       </Head>
 
       <Container maxWidth="lg" sx={{ mt: 30 }}>
