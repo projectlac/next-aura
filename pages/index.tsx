@@ -1,11 +1,12 @@
-import { Box, Container, styled } from '@mui/material';
-import type { ReactElement } from 'react';
+import { Box, Container, Dialog, styled } from '@mui/material';
+import { ReactElement, useEffect, useState } from 'react';
 import BaseLayout from 'src/layouts/BaseLayout';
 
 import Head from 'next/head';
 
 import ProductCollection from '@/components/ProductCollection/ProductCollection';
 import OgTag from '@/components/Common/OgTag';
+import { getWebInformation } from 'api/auth';
 
 const OverviewWrapper = styled(Box)(
   () => `
@@ -17,6 +18,22 @@ const OverviewWrapper = styled(Box)(
 );
 
 function Overview() {
+  const [data, setData] = useState({
+    description: '',
+    youtube: ''
+  });
+  const [open, setOpen] = useState(true);
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
+  useEffect(() => {
+    getWebInformation().then((res) =>
+      setData({
+        youtube: res.data[0].youtube,
+        description: res.data[0].description
+      })
+    );
+  }, []);
   return (
     <OverviewWrapper>
       <Head>
@@ -44,7 +61,7 @@ function Overview() {
           <iframe
             width="1500"
             height="900"
-            src="https://www.youtube.com/embed/J9WuPBOC_S8"
+            src={`https://www.youtube.com/embed/${data.youtube}`}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -55,6 +72,22 @@ function Overview() {
           <ProductCollection></ProductCollection>
         </Box>
       </Container>
+      <Dialog
+        fullWidth
+        maxWidth="md"
+        open={open}
+        keepMounted
+        onClose={handleCloseDialog}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <Box
+          sx={{
+            pa: 3,
+            textAlign: 'center'
+          }}
+          dangerouslySetInnerHTML={{ __html: data.description }}
+        ></Box>
+      </Dialog>
     </OverviewWrapper>
   );
 }
