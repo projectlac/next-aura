@@ -46,7 +46,7 @@ const initForm = {
   detail: '',
   price: 0,
   ar: 10,
-  type: 'reroll',
+  type: 'REROLL',
   file: null
 };
 
@@ -65,15 +65,13 @@ function AddAccount({ title }: IEdit) {
   };
 
   const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
-    if ((e.target as HTMLInputElement).files[0]) {
-      const objectUrl = URL.createObjectURL(
-        (e.target as HTMLInputElement).files[0]
-      );
-      setPreview(objectUrl);
-      formik.handleChange({
-        target: { name: 'file', value: (e.target as HTMLInputElement).files[0] }
-      });
-    }
+    const objectUrl = URL.createObjectURL(
+      (e.target as HTMLInputElement).files[0]
+    );
+    setPreview(objectUrl);
+    formik.handleChange({
+      target: { name: 'file', value: (e.target as HTMLInputElement).files[0] }
+    });
   };
 
   const onSubmit = async (values, { resetForm }) => {
@@ -100,7 +98,11 @@ function AddAccount({ title }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
-
+        (
+          document.getElementById(
+            'change-cover-create-account-vip-nomarl'
+          ) as HTMLInputElement
+        ).value = '';
         setPreview('');
         updateSuccess();
       });
@@ -246,12 +248,12 @@ function AddAccount({ title }: IEdit) {
               <Box>
                 <Input
                   accept="image/*"
-                  id="change-cover-create-account-vip"
+                  id="change-cover-create-account-vip-nomarl"
                   type="file"
                   name="file"
                   onChange={handleFile}
                 />
-                <label htmlFor="change-cover-create-account-vip">
+                <label htmlFor="change-cover-create-account-vip-nomarl">
                   <Button
                     startIcon={<UploadTwoToneIcon />}
                     variant="contained"
@@ -279,7 +281,14 @@ function AddAccount({ title }: IEdit) {
             </Grid>
 
             <Grid item md={12} xs={12}>
-              <Button variant="contained" fullWidth type="submit">
+              <Button
+                variant="contained"
+                fullWidth
+                type="submit"
+                onClick={() => {
+                  console.log(formik.errors);
+                }}
+              >
                 {formik.isSubmitting ? 'Loading...' : 'Thêm'}
               </Button>
             </Grid>
