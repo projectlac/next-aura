@@ -97,6 +97,8 @@ function AccountReroll() {
                         code={d.code}
                         des={d.description}
                         isSold={d.is_sold}
+                        ar_level={d.ar_level}
+                        server={d.server}
                       ></Items>
                     </Grid>
                   );

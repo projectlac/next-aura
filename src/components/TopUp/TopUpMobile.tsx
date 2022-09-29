@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import { getCode } from 'api/apiUser/userApi';
+import { getCode, topUpWithCard } from 'api/apiUser/userApi';
 import * as React from 'react';
 import * as yup from 'yup';
 import useCustomForm from '../Common/Form/Form';
@@ -25,11 +25,6 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
-
-const onSubmit = (values) => {
-  console.log(values);
-  console.log('submit?');
-};
 
 const validationSchema = yup.object({
   homeNetwork: yup.string().required('Trường này là bắt buộc'),
@@ -84,7 +79,6 @@ export default function TopUpMobile() {
 
   const [value, setValue] = React.useState(0);
   const [code, setCode] = React.useState<string>('');
-  const formik = useCustomForm(validationSchema, initForm, onSubmit);
 
   const [copyText, setCopyTexy] = React.useState(CopyTextDefaut.COPY);
 
@@ -116,12 +110,30 @@ export default function TopUpMobile() {
       });
     }
   };
-
+  const onSubmit = async (values, { resetForm }) => {
+    const { homeNetwork, cost, seri, code } = values;
+    try {
+      await topUpWithCard(homeNetwork, +cost, seri, code).then((res) => {
+        if (res.data) {
+          handleSetMessage({ type: 'error', message: res.data.message });
+        } else {
+          handleSetMessage({
+            type: 'success',
+            message: 'Thẻ đang được xử lý, vui lòng đợi'
+          });
+          resetForm();
+        }
+      });
+    } catch (error) {
+      handleSetMessage({ type: 'error', message: error.response.data.message });
+    }
+  };
   const formikBank = useCustomForm(
     validationBankSchema,
     initBankForm,
     onSubmitBank
   );
+  const formik = useCustomForm(validationSchema, initForm, onSubmit);
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -176,10 +188,13 @@ export default function TopUpMobile() {
                         fullWidth
                         name="homeNetwork"
                         options={[
-                          { value: 'Viettel', title: 'Viettel' },
-                          { value: 'MobiPhone', title: 'MobiPhone' },
-                          { value: 'VinaPhone', title: 'VinaPhone' },
-                          { value: 'VietnamMobile', title: 'VietnamMobile' }
+                          { value: 'VIETTEL', title: 'Viettel' },
+                          { value: 'MOBIFONE', title: 'MobiPhone' },
+                          { value: 'VINAPHONE', title: 'VinaPhone' },
+                          { value: 'VIETNAMOBILE', title: 'VietnamMobile' },
+                          { value: 'ZING', title: 'Zing' },
+                          { value: 'GATE', title: 'Gate' },
+                          { value: 'GARENA', title: 'Garena' }
                         ]}
                       />
                     </Grid>
@@ -193,10 +208,13 @@ export default function TopUpMobile() {
                         options={[
                           { value: '10000', title: '10.000 VND' },
                           { value: '20000', title: '20.000 VND' },
+                          { value: '30000', title: '30.000 VND' },
                           { value: '50000', title: '50.000 VND' },
                           { value: '100000', title: '100.000 VND' },
                           { value: '200000', title: '200.000 VND' },
-                          { value: '500000', title: '500.000 VND' }
+                          { value: '300000', title: '300.000 VND' },
+                          { value: '500000', title: '500.000 VND' },
+                          { value: '1000000', title: '1.000.000 VND' }
                         ]}
                       />
                     </Grid>
@@ -242,17 +260,13 @@ export default function TopUpMobile() {
               </Typography>
               <Divider sx={{ my: 1 }}></Divider>
               <Typography fontSize={'15px'} fontWeight={500}>
-                Nạp thẻ chỉ nhật được{' '}
-                <span style={{ background: 'red' }}>77% giá trị thẻ cào</span>{' '}
-                do triết khấu
+                Viettel, Mobiphone, Vinaphone, Vietnamobile được nhận 80% giá
+                trị do chiết khấu
               </Typography>
               <Typography fontSize={'15px'} fontWeight={500}>
                 <span style={{ color: 'red', background: 'white' }}>
-                  <b>Ví dụ:</b>
+                  <b>Chúng tôi sẽ cập nhật bảng giá chiết khấu sớm nhất</b>
                 </span>{' '}
-                <span style={{ background: 'red' }}>
-                  Nạp 100k sẽ nhận lại 77k tiền shop
-                </span>
               </Typography>
               <Divider sx={{ my: 1 }}></Divider>
               <Typography fontSize={'15px'} fontWeight={500}>

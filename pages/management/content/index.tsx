@@ -89,7 +89,10 @@ function ContentManager() {
             type="text"
             sx={{ my: 3, background: '#fff' }}
           />
-          <TinyEditor changeBody={changeContent} defaultValue={''} />
+          <TinyEditor
+            changeBody={changeContent}
+            defaultValue={data.description}
+          />
         </FormatForm>
       </PageTitleWrapper>
     </>

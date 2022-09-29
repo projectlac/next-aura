@@ -36,13 +36,13 @@ function Footer() {
               Về chúng tôi
             </Typography>
             <p className="footer-p">
-              Shop mua bán acc Genshin Impact lớn nhất Việt Nam!
+              Shop mua bán acc với mức giá huỷ diệt thị trường
             </p>
             <p className="footer-p">
-              Shop Genshin Impact rẻ nhất và uy tin nhất!
+              Shop mua bán acc Genshin impact uy tín hỗ trợ nhanh gọn
             </p>
             <p className="footer-p">Dịch vụ : Mua Bán - Nạp Game - Uy Tín</p>
-            <p className="mt-3 small">© tenweb.com</p>
+            <p className="mt-3 small">© muabangenshin.com</p>
           </Grid>
 
           <Grid item md={4} xs={12}>
@@ -57,7 +57,8 @@ function Footer() {
                 Chúng tôi
               </Typography>
               <p className="footer-p">
-                Làm việc tận tâm hỗ trợ khách hàng nhiệt tình nhất có thể!
+                Hỗ trợ khách hàng 8h-24h. Tất cả các ngày trong tuần kể cả các
+                dịp lễ, Tết, Noel
               </p>
             </Box>
           </Grid>
@@ -72,9 +73,15 @@ function Footer() {
               Liên hệ
             </Typography>
             <p className="footer-p">
-              Hotline:{' '}
-              <Link href={'tel:0904448980'}>
-                <b>0904448980</b>
+              Di động:{' '}
+              <Link href={'tel:0382512487'}>
+                <b>0382512487</b>
+              </Link>
+            </p>{' '}
+            <p className="footer-p">
+              Zalo:{' '}
+              <Link href={'https://zalo.me/0382512487'}>
+                <b>0382512487</b>
               </Link>
             </p>
           </Grid>

@@ -293,19 +293,13 @@ function TopUp() {
               </Typography>
               <Divider sx={{ my: 1 }}></Divider>
               <Typography fontSize={'15px'} fontWeight={500}>
-                Nạp thẻ chỉ nhật được{' '}
-                <span style={{ background: 'red' }}>
-                  75-85% giá trị thẻ cào tùy loại
-                </span>{' '}
-                do chiết khấu
+                Viettel, Mobiphone, Vinaphone, Vietnamobile được nhận 80% giá
+                trị do chiết khấu
               </Typography>
               <Typography fontSize={'15px'} fontWeight={500}>
                 <span style={{ color: 'red', background: 'white' }}>
                   <b>Chúng tôi sẽ cập nhật bảng giá chiết khấu sớm nhất</b>
                 </span>{' '}
-                {/* <span style={{ background: 'red' }}>
-                  Nạp 100k sẽ nhận lại 77k tiền shop
-                </span> */}
               </Typography>
               <Divider sx={{ my: 1 }}></Divider>
               <Typography fontSize={'15px'} fontWeight={500}>
@@ -497,17 +491,29 @@ function TopUp() {
               </Button>
             </FormatForm>
           </Box>
-          <Typography color="error" fontSize={15} fontWeight={600} mt={3}>
+          <Typography
+            color="error"
+            sx={{ background: '#fff' }}
+            fontSize={15}
+            fontWeight={600}
+            mt={3}
+          >
             <b>Lưu ý!!!</b> Một mã chỉ sử dụng được 10 phút lấy mã, vui lòng nạp
             ngay. Sau 10 phút hãy ấn lấy mã mới để nạp!
           </Typography>
-          <Typography color="error" fontSize={15} fontWeight={600}>
+          <Typography
+            color="error"
+            sx={{ background: '#fff' }}
+            fontSize={15}
+            fontWeight={600}
+            mt={0.2}
+          >
             <b>Lưu ý!!!</b> Hệ thống cộng tiền tự động, nên vui lòng chuyển đúng
             nội dung ở trên
           </Typography>
           <Typography>
             Nếu chuyển sai, vui lòng liên hệ <b>ADMIN</b> hoặc số điện thoại{' '}
-            <b>0123456789 (8h-24h)</b> để được hỗ trợ.
+            <b>0382512487 (8h-24h)</b> để được hỗ trợ.
           </Typography>
         </Box>
       </TabPanel>
