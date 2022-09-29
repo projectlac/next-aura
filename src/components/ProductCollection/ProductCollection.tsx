@@ -44,7 +44,7 @@ function ProductCollection() {
           title="Acc Reroll"
           url="/account/reroll"
           image={rrr}
-          data={dataAccRandom}
+          data={dataAccReroll}
         />
       </Grid>
       <Grid item md={3} sm={6} xs={12}>
@@ -52,7 +52,7 @@ function ProductCollection() {
           title="Acc Random"
           url="/account/random"
           image={random}
-          data={dataAccReroll}
+          data={dataAccRandom}
         />
       </Grid>
       <Grid item md={3} sm={6} xs={12}>
