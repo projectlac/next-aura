@@ -16,7 +16,7 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import { getCode } from 'api/apiUser/userApi';
+import { getCode, topUpWithCard } from 'api/apiUser/userApi';
 import * as React from 'react';
 import * as yup from 'yup';
 
@@ -45,11 +45,6 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
-
-const onSubmit = (values) => {
-  console.log(values);
-  console.log('submit?');
-};
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -97,8 +92,27 @@ function TopUp() {
     }, 500);
   };
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log(event.type);
+    console.log('' || event.type);
     setValue(newValue);
+  };
+
+  const onSubmit = async (values, { resetForm }) => {
+    const { homeNetwork, cost, seri, code } = values;
+    try {
+      await topUpWithCard(homeNetwork, +cost, seri, code).then((res) => {
+        if (res.data) {
+          handleSetMessage({ type: 'error', message: res.data.message });
+        } else {
+          handleSetMessage({
+            type: 'success',
+            message: 'Thẻ đang được xử lý, vui lòng đợi'
+          });
+          resetForm();
+        }
+      });
+    } catch (error) {
+      handleSetMessage({ type: 'error', message: error.response.data.message });
+    }
   };
 
   const onSubmitBank = async (values) => {
@@ -261,7 +275,7 @@ function TopUp() {
                     </Grid>
                     <Grid item xs={12}>
                       <Button fullWidth variant="contained" type="submit">
-                        Nạp
+                        {formik.isSubmitting ? 'Loading' : 'Nạp'}
                       </Button>
                     </Grid>
                   </Grid>
@@ -280,16 +294,18 @@ function TopUp() {
               <Divider sx={{ my: 1 }}></Divider>
               <Typography fontSize={'15px'} fontWeight={500}>
                 Nạp thẻ chỉ nhật được{' '}
-                <span style={{ background: 'red' }}>77% giá trị thẻ cào</span>{' '}
-                do triết khấu
+                <span style={{ background: 'red' }}>
+                  75-85% giá trị thẻ cào tùy loại
+                </span>{' '}
+                do chiết khấu
               </Typography>
               <Typography fontSize={'15px'} fontWeight={500}>
                 <span style={{ color: 'red', background: 'white' }}>
-                  <b>Ví dụ:</b>
+                  <b>Chúng tôi sẽ cập nhật bảng giá chiết khấu sớm nhất</b>
                 </span>{' '}
-                <span style={{ background: 'red' }}>
+                {/* <span style={{ background: 'red' }}>
                   Nạp 100k sẽ nhận lại 77k tiền shop
-                </span>
+                </span> */}
               </Typography>
               <Divider sx={{ my: 1 }}></Divider>
               <Typography fontSize={'15px'} fontWeight={500}>

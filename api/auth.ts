@@ -15,3 +15,10 @@ export const changePassword = (param: IResetPassword) => {
   const { token, ...result } = param;
   return api.post(`/auth/reset-password/${token}`, result);
 };
+
+export const getWebInformation = () => {
+  return api.get(`/information`)
+}
+export const updateWebInformation = (youtube:string,description:string) => {
+  return api.put(`/information/update`,{youtube, description})
+}

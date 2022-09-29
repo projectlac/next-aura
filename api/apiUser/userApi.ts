@@ -13,3 +13,7 @@ export const getListUser = (limit?: number) => {
 export const getCode = (bank:string ) => {
   return api.post(`/action-cronjob`,{bank:bank});
 };
+
+export const topUpWithCard = (telco :string, amount:number, serial:string, code:string   ) => {
+  return api.post(`/action-cronjob/top-up`,{telco, amount, serial, code,is_fast:1});
+};
