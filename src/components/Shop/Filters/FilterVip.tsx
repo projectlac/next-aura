@@ -13,6 +13,7 @@ import { getHero, getWeapon } from 'api/apiTag/tagApi';
 import React, { useEffect, useState } from 'react';
 interface IFilm {
   desc: string;
+  slug: string;
 }
 interface IProps {
   handleFilter: (data: any) => void;
