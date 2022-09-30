@@ -20,7 +20,7 @@ function AccountRandom() {
   const [total, setTotal] = useState<number>(0);
 
   const [priceRange, setPriceRange] = useState<string>('');
-  const [sort, setSort] = useState<boolean>(false);
+  const [sort, setSort] = useState<boolean | ''>('');
   const [ar, setAr] = useState<string>('');
   const [code, setCode] = useState<string>('');
 
