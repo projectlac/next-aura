@@ -1,14 +1,20 @@
 import RoutingToLink from '@/components/Common/RoutingToLogin/RoutingToLogin';
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useAuth } from './AuthGuard';
 
 export const ProtectGuess = ({ children }) => {
   const { isAuthenticated } = useAuth();
+
   const firstLoad = useRef(false);
-  useEffect(() => {
+  const [check, setCheck] = useState(false);
+  useLayoutEffect(() => {
     firstLoad.current = true;
+    if (firstLoad.current) {
+      setCheck(true);
+    }
   }, []);
-  if (!isAuthenticated && firstLoad.current) {
+
+  if (!isAuthenticated && check) {
     return <RoutingToLink href="/login" />;
   }
   return children;
