@@ -241,7 +241,7 @@ export default function TopUpMobile() {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Button fullWidth variant="contained">
+                      <Button fullWidth variant="contained" type="submit">
                         Nạp
                       </Button>
                     </Grid>

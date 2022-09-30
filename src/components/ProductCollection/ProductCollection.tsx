@@ -20,12 +20,18 @@ function ProductCollection() {
   const [dataAccRandom, setDataAccRandom] = useState<IAll>();
   const [dataAccReroll, setDataAccReroll] = useState<IAll>();
 
+  const gianDoi = (data, number) => {
+    let temp = { ...data };
+    temp.sold = temp.sold + number;
+    console.log(temp);
+    return temp;
+  };
   useEffect(() => {
     getInfoAllAccount().then((res) => {
       res.data.map((d) => {
-        if (d.type === 'VIP') setDataAccVip(d);
-        if (d.type === 'REROLL') setDataAccReroll(d);
-        if (d.type === 'RANDOM') setDataAccRandom(d);
+        if (d.type === 'VIP') setDataAccVip(gianDoi(d, 142));
+        if (d.type === 'REROLL') setDataAccReroll(gianDoi(d, 64));
+        if (d.type === 'RANDOM') setDataAccRandom(gianDoi(d, 103));
       });
     });
   }, []);

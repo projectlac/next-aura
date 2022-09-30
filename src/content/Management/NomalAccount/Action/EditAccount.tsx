@@ -122,23 +122,25 @@ function EditAccount({ title, slug }: IEdit) {
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
 
   useEffect(() => {
-    getAccountBySlugToManager(slug).then((res) => {
-      const data = res.data;
-      let temp = {
-        name: data.name,
-        username: data.username,
-        password: data.password,
-        server: data.server.desc,
-        detail: data.description,
-        price: data.price,
-        ar: data.ar_level,
-        type: data.type,
-        avatar: data.avatar.url,
+    if (openDialog) {
+      getAccountBySlugToManager(slug).then((res) => {
+        const data = res.data;
+        let temp = {
+          name: data.name,
+          username: data.username,
+          password: data.password,
+          server: data.server.desc,
+          detail: data.description,
+          price: data.price,
+          ar: data.ar_level,
+          type: data.type,
+          avatar: data.avatar.url,
 
-        file: null
-      };
-      setDefaultData(temp);
-    });
+          file: null
+        };
+        setDefaultData(temp);
+      });
+    }
   }, [openDialog]);
   return (
     <DialogCommon
