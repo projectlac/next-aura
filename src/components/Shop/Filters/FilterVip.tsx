@@ -31,7 +31,7 @@ function FilterVip({ handleFilter }: IProps) {
   useEffect(() => {
     getWeapon(999).then((res) => setOptionWeapon(res.data.data));
     getHero(999).then((res) => setOptionHero(res.data.data));
-  }, [inputValueHero]);
+  }, []);
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'ar') {
       setAr(e.target.value);
@@ -56,9 +56,9 @@ function FilterVip({ handleFilter }: IProps) {
       ar: ar,
       server: server,
       rangeMoney: rangeMoney,
-      hero: inputValueHero && inputValueHero.map((d) => d.desc).toString(),
+      hero: inputValueHero && inputValueHero.map((d) => d.slug).toString(),
       weapon:
-        inputValueWeapon && inputValueWeapon.map((d) => d.desc).toString(),
+        inputValueWeapon && inputValueWeapon.map((d) => d.slug).toString(),
       priceSort: isTrueSet,
       keyword: code
     };
@@ -92,6 +92,7 @@ function FilterVip({ handleFilter }: IProps) {
             value={inputValueHero}
             onChange={(event: any, newValue: any) => {
               console.log(event.type);
+
               setInputValueHero(newValue);
             }}
             getOptionLabel={(option: IFilm) => option.desc}
