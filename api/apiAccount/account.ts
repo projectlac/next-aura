@@ -92,3 +92,9 @@ export const buyAccount = (slug: string) => {
 export const getInfoAllAccount = () => {
   return api.get('/account');
 };
+
+export const queryAllAccountForSiteMap = () => {
+  return apiFormData.get(
+    `/account/get-accounts?limit=9999&offset=0`
+  );
+};
