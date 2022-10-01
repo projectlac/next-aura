@@ -51,7 +51,7 @@ function TokyoApp(props: TokyoAppProps) {
               <CssBaseline />
               <Script
                 strategy="lazyOnload"
-                src={`https://www.googletagmanager.com/gtag/js?id=G-8SZQ8DYEBH`}
+                src={`https://www.googletagmanager.com/gtag/js?id=G-QKWZFM4WFR`}
               />
 
               <Script strategy="lazyOnload" id="">
@@ -60,7 +60,7 @@ function TokyoApp(props: TokyoAppProps) {
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', 'G-8SZQ8DYEBH');
+          gtag('config', 'G-QKWZFM4WFR');
         `}
               </Script>
               {getLayout(<Component {...pageProps} />)}
