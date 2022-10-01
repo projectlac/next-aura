@@ -8,7 +8,7 @@ export const GetPost = async () => {
   return data.data.data;
 };
 export const getServerSideProps: any = async (ctx) => {
-  const siteUrl = 'https://muabangenshin.com/';
+  const siteUrl = 'https://muabangenshin.com';
   const news: any = await GetPost();
   const fieldHome: ISitemapField[] = [
     {
