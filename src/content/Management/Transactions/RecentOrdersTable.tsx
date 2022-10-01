@@ -89,25 +89,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     status: null
   });
 
-  const statusOptions = [
-    {
-      id: 'all',
-      name: 'All'
-    },
-    {
-      id: 'completed',
-      name: 'Completed'
-    },
-    {
-      id: 'pending',
-      name: 'Pending'
-    },
-    {
-      id: 'failed',
-      name: 'Failed'
-    }
-  ];
-
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
 
@@ -170,11 +151,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                 label="Status"
                 autoWidth
               >
-                {statusOptions.map((statusOption) => (
-                  <MenuItem key={statusOption.id} value={statusOption.id}>
-                    {statusOption.name}
-                  </MenuItem>
-                ))}
+                <MenuItem value="all">Tất cả</MenuItem>
+                <MenuItem value="true">Đã bán</MenuItem>
+                <MenuItem value="false">Chưa bán</MenuItem>
               </Select>
             </FormControl>
           </Box>
