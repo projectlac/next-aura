@@ -17,6 +17,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
   Tooltip,
   Typography,
   useTheme
@@ -84,6 +85,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     role: null
   });
 
+  const [search, setSearch] = useState<string>('');
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
 
@@ -104,18 +106,38 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setLimit(parseInt(event.target.value));
   };
+  const filterBySearch = (cryptoOrders: IUser[]) => {
+    return cryptoOrders.filter((d) =>
+      d.username.toLowerCase().includes(search)
+    );
+  };
 
   const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
-  const paginatedCryptoOrders = applyPagination(
-    filteredCryptoOrders,
-    page,
-    limit
-  );
+  const filteredCode = filterBySearch(filteredCryptoOrders);
+
+  const paginatedCryptoOrders = applyPagination(filteredCode, page, limit);
 
   const theme = useTheme();
 
+  const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
   return (
     <Card>
+      <Box
+        sx={{
+          padding: '10px 15px 0px'
+        }}
+      >
+        <TextField
+          variant="outlined"
+          fullWidth
+          label="Search by code"
+          value={search}
+          onChange={handleChangeSearch}
+        ></TextField>
+      </Box>
       <CardHeader
         action={
           <Box width={150}>

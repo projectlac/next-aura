@@ -15,6 +15,7 @@ import 'nprogress/nprogress.css';
 import { SidebarProvider } from 'src/contexts/SidebarContext';
 import createEmotionCache from 'src/createEmotionCache';
 import ThemeProvider from 'src/theme/ThemeProvider';
+import Script from 'next/script';
 const clientSideEmotionCache = createEmotionCache();
 
 type NextPageWithLayout = NextPage & {
@@ -48,7 +49,20 @@ function TokyoApp(props: TokyoAppProps) {
           <ThemeProvider>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <CssBaseline />
+              <Script
+                strategy="lazyOnload"
+                src={`https://www.googletagmanager.com/gtag/js?id=G-8SZQ8DYEBH`}
+              />
 
+              <Script strategy="lazyOnload" id="">
+                {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'G-8SZQ8DYEBH');
+        `}
+              </Script>
               {getLayout(<Component {...pageProps} />)}
             </LocalizationProvider>
           </ThemeProvider>

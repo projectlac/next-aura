@@ -130,7 +130,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   };
 
   const filterBySearch = (cryptoOrders: IAccountVipAdmin[]) => {
-    return cryptoOrders.filter((d) => d.code.includes(search));
+    return cryptoOrders.filter((d) => d.username.includes(search));
   };
 
   const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
