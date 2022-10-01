@@ -15,6 +15,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
   Tooltip,
   Typography,
   useTheme
@@ -82,6 +83,7 @@ const applyPagination = (
 const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
+  const [search, setSearch] = useState<string>('');
   const [filters, setFilters] = useState<Filters>({
     status: null
   });
@@ -122,17 +124,32 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     setLimit(parseInt(event.target.value));
   };
 
+  const filterBySearch = (cryptoOrders: IAccountVipAdmin[]) => {
+    return cryptoOrders.filter((d) => d.code.includes(search));
+  };
   const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
-  const paginatedCryptoOrders = applyPagination(
-    filteredCryptoOrders,
-    page,
-    limit
-  );
+  const filteredCode = filterBySearch(filteredCryptoOrders);
+  const paginatedCryptoOrders = applyPagination(filteredCode, page, limit);
 
   const theme = useTheme();
-
+  const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
   return (
     <Card>
+      <Box
+        sx={{
+          padding: '10px 15px 0px'
+        }}
+      >
+        <TextField
+          variant="outlined"
+          fullWidth
+          label="Search by code"
+          value={search}
+          onChange={handleChangeSearch}
+        ></TextField>
+      </Box>
       <CardHeader
         action={
           <Box width={150}>

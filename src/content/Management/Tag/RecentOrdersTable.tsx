@@ -15,6 +15,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  TextField,
   Tooltip,
   Typography,
   useTheme
@@ -51,7 +52,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   const [filters, setFilters] = useState<Filters>({
     type: null
   });
-
+  const [search, setSearch] = useState<string>('');
   const getStatusLabel = (type: IType): JSX.Element => {
     const map = {
       hero: {
@@ -101,18 +102,33 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       return matches;
     });
   };
-
+  const filterBySearch = (cryptoOrders: IData[]) => {
+    return cryptoOrders.filter((d) => d.desc.includes(search));
+  };
   const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
-  const paginatedCryptoOrders = applyPagination(
-    filteredCryptoOrders,
-    page,
-    limit
-  );
+  const filteredCode = filterBySearch(filteredCryptoOrders);
+  const paginatedCryptoOrders = applyPagination(filteredCode, page, limit);
 
   const theme = useTheme();
+  const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
 
   return (
     <Card>
+      <Box
+        sx={{
+          padding: '10px 15px 0px'
+        }}
+      >
+        <TextField
+          variant="outlined"
+          fullWidth
+          label="Search bằng tên"
+          value={search}
+          onChange={handleChangeSearch}
+        ></TextField>
+      </Box>
       <CardHeader
         action={
           <Box width={150}>
