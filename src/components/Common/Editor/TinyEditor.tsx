@@ -50,11 +50,13 @@ export default function TinyEditor({ changeBody, defaultValue }: TinyProps) {
             'wordcount'
           ],
           toolbar:
-            'undo redo | blocks | ' +
-            'bold italic forecolor | alignleft aligncenter ' +
+            'undo redo | blocks |' +
+            'sizeselect | bold italic forecolor  | alignleft aligncenter |' +
             'alignright alignjustify | bullist numlist outdent indent | ' +
             'image | ' +
             'removeformat | help',
+          fontsize_formats:
+            '8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 30pt 36pt 48pt 60pt 72pt 96pt',
           content_style:
             'body { font-family:Montserrat,sans-serif; font-size:14px }',
           file_picker_callback: function (cb, value, meta) {
