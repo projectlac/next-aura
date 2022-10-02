@@ -1,6 +1,5 @@
 import eff from '@/assets/images/effect/pngwing.png';
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import CountUp from 'react-countup';
 interface IAll {
