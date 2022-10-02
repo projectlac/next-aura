@@ -40,11 +40,14 @@ function AccountVip() {
   });
   const handleFilter = (data) => {
     setFilter(data);
+    localStorage.setItem('filter', JSON.stringify(data));
     router.push(`/account/vip`);
   };
 
   useEffect(() => {
     let tempPage = pageHistory ? (+pageHistory - 1) * 9 : 0;
+    var retrievedObject = localStorage.getItem('filter');
+    let filter = JSON.parse(retrievedObject);
 
     executeScroll();
     const param = {

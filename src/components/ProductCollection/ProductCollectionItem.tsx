@@ -1,6 +1,7 @@
 import eff from '@/assets/images/effect/pngwing.png';
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import CountUp from 'react-countup';
 interface IAll {
   inStock: number;
@@ -20,6 +21,7 @@ function ProductCollectionItem({
   url,
   image
 }: ICollectionItemProps) {
+  const router = useRouter();
   return (
     <Card
       sx={{
@@ -36,7 +38,13 @@ function ProductCollectionItem({
         }
       }}
     >
-      <Link href={url}>
+      <Box
+        onClick={() => {
+          localStorage.removeItem('filter');
+          router.push(url);
+        }}
+        sx={{ cursor: 'pointer' }}
+      >
         <Box
           className="eff"
           sx={{
@@ -61,7 +69,7 @@ function ProductCollectionItem({
             }
           }}
         ></Box>
-      </Link>
+      </Box>
 
       <Box mt={1}>
         <Typography
@@ -71,6 +79,11 @@ function ProductCollectionItem({
           fontSize={25}
           color={'primary'}
           textTransform="uppercase"
+          sx={{ cursor: 'pointer' }}
+          onClick={() => {
+            localStorage.removeItem('filter');
+            router.push(url);
+          }}
         >
           {title}
         </Typography>
@@ -103,9 +116,15 @@ function ProductCollectionItem({
         </Grid>
         <Divider sx={{ mt: 1, mb: 1.5 }} />
         <Box textAlign={'center'}>
-          <Link href={url}>
+          <Box
+            onClick={() => {
+              localStorage.removeItem('filter');
+              router.push(url);
+            }}
+            sx={{ cursor: 'pointer' }}
+          >
             <Button variant="contained">Khám phá</Button>
-          </Link>
+          </Box>
         </Box>
       </Box>
     </Card>

@@ -71,7 +71,10 @@ export const queryAccountVip = (param: IQueryVipAcc) => {
   return apiFormData.get(
     `/account/get-accounts?type=VIP&limit=${param.limit}&offset=${
       param.offset
-    }&priceSort=${param.priceSort}${checkCall(
+    }${checkCall(
+      'priceSort',
+      param.priceSort
+    )}${checkCall(
       'code',
       param.keyword
     )}${checkCall('ar', param.ar)}${checkCall(

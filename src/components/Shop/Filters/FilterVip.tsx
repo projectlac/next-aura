@@ -10,6 +10,7 @@ import {
   Typography
 } from '@mui/material';
 import { getHero, getWeapon } from 'api/apiTag/tagApi';
+
 import React, { useEffect, useState } from 'react';
 interface IFilm {
   desc: string;
@@ -30,9 +31,44 @@ function FilterVip({ handleFilter }: IProps) {
   const [optionWeapon, setOptionWeapon] = useState([]);
 
   useEffect(() => {
-    getWeapon(999).then((res) => setOptionWeapon(res.data.data));
-    getHero(999).then((res) => setOptionHero(res.data.data));
+    const callApi = async () => {
+      let tempOptionHero = [];
+      let tempOptionWeapon = [];
+
+      await getWeapon(999).then((res) => {
+        setOptionWeapon(res.data.data);
+        tempOptionWeapon = res.data.data;
+      });
+      await getHero(999).then((res) => {
+        setOptionHero(res.data.data);
+        tempOptionHero = res.data.data;
+      });
+
+      var retrievedObject = localStorage.getItem('filter');
+      let filter = JSON.parse(retrievedObject);
+
+      filter?.server && setServer(filter.server);
+      filter?.ar && setAr(filter.ar);
+      filter?.priceSort && setSort(filter.priceSort);
+      filter?.keyword && setCode(filter.keyword);
+      filter?.rangeMoney && setRangeMoney(filter.rangeMoney);
+
+      const initHero = filter?.hero && filter.hero.split(',');
+      const tempHero =
+        initHero &&
+        initHero.map((d) => tempOptionHero.filter((f) => f.slug === d)[0]);
+      const initWeapon = filter?.weapon && filter.weapon.split(',');
+
+      const tempWeapon =
+        initWeapon &&
+        initWeapon.map((d) => tempOptionWeapon.filter((f) => f.slug === d)[0]);
+      tempHero && setInputValueHero(tempHero);
+
+      tempWeapon && setInputValueWeapon(tempWeapon);
+    };
+    callApi();
   }, []);
+
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'ar') {
       setAr(e.target.value);
@@ -96,7 +132,7 @@ function FilterVip({ handleFilter }: IProps) {
 
               setInputValueHero(newValue);
             }}
-            getOptionLabel={(option: IFilm) => option.desc}
+            getOptionLabel={(option: IFilm) => option?.desc}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -111,7 +147,7 @@ function FilterVip({ handleFilter }: IProps) {
             multiple
             id="tags-standard"
             options={optionWeapon}
-            getOptionLabel={(option: IFilm) => option.desc}
+            getOptionLabel={(option: IFilm) => option?.desc}
             value={inputValueWeapon}
             onChange={(event: any, newValue: any) => {
               console.log(event.type);
