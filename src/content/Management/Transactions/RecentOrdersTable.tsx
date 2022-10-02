@@ -111,7 +111,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
   };
 
   const filterBySearch = (cryptoOrders: IAccountVipAdmin[]) => {
-    return cryptoOrders.filter((d) => d.username.includes(search));
+    return cryptoOrders.filter(
+      (d) =>
+        d.username.toLowerCase().includes(search) || d.code.includes(search)
+    );
   };
 
   const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
@@ -135,7 +138,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         <TextField
           variant="outlined"
           fullWidth
-          label="Search by code"
+          label="Search bằng code hoặc username"
           value={search}
           onChange={handleChangeSearch}
         ></TextField>
@@ -266,25 +269,24 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                     {getStatusLabel(cryptoOrder.is_sold)}
                   </TableCell>
                   <TableCell align="right">
-                    {!cryptoOrder.is_sold && (
-                      <Tooltip title="Edit Order" arrow>
-                        <IconButton
-                          sx={{
-                            '&:hover': {
-                              background: theme.colors.primary.lighter
-                            },
-                            color: theme.palette.primary.main
-                          }}
-                          color="inherit"
-                          size="small"
-                        >
-                          <EditAccount
-                            title="Sửa tài khoản"
-                            slug={cryptoOrder.slug}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    )}
+                    <Tooltip title="Edit Order" arrow>
+                      <IconButton
+                        sx={{
+                          '&:hover': {
+                            background: theme.colors.primary.lighter
+                          },
+                          color: theme.palette.primary.main
+                        }}
+                        color="inherit"
+                        size="small"
+                      >
+                        <EditAccount
+                          title="Sửa tài khoản"
+                          slug={cryptoOrder.slug}
+                        />
+                      </IconButton>
+                    </Tooltip>
+
                     <Tooltip title="Delete Order" arrow>
                       <IconButton
                         sx={{
