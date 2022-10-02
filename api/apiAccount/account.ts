@@ -6,7 +6,12 @@ const checkCall = (key, param) => {
   if (param) return `&${key}=${param}`;
   else return '';
 };
-
+const checkCallPriceSort = (key, param) => {
+  console.log(param);
+  
+  if (param !== undefined) return `&${key}=${param}`;
+  else return '';
+};
 export const createAccountVip = (data: FormData) => {
   return apiFormData.post('/account/create-account-vip', data);
 };
@@ -51,7 +56,10 @@ export const queryRandomAccount = (param: IQueryRandomAcc) => {
   return apiFormData.get(
     `/account/get-accounts?type=RANDOM&limit=${param.limit}&offset=${
       param.offset
-    }&priceSort=${param.priceSort}${checkCall(
+    }${checkCallPriceSort(
+      'priceSort',
+      param.priceSort
+    )}${checkCall(
       'keyword',
       param.keyword
     )}${checkCall('ar', param.ar)}${checkCall('rangeMoney', param.rangeMoney)}`
@@ -68,10 +76,12 @@ export const queryRerollAccount = (param: IQueryRandomAcc) => {
   );
 };
 export const queryAccountVip = (param: IQueryVipAcc) => {
+  console.log(param.priceSort);
+  
   return apiFormData.get(
     `/account/get-accounts?type=VIP&limit=${param.limit}&offset=${
       param.offset
-    }${checkCall(
+    }${checkCallPriceSort(
       'priceSort',
       param.priceSort
     )}${checkCall(

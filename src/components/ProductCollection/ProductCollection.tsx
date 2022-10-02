@@ -127,7 +127,7 @@ function ProductCollection() {
                       color: '#d33'
                     }}
                   >
-                    123
+                    0
                   </span>
                 </Typography>
               </Grid>
@@ -141,7 +141,7 @@ function ProductCollection() {
                       color: '#d33'
                     }}
                   >
-                    123
+                    13
                   </span>
                 </Typography>
               </Grid>
