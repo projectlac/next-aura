@@ -256,18 +256,32 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {/* {format(cryptoOrder.created_at, 'dd/MM/yyyy')} */}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {/* {format(cryptoOrder.created_at, ' HH:mm:ss')} */}
-                    </Typography>
+                    {cryptoOrder.is_sold && (
+                      <>
+                        <Typography
+                          variant="body1"
+                          fontWeight="bold"
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                        >
+                          {format(
+                            new Date(cryptoOrder?.updated_at),
+                            'dd/MM/yyyy'
+                          )}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          noWrap
+                        >
+                          {format(
+                            new Date(cryptoOrder?.updated_at),
+                            ' HH:mm:ss'
+                          )}
+                        </Typography>
+                      </>
+                    )}
                   </TableCell>
                   <TableCell align="right">
                     {getStatusLabel(cryptoOrder.is_sold)}
