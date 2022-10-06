@@ -16,6 +16,7 @@ import { SidebarProvider } from 'src/contexts/SidebarContext';
 import createEmotionCache from 'src/createEmotionCache';
 import ThemeProvider from 'src/theme/ThemeProvider';
 import Script from 'next/script';
+import Maintenance from '@/layouts/Maintenace';
 const clientSideEmotionCache = createEmotionCache();
 
 type NextPageWithLayout = NextPage & {
@@ -63,7 +64,11 @@ function TokyoApp(props: TokyoAppProps) {
           gtag('config', 'G-QKWZFM4WFR');
         `}
               </Script>
-              {getLayout(<Component {...pageProps} />)}
+              {process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'false' ? (
+                getLayout(<Component {...pageProps} />)
+              ) : (
+                <Maintenance />
+              )}
             </LocalizationProvider>
           </ThemeProvider>
         </SidebarProvider>

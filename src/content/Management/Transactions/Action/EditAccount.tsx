@@ -332,6 +332,7 @@ function EditAccout({ title, slug }: IEdit) {
                 <Box sx={{ display: 'flex' }}>
                   {defaultData.avatar && (
                     <Box width={200} height={150}>
+                      {console.log(defaultData.avatar)}
                       <Image
                         src={defaultData.avatar}
                         layout="responsive"
