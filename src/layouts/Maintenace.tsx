@@ -1,16 +1,16 @@
 import { Box, styled, Typography } from '@mui/material';
 import Head from 'next/head';
-import Image from 'next/image';
+
 // import MaintenanceImage from '../../styles/assets/images/404/maintain-icon-11.jpg';
 
 const Error = styled(Box)(
-  ({ theme }) => `    
+  () => `    
     background: #ff8cfc;
     padding: 8px;`
 );
 
 const ErrorWrapper = styled(Box)(
-  ({ theme }) => `
+  () => `
     position: relative;
     display: flex;
     justify-content: center;
@@ -30,10 +30,6 @@ export default function Maintenance() {
       <Head>
         <title>Hệ thống đang bảo trì</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta
-          property="og:description"
-          content="Hệ thống đang bảo trì, vui lòng quay lại sau - Tempest Shop - Mua bán tài khoản Genshin Impact, Tower of fantasy uy tín hàng đầu Việt Nam"
-        />
       </Head>
       <Error>
         <ErrorWrapper>
