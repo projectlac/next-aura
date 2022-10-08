@@ -321,7 +321,7 @@ export default function TopUpMobile() {
                 <td>
                   <Typography fontSize={15}>
                     VCBank <br />
-                    (Nguyễn Minh Trung)
+                    (Nguyễn Xuân Hùng)
                   </Typography>
                 </td>
                 <td>
@@ -355,7 +355,7 @@ export default function TopUpMobile() {
                 <td>
                   <Typography fontSize={15}>
                     Momo {`(>6000VND)`}
-                    <br /> ( Nguyễn Minh Trung)
+                    <br /> ( Nguyễn Xuân Hùng)
                   </Typography>
                 </td>
                 <td>
