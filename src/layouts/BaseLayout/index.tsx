@@ -148,7 +148,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
               )}
             </Box>
           </MenuWrapper>
-          {/* <MessengerChat pageId="102874009262335" language="vi_VN" /> */}
+          <MessengerChat pageId="152659528261467" language="vi_VN" />
         </Container>
       </Header>
       <FullBG>
