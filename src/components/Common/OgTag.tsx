@@ -10,7 +10,7 @@ function OgTag({ title }: IOG) {
       <meta property="og:title" content={title} />
       <meta
         property="og:description"
-        content="MuabanGenshin.com - Website bán acc Genshin uy tín, hàng đầu Việt Nam"
+        content="GenshinViet.com - Website bán acc Genshin uy tín, hàng đầu Việt Nam"
       />
 
       <meta property="og:locale" content="vi_GB" />
@@ -23,7 +23,7 @@ function OgTag({ title }: IOG) {
       <meta property="og:image:height" content="300" />
       <meta
         property="og:image:alt"
-        content="MuabanGenshin.com - Website bán acc Genshin uy tín, hàng đầu Việt Nam"
+        content="GenshinViet.com - Website bán acc Genshin uy tín, hàng đầu Việt Nam"
       />
     </>
   );

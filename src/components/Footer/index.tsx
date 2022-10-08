@@ -21,7 +21,7 @@ function Footer() {
         textAlign={{ xs: 'center', md: 'left' }}
         justifyContent="center"
       >
-        <TitleSpecial mt={2}>MuabanGenshin.com</TitleSpecial>
+        <TitleSpecial mt={2}>GenshinViet.com</TitleSpecial>
       </Box>
       <Container>
         <Grid container columnSpacing={1.5}>
@@ -42,7 +42,7 @@ function Footer() {
               Shop mua bán acc Genshin impact uy tín hỗ trợ nhanh gọn
             </p>
             <p className="footer-p">Dịch vụ : Mua Bán - Nạp Game - Uy Tín</p>
-            <p className="mt-3 small">© muabangenshin.com</p>
+            <p className="mt-3 small">© GenshinViet.com</p>
           </Grid>
 
           <Grid item md={4} xs={12}>
@@ -74,14 +74,14 @@ function Footer() {
             </Typography>
             <p className="footer-p">
               Di động:{' '}
-              <Link href={'tel:0382512487'}>
-                <b>0382512487</b>
+              <Link href={'tel:0904448980'}>
+                <b>0904448980</b>
               </Link>
             </p>{' '}
             <p className="footer-p">
               Zalo:{' '}
-              <Link href={'https://zalo.me/0382512487'}>
-                <b>0382512487</b>
+              <Link href={'https://zalo.me/0904448980'}>
+                <b>0904448980</b>
               </Link>
             </p>
           </Grid>
