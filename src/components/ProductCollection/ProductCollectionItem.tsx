@@ -1,4 +1,3 @@
-import eff from '@/assets/images/effect/pngwing.png';
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import CountUp from 'react-countup';
@@ -32,7 +31,8 @@ function ProductCollectionItem({
           transform: 'scale(1.05)',
 
           '& .eff:before': {
-            transform: 'translateX(375px)'
+            WebkitAnimation: 'shine .75s',
+            animation: 'shine .75s'
           }
         }
       }}
@@ -56,15 +56,18 @@ function ProductCollectionItem({
             position: 'relative',
             overflow: 'hidden',
             '&:before': {
-              width: '388px',
-              height: '300px',
-              bottom: 0,
               position: 'absolute',
-              content: '""',
-              background: `url(${eff})`,
-              backgroundSize: 'cover',
-              transform: 'translateX(-375px)',
-              transition: 'all 1.2s'
+              top: '0',
+              left: '-75%',
+              zIndex: '2',
+              display: 'block',
+              content: "''",
+              width: '50%',
+              height: '100%',
+              background:
+                'linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%)',
+              WebkitTransform: 'skewX(-25deg)',
+              transform: 'skewX(-25deg)'
             }
           }}
         ></Box>

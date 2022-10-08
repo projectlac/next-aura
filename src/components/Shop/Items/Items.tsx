@@ -1,9 +1,7 @@
-import { Box, Card, Divider, Grid, Typography } from '@mui/material';
-import React from 'react';
-import eff from '@/assets/images/effect/pngwing.png';
-import Link from 'next/link';
 import bg from '@/assets/images/da-ban.png';
 import formatMoney from '@/utility/formatMoney';
+import { Box, Card, Divider, Grid, Typography } from '@mui/material';
+import Link from 'next/link';
 interface IProps {
   title: string;
   url: string;
@@ -42,7 +40,8 @@ function Items({
         '&:hover': {
           transform: isSold ? 'none' : 'scale(1.05)',
           '& .eff:before': {
-            transform: isSold ? 'translateX(-375px)' : 'translateX(375px)'
+            WebkitAnimation: 'shine .75s',
+            animation: 'shine .75s'
           }
         },
         position: 'relative'
@@ -76,15 +75,18 @@ function Items({
             overflow: 'hidden',
             cursor: 'pointer',
             '&:before': {
-              width: '388px',
-              height: '300px',
-              bottom: 0,
               position: 'absolute',
-              content: '""',
-              background: `url(${eff})`,
-              backgroundSize: 'cover',
-              transform: 'translateX(-375px)',
-              transition: 'all 1.2s'
+              top: '0',
+              left: '-75%',
+              zIndex: '2',
+              display: 'block',
+              content: "''",
+              width: '50%',
+              height: '100%',
+              background:
+                'linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%)',
+              WebkitTransform: 'skewX(-25deg)',
+              transform: 'skewX(-25deg)'
             }
           }}
         ></Box>
