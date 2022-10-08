@@ -1,7 +1,7 @@
-import bgVip from '@/assets/images/mainCategory/Ink_alcohol_2.jpg';
-import napgame from '@/assets/images/mainCategory/napgame.png';
-import random from '@/assets/images/mainCategory/random.png';
-import rrr from '@/assets/images/mainCategory/rerroll.png';
+import bgVip from '@/assets/images/mainCategory/310860207_1164961827704035_4343141035597341049_n.jpg';
+import napgame from '@/assets/images/mainCategory/310320905_485170040201744_4282135316084233675_n.jpg';
+import random from '@/assets/images/mainCategory/310172264_428812392669349_4896007792527675904_n.jpg';
+import rrr from '@/assets/images/mainCategory/310545249_770219224063920_253246776766894058_n.jpg';
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
 import ProductCollectionItem from './ProductCollectionItem';
 

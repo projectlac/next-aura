@@ -1,5 +1,5 @@
 import React from 'react';
-import img from 'src/assets/images/308174257_829037374758096_5110126524533517753_n.jpg';
+import img from 'src/assets/images/310223374_1734544413588410_4745229975174853381_n.jpg';
 
 interface IOG {
   title: string;
