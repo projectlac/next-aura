@@ -1,11 +1,10 @@
-import bgVip from '@/assets/images/mainCategory/310860207_1164961827704035_4343141035597341049_n.jpg';
-import napgame from '@/assets/images/mainCategory/310320905_485170040201744_4282135316084233675_n.jpg';
 import random from '@/assets/images/mainCategory/310172264_428812392669349_4896007792527675904_n.jpg';
+import napgame from '@/assets/images/mainCategory/310320905_485170040201744_4282135316084233675_n.jpg';
 import rrr from '@/assets/images/mainCategory/310545249_770219224063920_253246776766894058_n.jpg';
+import bgVip from '@/assets/images/mainCategory/310860207_1164961827704035_4343141035597341049_n.jpg';
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
 import ProductCollectionItem from './ProductCollectionItem';
 
-import eff from '@/assets/images/effect/pngwing.png';
 import { getInfoAllAccount } from 'api/apiAccount/account';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -71,9 +70,9 @@ function ProductCollection() {
             transition: 'all 0.5s',
             '&:hover': {
               transform: 'scale(1.05)',
-
               '& .eff:before': {
-                transform: 'translateX(375px)'
+                WebkitAnimation: 'shine .75s',
+                animation: 'shine .75s'
               }
             }
           }}
@@ -90,15 +89,18 @@ function ProductCollection() {
                 position: 'relative',
                 overflow: 'hidden',
                 '&:before': {
-                  width: '388px',
-                  height: '300px',
-                  bottom: 0,
                   position: 'absolute',
-                  content: '""',
-                  background: `url(${eff})`,
-                  backgroundSize: 'cover',
-                  transform: 'translateX(-375px)',
-                  transition: 'all 1.2s'
+                  top: '0',
+                  left: '-75%',
+                  zIndex: '2',
+                  display: 'block',
+                  content: "''",
+                  width: '50%',
+                  height: '100%',
+                  background:
+                    'linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%)',
+                  WebkitTransform: 'skewX(-25deg)',
+                  transform: 'skewX(-25deg)'
                 }
               }}
             ></Box>
