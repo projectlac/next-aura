@@ -1,4 +1,4 @@
-import bg from '@/assets/images/light-bg-genshin.webp';
+import bg from '@/assets/images/genshin-impact-nawpic.png';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthGuard';
 import CloseIcon from '@mui/icons-material/Close';
