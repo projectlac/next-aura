@@ -5,6 +5,7 @@ import {
   Dialog,
   Divider,
   Grid,
+  Hidden,
   styled,
   Typography
 } from '@mui/material';
@@ -75,88 +76,91 @@ function Overview() {
         >
           <TitleWeb mt={2}> Shop Acc Việt Nam Giá Rẻ</TitleWeb>
         </Box>
-        <Grid container columnSpacing={2}>
-          <Grid item md={4}>
-            <Card
-              sx={{
-                background:
-                  'linear-gradient(90deg, rgba(228,214,200,1) 0%, rgba(239,231,225,1) 50%, rgba(228,214,200,1) 100%)'
-              }}
-            >
-              <Typography
-                textAlign="center"
+        <Grid container columnSpacing={2} rowSpacing={2}>
+          <Hidden mdDown>
+            <Grid item md={4} xs={12}>
+              <Card
                 sx={{
-                  padding: '15px',
-                  fontSize: '24px',
-                  fontWeight: 'bold',
-                  color: '#856f56',
-                  textTransform: 'uppercase'
+                  background:
+                    'linear-gradient(90deg, rgba(228,214,200,1) 0%, rgba(239,231,225,1) 50%, rgba(228,214,200,1) 100%)'
                 }}
               >
-                Top Nạp
-              </Typography>
-              <Divider />
-              <Box
-                sx={{
-                  padding: '0 15px '
-                }}
-              >
-                <ul style={{ padding: 0, listStyle: 'none' }}>
-                  {top10.map((d: ITopUp, i) => (
-                    <li
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        padding: '7px 0',
-                        alignItems: 'center'
-                      }}
-                      key={i}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: '17px',
-                          fontWeight: '600',
+                <Typography
+                  textAlign="center"
+                  sx={{
+                    padding: '15px',
+                    fontSize: { md: '24px', xs: '15px' },
+                    fontWeight: 'bold',
+                    color: '#856f56',
+                    textTransform: 'uppercase'
+                  }}
+                >
+                  Top Nạp
+                </Typography>
+                <Divider />
+                <Box
+                  sx={{
+                    padding: '0 15px '
+                  }}
+                >
+                  <ul style={{ padding: 0, listStyle: 'none' }}>
+                    {top10.map((d: ITopUp, i) => (
+                      <li
+                        style={{
                           display: 'flex',
-                          color: '#a7947f',
-                          fontStyle: 'italic',
-                          '& span': {
-                            width: '26px',
-                            height: '26px',
+                          justifyContent: 'space-between',
+                          padding: '7px 0',
+                          alignItems: 'center'
+                        }}
+                        key={i}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: { md: '17px', xs: '15px' },
+
+                            fontWeight: '600',
                             display: 'flex',
-                            background: '#e5d7ca',
-                            borderRadius: '50%',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '12px',
-                            marginRight: '15px',
-                            border: '2px solid #c7ae92',
-                            color: '#917c65'
-                          }
-                        }}
-                      >
-                        <span>{i + 1} </span> ***{d.username}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: '13px',
-                          fontWeight: '600',
-                          display: 'flex',
-                          color: '#a7947f',
-                          background: '#ffffff59',
-                          padding: '5px 10px',
-                          borderRadius: '15px',
-                          border: '2px solid #c7ae92'
-                        }}
-                      >
-                        {formatMoney(d.sum)} VNĐ
-                      </Typography>
-                    </li>
-                  ))}
-                </ul>
-              </Box>
-            </Card>
-          </Grid>
-          <Grid item md={8}>
+                            color: '#a7947f',
+                            fontStyle: 'italic',
+                            '& span': {
+                              width: '26px',
+                              height: '26px',
+                              display: 'flex',
+                              background: '#e5d7ca',
+                              borderRadius: '50%',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '12px',
+                              marginRight: '15px',
+                              border: '2px solid #c7ae92',
+                              color: '#917c65'
+                            }
+                          }}
+                        >
+                          <span>{i + 1} </span> ***{d.username}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: '13px',
+                            fontWeight: '600',
+                            display: 'flex',
+                            color: '#a7947f',
+                            background: '#ffffff59',
+                            padding: '5px 10px',
+                            borderRadius: '15px',
+                            border: '2px solid #c7ae92'
+                          }}
+                        >
+                          {formatMoney(d.sum)} VNĐ
+                        </Typography>
+                      </li>
+                    ))}
+                  </ul>
+                </Box>
+              </Card>
+            </Grid>
+          </Hidden>
+          <Grid item md={8} xs={12}>
             <Box
               sx={{
                 position: 'relative',
@@ -185,6 +189,89 @@ function Overview() {
               ></iframe>
             </Box>
           </Grid>
+          <Hidden mdUp>
+            <Grid item md={4} xs={12}>
+              <Card
+                sx={{
+                  background:
+                    'linear-gradient(90deg, rgba(228,214,200,1) 0%, rgba(239,231,225,1) 50%, rgba(228,214,200,1) 100%)'
+                }}
+              >
+                <Typography
+                  textAlign="center"
+                  sx={{
+                    padding: '15px',
+                    fontSize: { md: '24px', xs: '15px' },
+                    fontWeight: 'bold',
+                    color: '#856f56',
+                    textTransform: 'uppercase'
+                  }}
+                >
+                  Top Nạp
+                </Typography>
+                <Divider />
+                <Box
+                  sx={{
+                    padding: '0 15px '
+                  }}
+                >
+                  <ul style={{ padding: 0, listStyle: 'none' }}>
+                    {top10.map((d: ITopUp, i) => (
+                      <li
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          padding: '7px 0',
+                          alignItems: 'center'
+                        }}
+                        key={i}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: { md: '17px', xs: '15px' },
+
+                            fontWeight: '600',
+                            display: 'flex',
+                            color: '#a7947f',
+                            fontStyle: 'italic',
+                            '& span': {
+                              width: '26px',
+                              height: '26px',
+                              display: 'flex',
+                              background: '#e5d7ca',
+                              borderRadius: '50%',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '12px',
+                              marginRight: '15px',
+                              border: '2px solid #c7ae92',
+                              color: '#917c65'
+                            }
+                          }}
+                        >
+                          <span>{i + 1} </span> ***{d.username}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: '13px',
+                            fontWeight: '600',
+                            display: 'flex',
+                            color: '#a7947f',
+                            background: '#ffffff59',
+                            padding: '5px 10px',
+                            borderRadius: '15px',
+                            border: '2px solid #c7ae92'
+                          }}
+                        >
+                          {formatMoney(d.sum)} VNĐ
+                        </Typography>
+                      </li>
+                    ))}
+                  </ul>
+                </Box>
+              </Card>
+            </Grid>
+          </Hidden>
         </Grid>
 
         <Box py={3} mt={5}>
