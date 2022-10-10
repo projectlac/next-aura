@@ -17,6 +17,7 @@ import OgTag from '@/components/Common/OgTag';
 import TitleWeb from '@/components/Common/TitleWeb';
 import ProductCollection from '@/components/ProductCollection/ProductCollection';
 import formatMoney from '@/utility/formatMoney';
+import { getTop10 } from 'api/apiDeposit/account';
 import { getWebInformation } from 'api/auth';
 
 const OverviewWrapper = styled(Box)(
@@ -27,12 +28,16 @@ const OverviewWrapper = styled(Box)(
     overflow-x: hidden;
 `
 );
-
+interface ITopUp {
+  username: string;
+  sum: string;
+}
 function Overview() {
   const [data, setData] = useState({
     description: '',
     youtube: ''
   });
+  const [top10, setTop10] = useState<ITopUp[]>([]);
   const [open, setOpen] = useState(true);
   const handleCloseDialog = () => {
     setOpen(false);
@@ -44,6 +49,11 @@ function Overview() {
         description: res.data[0].description
       })
     );
+    getTop10().then((res) => {
+      const sort = res.data.sort((a, b) => b.sum - a.sum);
+
+      setTop10(sort);
+    });
   }, []);
   return (
     <OverviewWrapper>
@@ -92,7 +102,7 @@ function Overview() {
                 }}
               >
                 <ul style={{ padding: 0, listStyle: 'none' }}>
-                  {[...Array(10)].map((d, i) => (
+                  {top10.map((d: ITopUp, i) => (
                     <li
                       style={{
                         display: 'flex',
@@ -123,7 +133,7 @@ function Overview() {
                           }
                         }}
                       >
-                        <span>{i + 1} </span> Hêlo
+                        <span>{i + 1} </span> ***{d.username}
                       </Typography>
                       <Typography
                         sx={{
@@ -137,7 +147,7 @@ function Overview() {
                           border: '2px solid #c7ae92'
                         }}
                       >
-                        {formatMoney('1234567')} VNĐ
+                        {formatMoney(d.sum)} VNĐ
                       </Typography>
                     </li>
                   ))}

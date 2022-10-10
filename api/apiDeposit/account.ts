@@ -15,3 +15,7 @@ export const changeStatusDeposit = (id: number, status: string) => {
     transaction_status: status
   });
 };
+
+export const getTop10 = () => {
+  return api.get('/history/latest-top-up');
+};
