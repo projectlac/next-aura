@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 function PageHeader() {
   const { user: userData } = useAuth();
   const user = {
-    avatar: '/static/images/avatars/1.jpg'
+    avatar: ' /static/images/avatars/android-chrome-512x512.png'
   };
   const theme = useTheme();
 

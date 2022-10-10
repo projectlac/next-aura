@@ -96,7 +96,10 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
             }}
           >
             <Hidden mdDown>
-              <ul>
+              <ul style={{ padding: 0 }}>
+                <li style={{ marginLeft: 0 }}>
+                  <Link href={'/'}>GenshinViet.com</Link>
+                </li>
                 <li>
                   <Link href={'/'}>Trang chủ</Link>
                 </li>

@@ -62,7 +62,7 @@ function HeaderUserbox() {
   const { logout, user: userData } = useAuth();
   const user = {
     name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg',
+    avatar: ' /static/images/avatars/android-chrome-512x512.png',
     jobtitle: 'Admin'
   };
 
@@ -115,7 +115,7 @@ function HeaderUserbox() {
               {userData?.username || user.name}
             </UserBoxLabel>
             <UserBoxDescription variant="body2">
-              {formatMoney(userData?.money) || `0`} coin
+              {formatMoney(userData?.money) || `0`} VNĐ
             </UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>

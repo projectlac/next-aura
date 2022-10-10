@@ -74,7 +74,10 @@ function Avatars() {
               <Divider />
               <CardContent>
                 <Stack direction="row" spacing={2}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatars/1.jpg" />
+                  <Avatar
+                    alt="Remy Sharp"
+                    src=" /static/images/avatars/android-chrome-512x512.png"
+                  />
                   <Avatar
                     alt="Travis Howard"
                     src="/static/images/avatars/2.jpg"

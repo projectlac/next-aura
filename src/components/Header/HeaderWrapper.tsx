@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React from 'react';
 
 const Header = styled(Box)({
-  backgroundColor: 'rgb(0 0 0 / 27%)',
+  backgroundColor: 'rgb(16 9 9 / 59%)',
   position: 'fixed',
   width: '100%'
 });

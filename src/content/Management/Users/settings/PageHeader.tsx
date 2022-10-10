@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 function PageHeader() {
   const user = {
     name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg'
+    avatar: ' /static/images/avatars/android-chrome-512x512.png'
   };
 
   return (

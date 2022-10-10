@@ -146,7 +146,7 @@ function TopUp() {
         flexGrow: 1,
         bgcolor: 'background.paper',
         display: 'flex',
-        background: 'rgb(0 0 0 / 27%)',
+        background: 'rgb(16 9 9 / 59%)',
         borderRadius: '8px'
       }}
     >
