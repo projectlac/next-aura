@@ -10,7 +10,7 @@ const TitleWeb = styled(Typography)(
     font-weight: bold;
     color: #fff;
     position:relative;
-    font-size:25px;
+    font-size:23px;
     text-shadow: 0 0 10px #69e0ff, 0 0 20px #69e0ff, 0 0 40px #69e0ff;
     &:before{
      
