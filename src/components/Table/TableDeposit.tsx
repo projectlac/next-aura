@@ -45,7 +45,6 @@ export default function TableDeposit({ data }: IProp) {
 
     setPage(newPage);
   };
-  console.log(data);
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>

@@ -7,8 +7,6 @@ const checkCall = (key, param) => {
   else return '';
 };
 const checkCallPriceSort = (key, param) => {
-  console.log(param);
-  
   if (param !== undefined) return `&${key}=${param}`;
   else return '';
 };
@@ -56,10 +54,7 @@ export const queryRandomAccount = (param: IQueryRandomAcc) => {
   return apiFormData.get(
     `/account/get-accounts?type=RANDOM&limit=${param.limit}&offset=${
       param.offset
-    }${checkCallPriceSort(
-      'priceSort',
-      param.priceSort
-    )}${checkCall(
+    }${checkCallPriceSort('priceSort', param.priceSort)}${checkCall(
       'keyword',
       param.keyword
     )}${checkCall('ar', param.ar)}${checkCall('rangeMoney', param.rangeMoney)}`
@@ -76,15 +71,10 @@ export const queryRerollAccount = (param: IQueryRandomAcc) => {
   );
 };
 export const queryAccountVip = (param: IQueryVipAcc) => {
-  console.log(param.priceSort);
-  
   return apiFormData.get(
     `/account/get-accounts?type=VIP&limit=${param.limit}&offset=${
       param.offset
-    }${checkCallPriceSort(
-      'priceSort',
-      param.priceSort
-    )}${checkCall(
+    }${checkCallPriceSort('priceSort', param.priceSort)}${checkCall(
       'code',
       param.keyword
     )}${checkCall('ar', param.ar)}${checkCall(
@@ -107,7 +97,5 @@ export const getInfoAllAccount = () => {
 };
 
 export const queryAllAccountForSiteMap = () => {
-  return apiFormData.get(
-    `/account/get-accounts?limit=9999&offset=0`
-  );
+  return apiFormData.get(`/account/get-accounts?limit=9999&offset=0`);
 };

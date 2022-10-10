@@ -36,8 +36,6 @@ interface Filters {
 }
 
 const getStatusLabel = (cryptoOrderStatus: IStatus): JSX.Element => {
-  console.log(cryptoOrderStatus);
-
   const map = {
     PENDING: {
       text: 'PENDING',

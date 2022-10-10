@@ -149,12 +149,7 @@ function EditTag({ title, role, id, bonus, type }: IEdit) {
             />
           </>
         )}
-        <Button
-          variant="contained"
-          fullWidth
-          type="submit"
-          onClick={() => console.log(formik.errors)}
-        >
+        <Button variant="contained" fullWidth type="submit">
           {formik.isSubmitting ? 'Loading...' : 'UPROLE'}
         </Button>
       </FormatForm>

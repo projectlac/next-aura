@@ -22,7 +22,6 @@ function ProductCollection() {
   const gianDoi = (data, number) => {
     let temp = { ...data };
     temp.sold = temp?.sold + number;
-    console.log(temp);
 
     return temp;
   };

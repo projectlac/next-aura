@@ -88,7 +88,6 @@ function FilterVip({ handleFilter }: IProps) {
 
   const submit = () => {
     var isTrueSet = sort === 'true';
-    console.log(isTrueSet);
 
     let data = {
       ar: ar,
