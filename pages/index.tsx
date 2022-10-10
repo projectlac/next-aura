@@ -110,6 +110,7 @@ function Overview() {
                         padding: '7px 0',
                         alignItems: 'center'
                       }}
+                      key={i}
                     >
                       <Typography
                         sx={{
