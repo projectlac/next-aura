@@ -23,7 +23,8 @@ function ProductCollectionItem({
   return (
     <Card
       sx={{
-        background: '#fff',
+        background:
+          'linear-gradient(90deg, rgba(228,214,200,1) 0%, rgba(239,231,225,1) 50%, rgba(228,214,200,1) 100%)',
         padding: '15px',
         borderRadius: '5px',
         transition: 'all 0.5s',
@@ -125,7 +126,9 @@ function ProductCollectionItem({
             }}
             sx={{ cursor: 'pointer' }}
           >
-            <Button variant="contained">Khám phá</Button>
+            <Button variant="contained" color="secondary">
+              Khám phá
+            </Button>
           </Box>
         </Box>
       </Box>

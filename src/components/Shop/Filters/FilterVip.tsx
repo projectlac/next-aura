@@ -105,7 +105,8 @@ function FilterVip({ handleFilter }: IProps) {
   return (
     <Card
       sx={{
-        background: '#fff',
+        background:
+          'linear-gradient(90deg, rgba(228,214,200,1) 0%, rgba(239,231,225,1) 50%, rgba(228,214,200,1) 100%)',
         padding: '15px',
         borderRadius: '5px',
         transition: 'all 0.5s'
@@ -241,7 +242,7 @@ function FilterVip({ handleFilter }: IProps) {
       </Grid>
       <Divider sx={{ mt: 1, mb: 1 }}></Divider>
       <Box textAlign={'center'}>
-        <Button variant="contained" onClick={submit}>
+        <Button variant="contained" color="secondary" onClick={submit}>
           Tìm kiếm
         </Button>
       </Box>

@@ -64,7 +64,8 @@ function ProductCollection() {
       <Grid item md={3} sm={6} xs={12}>
         <Card
           sx={{
-            background: '#fff',
+            background:
+              'linear-gradient(90deg, rgba(228,214,200,1) 0%, rgba(239,231,225,1) 50%, rgba(228,214,200,1) 100%)',
             padding: '15px',
             borderRadius: '5px',
             transition: 'all 0.5s',
@@ -151,7 +152,9 @@ function ProductCollection() {
             <Divider sx={{ mt: 1, mb: 1.5 }} />
             <Box textAlign={'center'}>
               <Link href={'topup-genshin'}>
-                <Button variant="contained">Khám phá</Button>
+                <Button variant="contained" color="secondary">
+                  Khám phá
+                </Button>
               </Link>
             </Box>
           </Box>

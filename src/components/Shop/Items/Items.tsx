@@ -26,7 +26,7 @@ function Items({
   return (
     <Card
       sx={{
-        background: '#fff',
+        // background: '#fff',
         width: '100%',
         // background: `url(${bg})`,
         backgroundSize: 'cover',
@@ -44,7 +44,9 @@ function Items({
             animation: 'shine .75s'
           }
         },
-        position: 'relative'
+        position: 'relative',
+        background:
+          'linear-gradient(90deg, rgba(228,214,200,1) 0%, rgba(239,231,225,1) 50%, rgba(228,214,200,1) 100%)'
       }}
     >
       {isSold && (
