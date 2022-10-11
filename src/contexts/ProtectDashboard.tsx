@@ -1,24 +1,27 @@
-import RoutingToLink from '@/components/Common/RoutingToLogin/RoutingToLogin';
 import api from 'api/api';
 import { getUser } from 'api/user';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 export const ProtectRoute = ({ children }) => {
-  const token = Cookies.get('token');
-
+  const router = useRouter();
   useEffect(() => {
     const callUser = async () => {
+      const token = Cookies.get('token');
+
       if (token) {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const { data: user } = await getUser();
 
         if (!user) {
-          return <RoutingToLink href="/login" />;
+          router.push('/login');
         }
         if (user && user.role === 'USER') {
-          return <RoutingToLink href="/" />;
+          router.push('/');
         }
+      } else {
+        router.push('/login');
       }
     };
     callUser();
