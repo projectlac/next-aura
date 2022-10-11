@@ -1,18 +1,28 @@
 import RoutingToLink from '@/components/Common/RoutingToLogin/RoutingToLogin';
-import { useEffect, useRef } from 'react';
-import { useAuth } from './AuthGuard';
+import api from 'api/api';
+import { getUser } from 'api/user';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 export const ProtectRoute = ({ children }) => {
-  const { isAuthenticated, user } = useAuth();
-  const firstLoad = useRef(false);
+  const token = Cookies.get('token');
+
   useEffect(() => {
-    firstLoad.current = true;
+    const callUser = async () => {
+      if (token) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const { data: user } = await getUser();
+
+        if (!user) {
+          return <RoutingToLink href="/login" />;
+        }
+        if (user && user.role === 'USER') {
+          return <RoutingToLink href="/" />;
+        }
+      }
+    };
+    callUser();
   }, []);
-  if (!isAuthenticated && firstLoad.current) {
-    return <RoutingToLink href="/login" />;
-  } else if (isAuthenticated && user.role === 'USER' && firstLoad.current) {
-    return <RoutingToLink href="/" />;
-  } else {
-    return children;
-  }
+
+  return children;
 };

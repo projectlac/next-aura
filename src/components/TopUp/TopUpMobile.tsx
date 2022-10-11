@@ -106,7 +106,7 @@ export default function TopUpMobile() {
     } catch (error) {
       handleSetMessage({
         type: 'error',
-        message: 'Có lỗi xảy ra, vui lòng kiểm tra lại thông tin nhập'
+        message: error.response.data.message
       });
     }
   };
@@ -426,7 +426,7 @@ export default function TopUpMobile() {
                 {code}
               </Box>
               <Button variant="contained" type="submit">
-                Lấy mã
+                Lấy mã {formikBank.values.bank}
               </Button>
             </FormatForm>
           </Box>

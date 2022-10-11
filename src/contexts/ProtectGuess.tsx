@@ -1,21 +1,25 @@
 import RoutingToLink from '@/components/Common/RoutingToLogin/RoutingToLogin';
-import { useLayoutEffect, useRef, useState } from 'react';
-import { useAuth } from './AuthGuard';
+import api from 'api/api';
+import { getUser } from 'api/user';
+import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 export const ProtectGuess = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const token = Cookies.get('token');
 
-  const firstLoad = useRef(false);
-  const [check, setCheck] = useState(false);
-  useLayoutEffect(() => {
-    firstLoad.current = true;
-    if (firstLoad.current) {
-      setCheck(true);
-    }
+  useEffect(() => {
+    const callUser = async () => {
+      if (token) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const { data: user } = await getUser();
+
+        if (!user) {
+          return <RoutingToLink href="/login" />;
+        }
+      }
+    };
+    callUser();
   }, []);
 
-  if (!isAuthenticated && check) {
-    return <RoutingToLink href="/login" />;
-  }
   return children;
 };
