@@ -30,19 +30,25 @@ const OverviewWrapper = styled(Box)(
 );
 
 const validationSchema = yup.object({
-  username: yup.string().required('Email is required'),
+  username: yup
+    .string()
+    .required('Email là bắt buộc')
+    .matches(/^[a-zA-Z0-9\W|_]\S+$/g, 'Không được có khoảng trắng'),
   password: yup
     .string()
-    .min(6, 'Password should be of minimum 6 characters length')
-    .required('Password is required')
+    .min(6, 'Password phải có ít nhất 6 ký tự')
+    .required('Password là bắt buộc')
 });
 const validationSchemaRegis = yup.object({
-  username: yup.string().required('Username is required'),
-  email: yup.string().email().required('Email is required'),
+  username: yup
+    .string()
+    .required('Username là bắt buộc')
+    .matches(/^[a-zA-Z0-9\W|_]\S+$/g, 'Không được có khoảng trắng'),
+  email: yup.string().email().required('Email là bắt buộc'),
   password: yup
     .string()
-    .min(6, 'Password should be of minimum 6 characters length')
-    .required('Password is required')
+    .min(6, 'Password phải có ít nhất 6 ký tự')
+    .required('Password là bắt buộc')
 });
 function Overview() {
   const [loginMode, setLoginMode] = useState<boolean>(true);

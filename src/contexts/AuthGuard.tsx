@@ -15,12 +15,9 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const [update, setUpdate] = useState<boolean>(false);
-
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<ISnackBar>(null);
-
   const router = useRouter();
-
   const updateSuccess = () => {
     setUpdate(!update);
   };
