@@ -97,7 +97,7 @@ function AccountVip() {
             </Grid>
 
             <Grid item xs={12} md={9} id="scrollTo">
-              <Grid container columnSpacing={1.5} rowSpacing={2}>
+              <Grid container columnSpacing={1.7} rowSpacing={2}>
                 {data.map((d, i) => {
                   return (
                     <Grid
@@ -120,6 +120,8 @@ function AccountVip() {
                         isSold={d.is_sold}
                         ar_level={d.ar_level}
                         server={d.server}
+                        heroes={d.heroes}
+                        weapons={d.weapons}
                       ></Items>
                     </Grid>
                   );

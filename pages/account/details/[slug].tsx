@@ -23,6 +23,8 @@ interface IDetail {
   ar_level: string;
   server: string;
   hero: any;
+  weapons: any;
+
   price: string;
   images: string;
   desc: string;
@@ -70,7 +72,8 @@ function DetailAccout() {
           hero: res.data.heroes,
           price: res.data.price,
           images: res.data.avatar,
-          desc: res.data.description
+          desc: res.data.description,
+          weapons: res.data.weapons
         };
 
         setData(temp);
@@ -176,6 +179,57 @@ function DetailAccout() {
                     </Box>
                   </Grid>
 
+                  <Grid item xs={12}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {data.hero &&
+                        data.hero.length > 0 &&
+                        data.hero.map((d, i) => (
+                          <Box
+                            key={i}
+                            sx={{
+                              width: '35px',
+                              height: '35px',
+                              background: `url(${d.image})`,
+                              backgroundSize: '100%',
+                              margin: '2px'
+                              // filter: 'drop-shadow(0px 0px 3px #fff)'
+                            }}
+                          ></Box>
+                        ))}
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    {' '}
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {data.weapons &&
+                        data.weapons.length > 0 &&
+                        data.weapons.map((d, i) => (
+                          <Box
+                            key={i}
+                            sx={{
+                              width: '35px',
+                              height: '35px',
+                              background: `url(${d.image})`,
+                              backgroundSize: '100%',
+                              margin: '2px'
+                            }}
+                          ></Box>
+                        ))}
+                    </Box>
+                  </Grid>
+
                   <Grid item md={12} xs={12} textAlign="center" color="#fff">
                     <Typography
                       sx={{
@@ -257,12 +311,10 @@ function DetailAccout() {
           <div>
             <Box
               style={{
-                background: `url(${data?.images})`,
-                width: 1352,
-                height: 720,
-                backgroundSize: 'contain',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center'
+                background: `url(${data?.images})   center center /contain no-repeat`,
+                width: '1052px',
+                height: '720px',
+                margin: ' 0 auto'
               }}
             ></Box>
           </div>
