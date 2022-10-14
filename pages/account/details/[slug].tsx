@@ -100,7 +100,7 @@ function DetailAccout() {
             <Box
               sx={{
                 width: { md: 700, xs: 'auto' },
-                background: '#37336f61',
+                background: 'rgb(16 9 9 / 59%)',
                 margin: '0 auto',
                 padding: '25px',
                 borderRadius: '10px'
@@ -256,7 +256,16 @@ function DetailAccout() {
           </Box>
 
           <div>
-            <Image src={data?.images} width={1352} height={720}></Image>
+            <Box
+              style={{
+                background: `url(${data?.images})`,
+                width: 1352,
+                height: 720,
+                backgroundSize: 'contain',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center'
+              }}
+            ></Box>
           </div>
         </Slider>
       </Box>
