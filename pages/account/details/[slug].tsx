@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import { buyAccount, getAccountBySlug } from 'api/apiAccount/account';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
