@@ -1,4 +1,3 @@
-import RoutingToLink from '@/components/Common/RoutingToLogin/RoutingToLogin';
 import api from 'api/api';
 import { getUser } from 'api/user';
 import Cookies from 'js-cookie';
