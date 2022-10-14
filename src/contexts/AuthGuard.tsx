@@ -49,7 +49,10 @@ export const AuthProvider = ({ children }) => {
     try {
       await signIn({ username, password }).then((res) => (token = res.data));
     } catch (error) {
-      handleSetMessage({ type: 'error', message: error.response.data.message });
+      handleSetMessage({
+        type: 'error',
+        message: error.response.data?.message
+      });
     }
 
     if (token) {

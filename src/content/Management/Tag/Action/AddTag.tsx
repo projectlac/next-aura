@@ -11,27 +11,39 @@ import {
   FormControlLabel,
   FormLabel,
   Radio,
-  RadioGroup
+  RadioGroup,
+  styled,
+  useTheme
 } from '@mui/material';
 import { createHero, createWeapon } from 'api/apiTag/tagApi';
 import { useState } from 'react';
 import * as yup from 'yup';
+import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
+import Image from 'next/image';
+
 interface IEdit {
   title: string;
 }
+
+const Input = styled('input')({
+  display: 'none'
+});
 
 const validationSchema = yup.object({
   title: yup.string().required('Tên tag là thuộc tính bắt buộc'),
   type: yup.string().required('Loại tag là thuộc tính bắt buộc')
 });
+
 const initForm = {
   title: '',
-  type: 'weapon'
+  type: 'weapon',
+  file: null
 };
 
 function AddTag({ title }: IEdit) {
+  const theme = useTheme();
   const { handleSetMessage, updateSuccess } = useAuth();
-
+  const [preview, setPreview] = useState<string>('');
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
   const handleOpenDialog = () => {
@@ -42,16 +54,24 @@ function AddTag({ title }: IEdit) {
   };
 
   const onSubmit = (value, { resetForm }) => {
-    const { title, type } = value;
+    const { title, file, type } = value;
+    const formData = new FormData();
+    formData.append('desc', title);
+    file && formData.append('file', file);
     if (type === 'weapon') {
       try {
-        createWeapon(title).then(() => {
+        createWeapon(formData).then(() => {
           handleSetMessage({
             type: 'success',
             message: 'Thêm vũ khí thành công'
           });
           handleCloseDialog();
           resetForm();
+          (
+            document.getElementById(
+              'change-cover-create-tag'
+            ) as HTMLInputElement
+          ).value = '';
           updateSuccess();
         });
       } catch (error) {
@@ -62,7 +82,7 @@ function AddTag({ title }: IEdit) {
       }
     } else {
       try {
-        createHero(title).then(() => {
+        createHero(formData).then(() => {
           handleSetMessage({
             type: 'success',
             message: 'Thêm nhân vật thành công'
@@ -79,7 +99,15 @@ function AddTag({ title }: IEdit) {
       }
     }
   };
-
+  const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
+    const objectUrl = URL.createObjectURL(
+      (e.target as HTMLInputElement).files[0]
+    );
+    setPreview(objectUrl);
+    formik.handleChange({
+      target: { name: 'file', value: (e.target as HTMLInputElement).files[0] }
+    });
+  };
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
   return (
     <DialogCommon
@@ -138,6 +166,41 @@ function AddTag({ title }: IEdit) {
               />
             </RadioGroup>
           </FormControl>
+
+          <Box mb={3}>
+            <Input
+              accept="image/*"
+              id="change-cover-create-tag"
+              type="file"
+              name="file"
+              onChange={handleFile}
+            />
+            <label htmlFor="change-cover-create-tag">
+              <Button
+                startIcon={<UploadTwoToneIcon />}
+                variant="contained"
+                component="span"
+                sx={{
+                  background: Boolean(formik.errors.file)
+                    ? theme.colors.error.main
+                    : theme.colors.primary.main
+                }}
+              >
+                Upload avatar
+              </Button>
+            </label>
+          </Box>
+          {preview && (
+            <Box width={150} height={150} mb={3}>
+              <Image
+                src={preview}
+                layout="responsive"
+                width={150}
+                height={150}
+              ></Image>
+            </Box>
+          )}
+
           <Button variant="contained" fullWidth type="submit">
             Thêm
           </Button>
