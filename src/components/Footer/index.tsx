@@ -36,17 +36,27 @@ function Footer() {
               Về chúng tôi
             </Typography>
             <p className="footer-p">
-              Shop mua bán acc với mức giá huỷ diệt thị trường
+              Shop GenshinViet.com luôn đáp ứng nhu cầu, niềm tin tưởng của
+              khách hàng khi muốn tìm 1 Account chất lượng để trải nghiệm tựa
+              game Genshin Impact với tiêu chí: <br />
             </p>
+            <p className="footer-p">Rẻ - Chất lượng - An toàn</p>
             <p className="footer-p">
-              Shop mua bán acc Genshin impact uy tín hỗ trợ nhanh gọn
+              Chúng tôi với đội ngũ chuyên nghiệp, luôn hỗ trợ khách hàng nhanh
+              chóng hiệu quả
             </p>
-            <p className="footer-p">Dịch vụ : Mua Bán - Nạp Game - Uy Tín</p>
-            <p className="mt-3 small">© GenshinViet.com</p>
           </Grid>
 
           <Grid item md={4} xs={12}>
-            <Box sx={{ px: { xs: 0, md: 2 } }}>
+            <Box
+              sx={{
+                px: { xs: 0, md: 2 },
+                '& p a': {
+                  color: '#fff',
+                  fontWeight: '600'
+                }
+              }}
+            >
               <Typography
                 className="highlight-text"
                 fontWeight={'bold'}
@@ -54,11 +64,20 @@ function Footer() {
                   fontSize: { md: 25, xs: 18 }
                 }}
               >
-                Chúng tôi
+                Sản phẩm và dịch vụ
               </Typography>
               <p className="footer-p">
-                Hỗ trợ khách hàng 8h-24h. Tất cả các ngày trong tuần kể cả các
-                dịp lễ, Tết, Noel
+                <Link href={'/account/vip'}>ACC VIP</Link>
+              </p>
+
+              <p className="footer-p">
+                <Link href={'/account/reroll'}>ACC REROLL</Link>
+              </p>
+              <p className="footer-p">
+                <Link href={'/account/random'}>ACC RANDOM</Link>
+              </p>
+              <p className="footer-p">
+                <Link href={'/topup-genshin'}>NẠP GAME</Link>
               </p>
             </Box>
           </Grid>
@@ -73,7 +92,7 @@ function Footer() {
               Liên hệ
             </Typography>
             <p className="footer-p">
-              Di động:{' '}
+              Hotline:{' '}
               <Link href={'tel:0904448980'}>
                 <b>0904448980</b>
               </Link>
@@ -83,6 +102,22 @@ function Footer() {
               <Link href={'https://zalo.me/0904448980'}>
                 <b>0904448980</b>
               </Link>
+            </p>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              '& p': {
+                textAlign: 'center',
+                borderTop: '1px solid #fff',
+                paddingTop: '15px'
+              },
+              '& p a': { fontWeight: '600', color: '#fff' }
+            }}
+          >
+            <p className="mt-3 small">
+              Copyright by © <Link href={'/'}>GenshinViet.com </Link>2022
             </p>
           </Grid>
         </Grid>
