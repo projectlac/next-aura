@@ -126,6 +126,11 @@ function Overview() {
                         variant="outlined"
                         fullWidth
                       />
+                      <Typography fontSize={12} color="error">
+                        <i>
+                          *Vui lòng sử dụng email thật phòng khi quên mật khẩu
+                        </i>
+                      </Typography>
                       <Button
                         variant="contained"
                         fullWidth

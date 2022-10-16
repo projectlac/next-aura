@@ -26,18 +26,12 @@ const validationSchema = yup.object({
   seri: yup.string().required('Trường này là bắt buộc'),
   code: yup.string().required('Trường này là bắt buộc')
 });
-const validationBankSchema = yup.object({
-  bank: yup.string().required('Trường này là bắt buộc')
-});
+
 const initForm = {
   homeNetwork: 'VIETTEL',
   cost: '',
   seri: '',
   code: ''
-};
-
-const initBankForm = {
-  bank: 'MOMO'
 };
 
 interface TabPanelProps {
@@ -115,10 +109,26 @@ function TopUp() {
     }
   };
 
-  const onSubmitBank = async (values) => {
-    const { bank } = values;
+  const onSubmitBank = async () => {
     try {
-      await getCode(bank).then((res) => {
+      await getCode('VCB').then((res) => {
+        setCode(res.data);
+        handleSetMessage({
+          type: 'success',
+          message: 'Lấy mã thành công'
+        });
+      });
+    } catch (error) {
+      handleSetMessage({
+        type: 'error',
+        message: error.response.data.message
+      });
+    }
+  };
+
+  const onSubmitMomo = async () => {
+    try {
+      await getCode('MOMO').then((res) => {
         setCode(res.data);
         handleSetMessage({
           type: 'success',
@@ -134,11 +144,6 @@ function TopUp() {
   };
 
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
-  const formikBank = useCustomForm(
-    validationBankSchema,
-    initBankForm,
-    onSubmitBank
-  );
 
   return (
     <Box
@@ -429,67 +434,32 @@ function TopUp() {
             Lấy nội dung chuyển tiền
           </Typography>
           <Box textAlign={'center'}>
-            <FormatForm formik={formikBank}>
-              <Selection
-                formik={formikBank}
-                label="Chọn ngân hàng"
-                variant="outlined"
-                sx={{
-                  width: '250px',
-
-                  '& label': {
-                    color: '#fff',
-
-                    '&:hover': {
-                      color: '#fff'
-                    },
-                    '&.Mui-focused': {
-                      color: '#fff'
-                    }
-                  },
-                  '& .MuiOutlinedInput-root': {
-                    color: '#fff',
-                    '& fieldset': {
-                      borderColor: 'white',
-                      color: '#fff'
-                    },
-                    '&:hover fieldset': {
-                      borderColor: 'white',
-                      color: '#fff'
-                    },
-                    '&.Mui-focused fieldset': {
-                      borderColor: 'white',
-                      color: '#fff'
-                    }
-                  },
-                  '& svg': {
-                    color: '#fff'
-                  }
-                }}
-                name="bank"
-                options={[
-                  { value: 'MOMO', title: 'Momo' },
-                  { value: 'VCB', title: 'VCB' }
-                ]}
-              />
-              <Box
-                sx={{
-                  width: '250px',
-                  background: 'rgb(0 0 0 / 27%)',
-                  height: '45px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '8px',
-                  margin: '8px auto'
-                }}
-              >
-                {code}
-              </Box>
-              <Button variant="contained" type="submit">
-                Lấy mã {formikBank.values.bank}
-              </Button>
-            </FormatForm>
+            <Box
+              sx={{
+                width: '250px',
+                background: 'rgb(0 0 0 / 27%)',
+                height: '45px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '8px',
+                margin: '8px auto'
+              }}
+            >
+              {code}
+            </Box>
+            <Grid container width={500} margin="0 auto">
+              <Grid item md={6}>
+                <Button variant="contained" onClick={onSubmitMomo}>
+                  Lấy mã MOMO
+                </Button>
+              </Grid>
+              <Grid item md={6}>
+                <Button variant="contained" onClick={onSubmitBank}>
+                  Lấy mã VCB
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
           <Typography
             color="error"
