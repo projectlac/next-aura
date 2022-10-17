@@ -106,9 +106,9 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
                 <li>
                   <Link href={'/topup'}>Nạp tiền</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link href={'/topup-genshin'}>Nạp game</Link>
-                </li>
+                </li> */}
               </ul>
             </Hidden>
             <Hidden mdUp>
@@ -133,9 +133,9 @@ const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
                   <li>
                     <Link href={'/topup'}>Nạp tiền</Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link href={'/topup-genshin'}>Nạp game</Link>
-                  </li>
+                  </li> */}
                 </ul>
               </MobileMenu>
             </Hidden>
