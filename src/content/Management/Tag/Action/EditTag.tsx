@@ -79,6 +79,7 @@ function EditTag({ title, slug, type }: IEdit) {
           });
           handleCloseDialog();
           resetForm();
+          
           updateSuccess();
         });
       } catch (error) {
