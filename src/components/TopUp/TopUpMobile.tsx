@@ -32,18 +32,14 @@ const validationSchema = yup.object({
   seri: yup.string().required('Trường này là bắt buộc'),
   code: yup.string().required('Trường này là bắt buộc')
 });
-const validationBankSchema = yup.object({
-  bank: yup.string().required('Trường này là bắt buộc')
-});
+
 const initForm = {
   homeNetwork: 'Viettel',
   cost: '',
   seri: '',
   code: ''
 };
-const initBankForm = {
-  bank: 'MOMO'
-};
+
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -93,10 +89,26 @@ export default function TopUpMobile() {
     setValue(newValue);
     console.log(event.type);
   };
-  const onSubmitBank = async (values) => {
-    const { bank } = values;
+  const onSubmitBank = async () => {
     try {
-      await getCode(bank).then((res) => {
+      await getCode('VCB').then((res) => {
+        setCode(res.data);
+        handleSetMessage({
+          type: 'success',
+          message: 'Lấy mã thành công'
+        });
+      });
+    } catch (error) {
+      handleSetMessage({
+        type: 'error',
+        message: error.response.data.message
+      });
+    }
+  };
+
+  const onSubmitMomo = async () => {
+    try {
+      await getCode('MOMO').then((res) => {
         setCode(res.data);
         handleSetMessage({
           type: 'success',
@@ -128,11 +140,7 @@ export default function TopUpMobile() {
       handleSetMessage({ type: 'error', message: error.response.data.message });
     }
   };
-  const formikBank = useCustomForm(
-    validationBankSchema,
-    initBankForm,
-    onSubmitBank
-  );
+
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
   return (
     <Box sx={{ width: '100%' }}>
@@ -397,38 +405,40 @@ export default function TopUpMobile() {
             Lấy nội dung chuyển tiền
           </Typography>
           <Box textAlign={'center'}>
-            <FormatForm formik={formikBank}>
-              <Selection
-                formik={formikBank}
-                label="Chọn ngân hàng"
-                variant="outlined"
-                sx={{
-                  width: '250px'
-                }}
-                name="bank"
-                options={[
-                  { value: 'MOMO', title: 'Momo' },
-                  { value: 'VCB', title: 'VCB' }
-                ]}
-              />
-              <Box
-                sx={{
-                  width: '250px',
-                  background: 'rgb(0 0 0 / 27%)',
-                  height: '45px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '8px',
-                  margin: '8px auto'
-                }}
-              >
-                {code}
-              </Box>
-              <Button variant="contained" type="submit">
-                Lấy mã {formikBank.values.bank}
-              </Button>
-            </FormatForm>
+            <Box
+              sx={{
+                width: '250px',
+                background: 'rgb(0 0 0 / 27%)',
+                height: '45px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '8px',
+                margin: '8px auto'
+              }}
+            >
+              {code}
+            </Box>
+            <Grid container margin="0 auto">
+              <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  sx={{ fontSize: '12px' }}
+                  onClick={onSubmitMomo}
+                >
+                  Lấy mã MOMO
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  variant="contained"
+                  sx={{ fontSize: '12px' }}
+                  onClick={onSubmitBank}
+                >
+                  Lấy mã VCB
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
           <Typography color="error" fontSize={15} fontWeight={600} mt={3}>
             <b>Lưu ý!!!</b> Một mã chỉ sử dụng được 10 phút lấy mã, vui lòng nạp

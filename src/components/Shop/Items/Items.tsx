@@ -1,6 +1,7 @@
 import bg from '@/assets/images/da-ban.png';
 import formatMoney from '@/utility/formatMoney';
 import { Box, Card, Divider, Grid, Typography } from '@mui/material';
+import { ITag } from 'model/item';
 import Link from 'next/link';
 interface IProps {
   title: string;
@@ -12,6 +13,8 @@ interface IProps {
   isSold: boolean;
   server?: any;
   ar_level?: string;
+  heroes?: ITag[];
+  weapons?: ITag[];
 }
 function Items({
   title,
@@ -21,7 +24,9 @@ function Items({
   code,
   isSold,
   server,
-  ar_level
+  ar_level,
+  heroes,
+  weapons
 }: IProps) {
   return (
     <Card
@@ -93,7 +98,16 @@ function Items({
           }}
         ></Box>
       </Link>
-      <Box mt={1}>
+      <Box
+        mt={1}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          flex: '1',
+          justifyContent: 'space-between',
+          height: 'calc(100% - 175px - 7px)'
+        }}
+      >
         <Link href={url}>
           <Typography
             textAlign={'center'}
@@ -111,7 +125,81 @@ function Items({
             {title}
           </Typography>
         </Link>{' '}
-        <Divider sx={{ my: 1 }} />
+        {heroes && heroes.length > 0 && (
+          <>
+            <Divider sx={{ my: 1 }} />
+            <Typography
+              textAlign={'center'}
+              sx={{
+                fontWeight: '600',
+                mb: 1,
+                color: '#333'
+              }}
+            >
+              Nhân vật: {heroes.length}
+            </Typography>
+          </>
+        )}
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}
+        >
+          {heroes &&
+            heroes.length > 0 &&
+            heroes.map((d, i) => (
+              <Box
+                key={i}
+                sx={{
+                  width: '30px',
+                  height: '30px',
+                  background: `url(${d.image})`,
+                  backgroundSize: '100%',
+                  margin: '2px'
+                }}
+              ></Box>
+            ))}
+        </Box>
+        {weapons && weapons.length > 0 && (
+          <>
+            <Divider sx={{ my: 1 }} />
+            <Typography
+              textAlign={'center'}
+              sx={{
+                fontWeight: '600',
+                mb: 1,
+                color: '#333'
+              }}
+            >
+              Vũ khí: {weapons.length}
+            </Typography>
+          </>
+        )}
+        <Box
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}
+        >
+          {weapons &&
+            weapons.length > 0 &&
+            weapons.map((d, i) => (
+              <Box
+                key={i}
+                sx={{
+                  width: '30px',
+                  height: '30px',
+                  background: `url(${d.image})`,
+                  backgroundSize: '100%',
+                  margin: '2px'
+                }}
+              ></Box>
+            ))}
+        </Box>
+        <Divider sx={{ my: 1, mt: 'auto' }} />
         <Grid container columnSpacing={1.5}>
           <Grid item xs={6}>
             <Typography fontSize={15} fontWeight="600">

@@ -86,7 +86,7 @@ function AccountRandom() {
               </FilterAccount>
             </Grid>
             <Grid item xs={12} md={9}>
-              <Grid container columnSpacing={1.5} rowSpacing={2} id="scrollTo">
+              <Grid container columnSpacing={1.7} rowSpacing={2} id="scrollTo">
                 {data.map((d, i) => {
                   return (
                     <Grid item xs={12} md={4} sm={6} key={i}>

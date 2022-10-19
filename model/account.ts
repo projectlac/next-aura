@@ -1,3 +1,5 @@
+import { ITag } from "./item";
+
 export interface IAccountVipAdmin {
   code: string;
   id: number;
@@ -23,4 +25,6 @@ export interface IAccountShop {
   is_sold: boolean;
   server?: string;
   ar_level?: string;
+  heroes?: ITag[];
+  weapons?: ITag[];
 }

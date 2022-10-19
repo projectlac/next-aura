@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import { buyAccount, getAccountBySlug } from 'api/apiAccount/account';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ReactElement, useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
@@ -24,6 +23,8 @@ interface IDetail {
   ar_level: string;
   server: string;
   hero: any;
+  weapons: any;
+
   price: string;
   images: string;
   desc: string;
@@ -71,7 +72,8 @@ function DetailAccout() {
           hero: res.data.heroes,
           price: res.data.price,
           images: res.data.avatar,
-          desc: res.data.description
+          desc: res.data.description,
+          weapons: res.data.weapons
         };
 
         setData(temp);
@@ -100,7 +102,7 @@ function DetailAccout() {
             <Box
               sx={{
                 width: { md: 700, xs: 'auto' },
-                background: '#37336f61',
+                background: 'rgb(16 9 9 / 59%)',
                 margin: '0 auto',
                 padding: '25px',
                 borderRadius: '10px'
@@ -174,6 +176,57 @@ function DetailAccout() {
                       <Typography fontSize={20} fontWeight={'bold'}>
                         {data?.hero && data.hero.length}
                       </Typography>
+                    </Box>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {data.hero &&
+                        data.hero.length > 0 &&
+                        data.hero.map((d, i) => (
+                          <Box
+                            key={i}
+                            sx={{
+                              width: '35px',
+                              height: '35px',
+                              background: `url(${d.image})`,
+                              backgroundSize: '100%',
+                              margin: '2px'
+                              // filter: 'drop-shadow(0px 0px 3px #fff)'
+                            }}
+                          ></Box>
+                        ))}
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    {' '}
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {data.weapons &&
+                        data.weapons.length > 0 &&
+                        data.weapons.map((d, i) => (
+                          <Box
+                            key={i}
+                            sx={{
+                              width: '35px',
+                              height: '35px',
+                              background: `url(${d.image})`,
+                              backgroundSize: '100%',
+                              margin: '2px'
+                            }}
+                          ></Box>
+                        ))}
                     </Box>
                   </Grid>
 
@@ -256,7 +309,14 @@ function DetailAccout() {
           </Box>
 
           <div>
-            <Image src={data?.images} width={1352} height={720}></Image>
+            <Box
+              style={{
+                background: `url(${data?.images})   center center /contain no-repeat`,
+                width: '1052px',
+                height: '720px',
+                margin: ' 0 auto'
+              }}
+            ></Box>
           </div>
         </Slider>
       </Box>

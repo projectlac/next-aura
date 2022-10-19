@@ -9,10 +9,16 @@ export const ProtectRoute = ({ children }) => {
   useEffect(() => {
     const callUser = async () => {
       const token = Cookies.get('token');
-
+      let user = null;
       if (token) {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        const { data: user } = await getUser();
+        await getUser()
+          .then((res) => {
+            user = res.data;
+          })
+          .catch(() => {
+            router.push('/login');
+          });
 
         if (!user) {
           router.push('/login');

@@ -74,10 +74,11 @@ function ProductCollection() {
                 WebkitAnimation: 'shine .75s',
                 animation: 'shine .75s'
               }
-            }
+            },
+            filter: 'grayscale(1)'
           }}
         >
-          <Link href={'topup-genshin'}>
+          <Link href={'javascript:void(0)'}>
             <Box
               className="eff"
               sx={{
@@ -150,9 +151,9 @@ function ProductCollection() {
             </Grid>
             <Divider sx={{ mt: 1, mb: 1.5 }} />
             <Box textAlign={'center'}>
-              <Link href={'topup-genshin'}>
+              <Link href={'javascript:void(0)'}>
                 <Button variant="contained" color="secondary">
-                  Khám phá
+                  Tạm ngưng
                 </Button>
               </Link>
             </Box>
