@@ -328,7 +328,7 @@ export default function TopUpMobile() {
               <tr>
                 <td>
                   <Typography fontSize={15}>
-                    VCBank <br />
+                    VietComBank <br />
                     (Nguyễn Xuân Hùng)
                   </Typography>
                 </td>
