@@ -52,10 +52,11 @@ function HeaderNotifications() {
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
+    let id = localStorage.getItem('numberOfFate');
     const callFirst = async () => {
       const links = await getNotification(20, 0);
       const issues = links.data.data;
-      const getNewsetId = localStorage.getItem('lastestNotify');
+      const getNewsetId = localStorage.getItem(`lastestNotify-${id}`);
       const indexNewsestID = issues.indexOf(
         issues.filter((d) => d.id === +getNewsetId)[0]
       );
@@ -65,7 +66,8 @@ function HeaderNotifications() {
     callFirst();
   }, [update]);
   useEffect(() => {
-    const indexNewsestID = localStorage.getItem('indexNewsestID');
+    let id = localStorage.getItem('numberOfFate');
+    const indexNewsestID = localStorage.getItem(`indexNewsestID-${id}`);
     setCount(+indexNewsestID);
   }, [isOpen]);
   return (
@@ -81,14 +83,14 @@ function HeaderNotifications() {
           >
             <NotificationsActiveTwoToneIcon
               sx={{
-                '-webkit-animation': ' ring 4s .7s ease-in-out infinite',
-                '-webkit-transform-origin': ' 50% 4px',
-                '-moz-animation': ' ring 4s .7s ease-in-out infinite',
-                '-moz-transform-origin': ' 50% 4px',
+                WebkitAnimation: ' ring 4s .7s ease-in-out infinite',
+                WebkitTransformOrigin: ' 50% 4px',
+                MozAnimation: ' ring 4s .7s ease-in-out infinite',
+                MozTransformOrigin: ' 50% 4px',
                 animation: `${
                   count !== 0 && 'ring 4s .7s ease-in-out infinite'
                 } `,
-                'transform-origin': ' 50% 4px'
+                transformOrigin: ' 50% 4px'
               }}
             />
           </NotificationsBadge>

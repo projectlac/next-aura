@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useAuth } from '@/contexts/AuthGuard';
 import { Box, Typography } from '@mui/material';
 import { getNotification } from 'api/apiUser/userApi';
 import { formatDistance } from 'date-fns';
@@ -10,6 +11,9 @@ interface IProp {
   isOpen: boolean;
 }
 function InfiniteNotification({ isOpen }: IProp) {
+  const {
+    user: { id }
+  } = useAuth();
   const [items, setItems] = useState([]);
   const [offset, setOffset] = useState<number>(0);
   const [firstFetch, setFirstFetch] = useState<boolean>(false);
@@ -19,12 +23,13 @@ function InfiniteNotification({ isOpen }: IProp) {
   const [fetching, setFetching] = useState(false);
 
   async function fetchIssues(offset) {
+    let id = localStorage.getItem('numberOfFate');
     const links = await getNotification(9, offset);
     const issues = links.data.data;
-    const getNewsetId = localStorage.getItem('lastestNotify');
+    const getNewsetId = localStorage.getItem(`lastestNotify-${id}`);
     !firstFetch &&
       !Boolean(getNewsetId) &&
-      localStorage.setItem('lastestNotify', issues[0].id);
+      localStorage.setItem(`lastestNotify-${id}`, issues[0].id);
     setFirstFetch(true);
 
     return {
@@ -34,7 +39,8 @@ function InfiniteNotification({ isOpen }: IProp) {
   }
 
   const indexOfnewestNotify = () => {
-    const getNewsetId = localStorage.getItem('lastestNotify');
+    let id = localStorage.getItem('numberOfFate');
+    const getNewsetId = localStorage.getItem(`lastestNotify-${id}`);
     const indexNewsestID = items.indexOf(
       items.filter((d) => d.id === +getNewsetId)[0]
     );
@@ -44,8 +50,8 @@ function InfiniteNotification({ isOpen }: IProp) {
 
   useEffect(() => {
     if (firstFetch && !isOpen) {
-      localStorage.setItem('lastestNotify', items[0].id);
-      localStorage.setItem('indexNewsestID', '0');
+      localStorage.setItem(`lastestNotify-${id && id}`, items[0].id);
+      localStorage.setItem(`indexNewsestID-${id && id}`, '0');
     }
   }, [firstFetch, isOpen]);
   const fetchItems = useCallback(async () => {

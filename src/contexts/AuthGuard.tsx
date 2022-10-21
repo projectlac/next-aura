@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
       apiFormData.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
       const { data: user } = await getUser();
-
+      localStorage.setItem('numberOfFate', user.id);
       setUser(user);
       router.push('/');
     }
