@@ -5,15 +5,29 @@ const checkCall = (key, param) => {
   else return '';
 };
 
-
 export const getListUser = (limit?: number) => {
-  return api.get(`/user-manager?${checkCall('limit',limit)}`);
+  return api.get(`/user-manager?${checkCall('limit', limit)}`);
 };
 
-export const getCode = (bank:string ) => {
-  return api.post(`/action-cronjob`,{bank:bank});
+export const getCode = (bank: string) => {
+  return api.post(`/action-cronjob`, { bank: bank });
 };
 
-export const topUpWithCard = (telco :string, amount:number, serial:string, code:string   ) => {
-  return api.post(`/action-cronjob/top-up`,{telco, amount, serial, code,is_fast:1});
+export const topUpWithCard = (
+  telco: string,
+  amount: number,
+  serial: string,
+  code: string
+) => {
+  return api.post(`/action-cronjob/top-up`, {
+    telco,
+    amount,
+    serial,
+    code,
+    is_fast: 1
+  });
+};
+
+export const getNotification = (offset: number) => {
+  return api.get(`/history/bonus?offset=${offset}`);
 };
