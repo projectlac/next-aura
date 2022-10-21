@@ -102,6 +102,8 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     delete api.defaults.headers.common['Authorization'];
     delete apiFormData.defaults.headers.common['Authorization'];
+    localStorage.removeItem('indexNewsestID');
+    localStorage.removeItem('lastestNotify');
 
     window.location.pathname = '/login';
   };

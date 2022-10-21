@@ -1,3 +1,4 @@
+import { useAuth } from '@/contexts/AuthGuard';
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 import {
   alpha,
@@ -10,6 +11,7 @@ import {
   Typography
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { getNotification } from 'api/apiUser/userApi';
 import { useEffect, useRef, useState } from 'react';
 
 import InfiniteNotification from './InfiniteNotification';
@@ -39,6 +41,7 @@ const NotificationsBadge = styled(Badge)(
 
 function HeaderNotifications() {
   const ref = useRef<any>(null);
+  const { update } = useAuth();
   const [isOpen, setOpen] = useState<boolean>(false);
   const handleOpen = (): void => {
     setOpen(true);
@@ -49,9 +52,22 @@ function HeaderNotifications() {
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
+    const callFirst = async () => {
+      const links = await getNotification(20, 0);
+      const issues = links.data.data;
+      const getNewsetId = localStorage.getItem('lastestNotify');
+      const indexNewsestID = issues.indexOf(
+        issues.filter((d) => d.id === +getNewsetId)[0]
+      );
+
+      setCount(indexNewsestID < 0 ? 999 : indexNewsestID);
+    };
+    callFirst();
+  }, [update]);
+  useEffect(() => {
     const indexNewsestID = localStorage.getItem('indexNewsestID');
-    Boolean(indexNewsestID) ? setCount(+indexNewsestID) : setCount(0);
-  }, []);
+    setCount(+indexNewsestID);
+  }, [isOpen]);
   return (
     <>
       <Tooltip arrow title="Notifications">
@@ -63,7 +79,18 @@ function HeaderNotifications() {
               horizontal: 'right'
             }}
           >
-            <NotificationsActiveTwoToneIcon />
+            <NotificationsActiveTwoToneIcon
+              sx={{
+                '-webkit-animation': ' ring 4s .7s ease-in-out infinite',
+                '-webkit-transform-origin': ' 50% 4px',
+                '-moz-animation': ' ring 4s .7s ease-in-out infinite',
+                '-moz-transform-origin': ' 50% 4px',
+                animation: `${
+                  count !== 0 && 'ring 4s .7s ease-in-out infinite'
+                } `,
+                'transform-origin': ' 50% 4px'
+              }}
+            />
           </NotificationsBadge>
         </IconButton>
       </Tooltip>

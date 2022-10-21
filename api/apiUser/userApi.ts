@@ -28,6 +28,6 @@ export const topUpWithCard = (
   });
 };
 
-export const getNotification = (offset: number) => {
-  return api.get(`/history/bonus?offset=${offset}`);
+export const getNotification = (limit:number,offset: number) => {
+  return api.get(`/history/bonus?limit=${limit}&offset=${offset}`);
 };

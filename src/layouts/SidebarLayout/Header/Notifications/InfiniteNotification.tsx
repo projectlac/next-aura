@@ -19,7 +19,7 @@ function InfiniteNotification({ isOpen }: IProp) {
   const [fetching, setFetching] = useState(false);
 
   async function fetchIssues(offset) {
-    const links = await getNotification(offset);
+    const links = await getNotification(9, offset);
     const issues = links.data.data;
     const getNewsetId = localStorage.getItem('lastestNotify');
     !firstFetch &&
@@ -106,7 +106,8 @@ function InfiniteNotification({ isOpen }: IProp) {
                   sm: 'flex',
                   background: `${
                     indexOfnewestNotify() > i ? '#a3fbff73' : '#fff'
-                  }`
+                  }`,
+                  borderBottom: '1px solid #9adbd8'
                 }
               }}
             >
@@ -127,7 +128,7 @@ function InfiniteNotification({ isOpen }: IProp) {
                   variant="body2"
                   color="text.secondary"
                 >
-                  <b>{item.user.username}</b> {item.history_message} {item.id}
+                  <b>{item.user.username}</b> {item.history_message}
                 </Typography>
               </Box>
             </Box>
