@@ -1,26 +1,12 @@
 import { useAuth } from '@/contexts/AuthGuard';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import {
-  Button,
-  Card,
-  Dialog,
-  Divider,
-  Grid,
-  IconButton,
-  Tooltip
-} from '@mui/material';
+import { Button, Divider, Grid, IconButton, Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import { getCode, topUpWithCard } from 'api/apiUser/userApi';
-import Link from 'next/link';
+import { getCode } from 'api/apiUser/userApi';
 import * as React from 'react';
-import * as yup from 'yup';
-import useCustomForm from '../Common/Form/Form';
-import FormatForm from '../Common/Form/FormatForm';
-import Selection from '../Common/Form/Selection';
-import TextField from '../Common/Form/TextField';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -28,19 +14,19 @@ interface TabPanelProps {
   value: number;
 }
 
-const validationSchema = yup.object({
-  homeNetwork: yup.string().required('Trường này là bắt buộc'),
-  cost: yup.string().required('Trường này là bắt buộc'),
-  seri: yup.string().required('Trường này là bắt buộc'),
-  code: yup.string().required('Trường này là bắt buộc')
-});
+// const validationSchema = yup.object({
+//   homeNetwork: yup.string().required('Trường này là bắt buộc'),
+//   cost: yup.string().required('Trường này là bắt buộc'),
+//   seri: yup.string().required('Trường này là bắt buộc'),
+//   code: yup.string().required('Trường này là bắt buộc')
+// });
 
-const initForm = {
-  homeNetwork: 'Viettel',
-  cost: '',
-  seri: '',
-  code: ''
-};
+// const initForm = {
+//   homeNetwork: 'Viettel',
+//   cost: '',
+//   seri: '',
+//   code: ''
+// };
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -124,26 +110,26 @@ export default function TopUpMobile() {
       });
     }
   };
-  const onSubmit = async (values, { resetForm }) => {
-    const { homeNetwork, cost, seri, code } = values;
-    try {
-      await topUpWithCard(homeNetwork, +cost, seri, code).then((res) => {
-        if (res.data) {
-          handleSetMessage({ type: 'error', message: res.data.message });
-        } else {
-          handleSetMessage({
-            type: 'success',
-            message: 'Thẻ đang được xử lý, vui lòng đợi'
-          });
-          resetForm();
-        }
-      });
-    } catch (error) {
-      handleSetMessage({ type: 'error', message: error.response.data.message });
-    }
-  };
+  // const onSubmit = async (values, { resetForm }) => {
+  //   const { homeNetwork, cost, seri, code } = values;
+  //   try {
+  //     await topUpWithCard(homeNetwork, +cost, seri, code).then((res) => {
+  //       if (res.data) {
+  //         handleSetMessage({ type: 'error', message: res.data.message });
+  //       } else {
+  //         handleSetMessage({
+  //           type: 'success',
+  //           message: 'Thẻ đang được xử lý, vui lòng đợi'
+  //         });
+  //         resetForm();
+  //       }
+  //     });
+  //   } catch (error) {
+  //     handleSetMessage({ type: 'error', message: error.response.data.message });
+  //   }
+  // };
 
-  const formik = useCustomForm(validationSchema, initForm, onSubmit);
+  // const formik = useCustomForm(validationSchema, initForm, onSubmit);
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -166,7 +152,7 @@ export default function TopUpMobile() {
           variant="h3"
           component="h2"
           sx={{
-            color: '#fff',
+            color: '#000',
             fontSize: '20px',
             textTransform: 'uppercase',
             textAlign: 'center',
@@ -176,6 +162,43 @@ export default function TopUpMobile() {
           Nạp thẻ cào tự động
         </Typography>
         <Box
+          sx={{
+            pa: 3,
+            textAlign: 'center'
+          }}
+        >
+          <h2>Tính năng Nạp tiền bằng thẻ cào đang được bảo trì !!!</h2>
+          <Divider></Divider>
+          <Typography
+            sx={{
+              fontSize: '15px',
+              fontWeight: '600',
+              margin: '20px'
+            }}
+          >
+            Để nạp tiền vui lòng nhắn tin với{' '}
+            <a
+              target="__blank"
+              style={{ color: '#5569ff', background: '#fff' }}
+              href="https://m.me/152659528261467"
+            >
+              Fanpage
+            </a>{' '}
+            {''}
+            để được hỗ trợ
+          </Typography>
+          <Box my={3}>
+            <Button
+              variant="contained"
+              onClick={(e) => {
+                handleChange(e, 1);
+              }}
+            >
+              Nạp qua ATM/MOMO
+            </Button>
+          </Box>
+        </Box>
+        {/* <Box
           mt={2}
           sx={{
             border: '1px solid #fff',
@@ -292,14 +315,14 @@ export default function TopUpMobile() {
               </Typography>
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Typography
           variant="h3"
           component="h2"
           sx={{
-            color: '#fff',
+            color: '#000',
             fontSize: '20px',
             textTransform: 'uppercase',
             textAlign: 'center',
@@ -456,50 +479,6 @@ export default function TopUpMobile() {
           </Typography>
         </Box>
       </TabPanel>
-      <Dialog
-        fullWidth
-        maxWidth="md"
-        open={true}
-        keepMounted
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <Box
-          sx={{
-            pa: 3,
-            textAlign: 'center'
-          }}
-        >
-          <h2>Tính năng Nạp tiền đang được bảo trì !!!</h2>
-          <Divider></Divider>
-          <Typography
-            sx={{
-              fontSize: '15px',
-              fontWeight: '600',
-              margin: '20px'
-            }}
-          >
-            Để nạp tiền vui lòng nhắn tin với{' '}
-            <a target="__blank" href="https://m.me/152659528261467">
-              Fanpage
-            </a>{' '}
-            để được hỗ trợ
-          </Typography>
-          <Box
-            my={3}
-            sx={{
-              '& a': {
-                fontSize: '15px',
-                fontWeight: '600',
-                margin: '20px'
-              }
-            }}
-          >
-            <Link href={'/'}>
-              <Button variant="contained">Quay lại trang chủ</Button>
-            </Link>
-          </Box>
-        </Box>
-      </Dialog>
     </Box>
   );
 }
