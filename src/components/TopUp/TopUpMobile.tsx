@@ -237,8 +237,8 @@ export default function TopUpMobile() {
                           { value: 'VINAPHONE', title: 'VinaPhone' },
                           { value: 'VIETNAMOBILE', title: 'VietnamMobile' },
                           { value: 'ZING', title: 'Zing' },
-                          { value: 'GATE', title: 'Gate' },
-                          { value: 'GARENA', title: 'Garena' }
+                          { value: 'GATE', title: 'Gate' }
+                          // { value: 'GARENA', title: 'Garena' }
                         ]}
                       />
                     </Grid>
