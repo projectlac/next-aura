@@ -13,6 +13,7 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import { getCode, topUpWithCard } from 'api/apiUser/userApi';
+import Link from 'next/link';
 import * as React from 'react';
 import * as yup from 'yup';
 import useCustomForm from '../Common/Form/Form';
@@ -454,6 +455,50 @@ export default function TopUpMobile() {
           </Typography>
         </Box>
       </TabPanel>
+      <Dialog
+        fullWidth
+        maxWidth="md"
+        open={true}
+        keepMounted
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <Box
+          sx={{
+            pa: 3,
+            textAlign: 'center'
+          }}
+        >
+          <h2>Tính năng Nạp tiền đang được bảo trì !!!</h2>
+          <Divider></Divider>
+          <Typography
+            sx={{
+              fontSize: '15px',
+              fontWeight: '600',
+              margin: '20px'
+            }}
+          >
+            Để nạp tiền vui lòng nhắn tin với{' '}
+            <a target="__blank" href="https://m.me/152659528261467">
+              Fanpage
+            </a>{' '}
+            để được hỗ trợ
+          </Typography>
+          <Box
+            my={3}
+            sx={{
+              '& a': {
+                fontSize: '15px',
+                fontWeight: '600',
+                margin: '20px'
+              }
+            }}
+          >
+            <Link href={'/'}>
+              <Button variant="contained">Quay lại trang chủ</Button>
+            </Link>
+          </Box>
+        </Box>
+      </Dialog>
     </Box>
   );
 }
