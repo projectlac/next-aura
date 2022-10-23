@@ -1,27 +1,38 @@
 import { useAuth } from '@/contexts/AuthGuard';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { Button, Divider, Grid, IconButton, Tooltip } from '@mui/material';
+import {
+  Button,
+  Card,
+  Divider,
+  Grid,
+  IconButton,
+  Tooltip
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
-import { getCode } from 'api/apiUser/userApi';
-
+import { getCode, topUpWithCard } from 'api/apiUser/userApi';
+import * as yup from 'yup';
 import * as React from 'react';
+import useCustomForm from '../Common/Form/Form';
+import FormatForm from '../Common/Form/FormatForm';
+import Selection from '../Common/Form/Selection';
+import TextField from '../Common/Form/TextField';
 
-// const validationSchema = yup.object({
-//   homeNetwork: yup.string().required('Trường này là bắt buộc'),
-//   cost: yup.string().required('Trường này là bắt buộc'),
-//   seri: yup.string().required('Trường này là bắt buộc'),
-//   code: yup.string().required('Trường này là bắt buộc')
-// });
+const validationSchema = yup.object({
+  homeNetwork: yup.string().required('Trường này là bắt buộc'),
+  cost: yup.string().required('Trường này là bắt buộc'),
+  seri: yup.string().required('Trường này là bắt buộc'),
+  code: yup.string().required('Trường này là bắt buộc')
+});
 
-// const initForm = {
-//   homeNetwork: 'VIETTEL',
-//   cost: '',
-//   seri: '',
-//   code: ''
-// };
+const initForm = {
+  homeNetwork: 'VIETTEL',
+  cost: '',
+  seri: '',
+  code: ''
+};
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -79,24 +90,24 @@ function TopUp() {
     setValue(newValue);
   };
 
-  // const onSubmit = async (values, { resetForm }) => {
-  //   const { homeNetwork, cost, seri, code } = values;
-  //   try {
-  //     await topUpWithCard(homeNetwork, +cost, seri, code).then((res) => {
-  //       if (res.data) {
-  //         handleSetMessage({ type: 'error', message: res.data.message });
-  //       } else {
-  //         handleSetMessage({
-  //           type: 'success',
-  //           message: 'Thẻ đang được xử lý, vui lòng đợi'
-  //         });
-  //         resetForm();
-  //       }
-  //     });
-  //   } catch (error) {
-  //     handleSetMessage({ type: 'error', message: error.response.data.message });
-  //   }
-  // };
+  const onSubmit = async (values, { resetForm }) => {
+    const { homeNetwork, cost, seri, code } = values;
+    try {
+      await topUpWithCard(homeNetwork, +cost, seri, code).then((res) => {
+        if (res.data) {
+          handleSetMessage({ type: 'error', message: res.data.message });
+        } else {
+          handleSetMessage({
+            type: 'success',
+            message: 'Thẻ đang được xử lý, vui lòng đợi'
+          });
+          resetForm();
+        }
+      });
+    } catch (error) {
+      handleSetMessage({ type: 'error', message: error.response.data.message });
+    }
+  };
 
   const onSubmitBank = async () => {
     try {
@@ -132,7 +143,7 @@ function TopUp() {
     }
   };
 
-  // const formik = useCustomForm(validationSchema, initForm, onSubmit);
+  const formik = useCustomForm(validationSchema, initForm, onSubmit);
 
   return (
     <Box
@@ -193,7 +204,7 @@ function TopUp() {
         >
           Nạp thẻ cào tự động
         </Typography>
-        <Box
+        {/* <Box
           sx={{
             pa: 3,
             textAlign: 'center'
@@ -229,8 +240,8 @@ function TopUp() {
               Nạp qua ATM/MOMO
             </Button>
           </Box>
-        </Box>
-        {/* <Box
+        </Box> */}
+        <Box
           mt={2}
           sx={{
             border: '1px solid #fff',
@@ -346,7 +357,7 @@ function TopUp() {
               </Typography>
             </Grid>
           </Grid>
-        </Box> */}
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Typography
