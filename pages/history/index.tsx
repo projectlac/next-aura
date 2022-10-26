@@ -20,7 +20,9 @@ function Overview() {
   const { update } = useAuth();
   const [data, setData] = useState([]);
   useEffect(() => {
-    getHistory().then((res) => setData(res.data.data));
+    getHistory().then((res) => {
+      setData(res.data.data);
+    });
   }, [update]);
   return (
     <ProtectGuess>

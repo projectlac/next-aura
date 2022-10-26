@@ -69,7 +69,7 @@ export default function Table({ data }: IProp) {
               : data
             ).map((row) => {
               const {
-                transaction: { detail }
+                transaction: { detail, updated_at }
               } = row;
               return (
                 <StyledTableRow key={detail[0].id}>
@@ -84,10 +84,10 @@ export default function Table({ data }: IProp) {
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <Typography fontWeight={'bold'}>
-                      {format(new Date(detail[0].created_at), 'dd/MM/yyyy')}
+                      {format(new Date(updated_at), 'dd/MM/yyyy')}
                     </Typography>
                     <Typography>
-                      {format(new Date(detail[0].created_at), 'hh:mm:ss')}
+                      {format(new Date(updated_at), 'hh:mm:ss')}
                     </Typography>
                   </StyledTableCell>
                 </StyledTableRow>
