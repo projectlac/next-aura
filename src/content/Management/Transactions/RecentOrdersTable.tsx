@@ -1,3 +1,6 @@
+import Label from '@/components/Label';
+import { sliceString } from '@/utility/sliceString';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {
   Box,
   Card,
@@ -21,19 +24,20 @@ import {
   useTheme
 } from '@mui/material';
 import { format } from 'date-fns';
+import { IAccountVipAdmin } from 'model/account';
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import { ChangeEvent, FC, useState } from 'react';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import Label from '@/components/Label';
-import { IAccountVipAdmin } from 'model/account';
 import DeleteAccount from './Action/DeleteAccount';
 import EditAccount from './Action/EditAccount';
-import { sliceString } from '@/utility/sliceString';
-
 interface RecentOrdersTableProps {
   className?: string;
   cryptoOrders: IAccountVipAdmin[];
+  total: number;
+  changePage: (page: number) => void;
+  changeLimit: (limit: number) => void;
+  handleSearch: (keyword: string) => void;
+  handleStatus: (status: boolean | null) => void;
 }
 
 interface Filters {
@@ -57,30 +61,14 @@ const getStatusLabel = (cryptoOrderStatus: boolean): JSX.Element => {
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (
-  cryptoOrders: IAccountVipAdmin[],
-  filters: Filters
-): IAccountVipAdmin[] => {
-  return cryptoOrders.filter((cryptoOrder) => {
-    let matches = true;
-
-    if (filters.status && cryptoOrder.is_sold.toString() !== filters.status) {
-      matches = false;
-    }
-
-    return matches;
-  });
-};
-
-const applyPagination = (
-  cryptoOrders: IAccountVipAdmin[],
-  page: number,
-  limit: number
-): IAccountVipAdmin[] => {
-  return cryptoOrders.slice(page * limit, page * limit + limit);
-};
-
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
+  cryptoOrders,
+  changePage,
+  total,
+  handleSearch,
+  handleStatus,
+  changeLimit
+}) => {
   const [page, setPage] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
   const [buyTimeSort, setBuyTimeSort] = useState<boolean | null>(null);
@@ -109,6 +97,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       value = e.target.value;
     }
 
+    handleStatus(value);
     setFilters((prevFilters) => ({
       ...prevFilters,
       status: value
@@ -117,46 +106,19 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
 
   const handlePageChange = (_event: any, newPage: number): void => {
     setPage(newPage);
+    changePage(newPage * limit);
   };
 
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setLimit(parseInt(event.target.value));
+    changeLimit(parseInt(event.target.value));
   };
-
-  const filterBySearch = (cryptoOrders: IAccountVipAdmin[]) => {
-    let filter = cryptoOrders.filter(
-      (d) =>
-        d.username.toLowerCase().includes(search.toLowerCase()) ||
-        d.code.includes(search)
-    );
-
-    switch (buyTimeSort) {
-      case true:
-        filter = filter.sort(
-          (a, b) => Date.parse(a.updated_at) - Date.parse(b.updated_at)
-        );
-        break;
-      case false:
-        filter = filter.sort(
-          (a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at)
-        );
-        break;
-      default:
-        break;
-    }
-
-    return filter;
-  };
-
-  const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
-  const filteredCode = filterBySearch(filteredCryptoOrders);
-
-  const paginatedCryptoOrders = applyPagination(filteredCode, page, limit);
 
   const theme = useTheme();
 
   const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    handleSearch(e.target.value);
   };
 
   return (
@@ -234,8 +196,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {paginatedCryptoOrders.map((cryptoOrder) => {
+
+          <TableBody sx={{ position: 'relative' }}>
+            {cryptoOrders.map((cryptoOrder) => {
               return (
                 <TableRow hover key={cryptoOrder.id}>
                   <TableCell>
@@ -345,7 +308,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                     <Tooltip title="Delete Order" arrow>
                       <IconButton
                         sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
+                          '&:hover': {
+                            background: theme.colors.error.lighter
+                          },
                           color: theme.palette.error.main
                         }}
                         color="inherit"
@@ -367,7 +332,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredCryptoOrders.length}
+          count={total}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}

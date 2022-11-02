@@ -57,6 +57,8 @@ export interface IAccountVip {
   server?: string;
   hero?: string;
   weapon?: string;
+  keyword?:string;
+  is_sold?:boolean|null;
 }
 
 export interface IQueryRandomAcc {
