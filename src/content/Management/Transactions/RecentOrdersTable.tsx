@@ -38,6 +38,7 @@ interface RecentOrdersTableProps {
   changeLimit: (limit: number) => void;
   handleSearch: (keyword: string) => void;
   handleStatus: (status: boolean | null) => void;
+  handleOrder: (status: 'true' | 'false' | null) => void;
 }
 
 interface Filters {
@@ -67,7 +68,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
   total,
   handleSearch,
   handleStatus,
-  changeLimit
+  changeLimit,
+  handleOrder
 }) => {
   const [page, setPage] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
@@ -81,12 +83,15 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
     switch (buyTimeSort) {
       case true:
         setBuyTimeSort(false);
+        handleOrder('false');
         break;
       case false:
         setBuyTimeSort(null);
+        handleOrder(null);
         break;
       default:
         setBuyTimeSort(true);
+        handleOrder('true');
         break;
     }
   };
@@ -165,7 +170,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
               <TableCell>Account ID</TableCell>
               <TableCell>Info</TableCell>
               <TableCell>Title</TableCell>
-
+              <TableCell>Người đăng</TableCell>
               <TableCell align="right">Thời gian tạo</TableCell>
               <TableCell
                 align="right"
@@ -226,6 +231,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
                       {cryptoOrder.password}
                     </Typography>
                   </TableCell>
+
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -240,7 +246,16 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
                       Giá: {numeral(cryptoOrder.price).format(`0,0`)}
                     </Typography>
                   </TableCell>
-
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {cryptoOrder.user.username}
+                    </Typography>
+                  </TableCell>
                   <TableCell align="right">
                     <Typography
                       variant="body1"

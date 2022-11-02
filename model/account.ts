@@ -7,7 +7,7 @@ export interface IAccountVipAdmin {
   password: string;
   price: string;
   created_at: string;
-
+  user:any;
   is_sold: boolean;
   description: string;
   name: string;

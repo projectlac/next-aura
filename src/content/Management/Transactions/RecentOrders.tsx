@@ -12,6 +12,8 @@ function RecentOrders() {
   const [limit, setLimit] = useState<number>(10);
   const [total, setTotal] = useState<number>(0);
   const [status, setStatus] = useState<boolean | null>(null);
+  const [soldOrder, setSoldOrder] = useState<'true' | 'false' | null>(null);
+
   const [search, setSearch] = useState<string>('');
 
   const changePage = (page: number) => {
@@ -23,6 +25,10 @@ function RecentOrders() {
   const handleSearch = (keyword: string) => {
     setSearch(keyword);
     setPage(0);
+  };
+  const handleOrder = (order: 'true' | 'false' | null) => {
+    setSearch('');
+    setSoldOrder(order);
   };
   const handleStatus = (status: boolean | null) => {
     setStatus(status);
@@ -36,12 +42,13 @@ function RecentOrders() {
       offset: page,
       keyword: search,
       priceSort: '',
-      is_sold: status
+      is_sold: status,
+      sold_date: soldOrder
     }).then((res) => {
       setData(res.data.data);
       setTotal(res.data.total);
     });
-  }, [update, page, search, status, limit]);
+  }, [update, page, search, status, limit, soldOrder]);
   return (
     <Card sx={{ mb: 5 }}>
       <RecentOrdersTable
@@ -51,6 +58,7 @@ function RecentOrders() {
         handleSearch={handleSearch}
         changeLimit={changeLimit}
         handleStatus={handleStatus}
+        handleOrder={handleOrder}
       />
     </Card>
   );

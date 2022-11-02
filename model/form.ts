@@ -59,6 +59,7 @@ export interface IAccountVip {
   weapon?: string;
   keyword?:string;
   is_sold?:boolean|null;
+  sold_date?:'true' | 'false' | null;
 }
 
 export interface IQueryRandomAcc {
