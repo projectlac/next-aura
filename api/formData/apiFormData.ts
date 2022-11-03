@@ -6,7 +6,7 @@ let urls = {
   production: 'https://muabanaccgenshin.online/'
 };
 const apiFormData = Axios.create({
-  baseURL: urls[process.env.APP_ENV],
+  baseURL: 'https://muabanaccgenshin.online/',
   headers: {
     Accept: '*/*',
     'Content-Type': 'multipart/form-data'

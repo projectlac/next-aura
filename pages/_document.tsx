@@ -2,7 +2,7 @@ import * as React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from 'src/createEmotionCache';
-import img from '../static/favicon_io/favicon.ico';
+import img from '../public/static/favicon_io/favicon.ico';
 export default class MyDocument extends Document {
   render() {
     return (
