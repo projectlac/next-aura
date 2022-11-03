@@ -25,6 +25,7 @@ type NextPageWithLayout = NextPage & {
 interface TokyoAppProps extends AppProps {
   emotionCache?: EmotionCache;
   Component: NextPageWithLayout;
+  pageProps: any;
 }
 
 function TokyoApp(props: TokyoAppProps) {
