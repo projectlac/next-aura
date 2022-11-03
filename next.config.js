@@ -13,6 +13,9 @@ const redirects = {
   images: {
     domains: ['res.cloudinary.com'],
     disableStaticImages: true
+  },
+  typescript: {
+    ignoreBuildErrors: true
   }
 };
 
