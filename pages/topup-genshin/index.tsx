@@ -38,9 +38,11 @@ const initForm = {
 export default function VerticalTabs() {
   const { handleSetMessage, update, updateSuccess } = useAuth();
   const [history, setHistory] = React.useState([]);
+  const [pending, setPending] = React.useState(false);
   const onSubmit = async (values, { resetForm }) => {
     const { pack, uid, username, password, server, ingame, social, note } =
       values;
+    setPending(true);
     try {
       await createDeposit({
         pack: +pack,
@@ -57,10 +59,12 @@ export default function VerticalTabs() {
           type: 'success',
           message: 'Yêu cầu nạp thành công'
         });
+        setPending(false);
         resetForm();
       });
     } catch (error) {
       handleSetMessage({ type: 'error', message: error.response.data.message });
+      setPending(false);
     }
   };
 
@@ -261,7 +265,11 @@ export default function VerticalTabs() {
                       />
                     </Grid>
                     <Grid item xs={12} textAlign="center">
-                      <Button variant="contained" type="submit">
+                      <Button
+                        variant="contained"
+                        type="submit"
+                        disabled={pending}
+                      >
                         Yêu cầu nạp
                       </Button>
                     </Grid>

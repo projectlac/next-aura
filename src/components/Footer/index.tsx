@@ -77,7 +77,7 @@ function Footer() {
                 <Link href={'/account/random'}>ACC RANDOM</Link>
               </p>
               <p className="footer-p">
-                <Link href={'javascript:void(0)'}>NẠP GAME(Tạm ngưng)</Link>
+                <Link href={'/topup-genshin'}>NẠP GAME</Link>
               </p>
             </Box>
           </Grid>
