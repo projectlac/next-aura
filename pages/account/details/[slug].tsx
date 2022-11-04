@@ -277,7 +277,7 @@ function DetailAccout() {
                         <Grid item md={6} xs={12} textAlign="center">
                           <Button
                             variant="contained"
-                            disabled={!pending}
+                            disabled={pending}
                             onClick={buyAccountSubmit}
                           >
                             Xác nhận
