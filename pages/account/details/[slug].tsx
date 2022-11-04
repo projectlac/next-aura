@@ -37,6 +37,7 @@ function DetailAccout() {
   const router = useRouter();
   const { slug } = router.query;
   const [data, setData] = useState<IDetail>();
+  const [pending, setPending] = useState(false);
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -45,6 +46,7 @@ function DetailAccout() {
   };
 
   const buyAccountSubmit = async () => {
+    setPending(true);
     try {
       await buyAccount(slug as string).then(() => {
         handleSetMessage({
@@ -52,6 +54,7 @@ function DetailAccout() {
           message: 'Bạn đã mua tài khoản thành công'
         });
         router.push('/history');
+        setPending(false);
         handleCloseDialog();
       });
     } catch (error) {
@@ -274,6 +277,7 @@ function DetailAccout() {
                         <Grid item md={6} xs={12} textAlign="center">
                           <Button
                             variant="contained"
+                            disabled={!pending}
                             onClick={buyAccountSubmit}
                           >
                             Xác nhận
