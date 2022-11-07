@@ -50,10 +50,11 @@
     "dev": "next -p 8080",
     "build": "next build",
     "start": "next start -p 4400",
-    "export": "npm run build && next export -o _static",
+    "export": "next export",
     "lint": "next lint",
     "lint-fix": "next lint --fix",
-    "format": "prettier --write \"./**/*.{ts,tsx,js,jsx,json}\" --config ./.prettierrc"
+    "format": "prettier --write \"./**/*.{ts,tsx,js,jsx,json}\" --config ./.prettierrc",
+    "postbuild": "next-sitemap --config next-sitemap.js"
   },
   "devDependencies": {
     "eslint": "8.17.0",
