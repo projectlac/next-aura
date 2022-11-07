@@ -103,7 +103,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
     });
   };
   const filterBySearch = (cryptoOrders: IData[]) => {
-    return cryptoOrders.filter((d) => d.desc.includes(search));
+    return cryptoOrders.filter((d) =>
+      d.desc.toLowerCase().includes(search.toLowerCase())
+    );
   };
   const filteredCryptoOrders = applyFilters(cryptoOrders, filters);
   const filteredCode = filterBySearch(filteredCryptoOrders);

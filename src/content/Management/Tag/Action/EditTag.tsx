@@ -53,11 +53,11 @@ function EditTag({ title, slug, type }: IEdit) {
     if (openDialog) {
       if (type === 'weapon') {
         getWeaponBySlug(slug).then((res) =>
-          setDefaultData({ title: res.data.desc, image: res.data.image.url })
+          setDefaultData({ title: res.data.desc, image: res?.data?.image?.url })
         );
       } else {
         getHeroBySlug(slug).then((res) =>
-          setDefaultData({ title: res.data.desc, image: res.data.image.url })
+          setDefaultData({ title: res.data.desc, image: res?.data?.image?.url })
         );
       }
     } else {
@@ -79,7 +79,7 @@ function EditTag({ title, slug, type }: IEdit) {
           });
           handleCloseDialog();
           resetForm();
-          
+
           updateSuccess();
         });
       } catch (error) {
