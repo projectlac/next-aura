@@ -103,7 +103,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
     }
 
     handleStatus(value);
-    handleOrder('false');
+    handleOrder(null);
     setFilters((prevFilters) => ({
       ...prevFilters,
       status: value
