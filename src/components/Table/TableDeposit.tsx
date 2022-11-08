@@ -16,7 +16,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.white
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14
+    fontSize: 13
   }
 }));
 
@@ -58,6 +58,7 @@ export default function TableDeposit({ data }: IProp) {
         <MuiTable aria-label="customized table">
           <TableHead>
             <TableRow>
+              <StyledTableCell align="left">#</StyledTableCell>
               <StyledTableCell align="left" width={'40%'}>
                 Gói
               </StyledTableCell>
@@ -74,10 +75,11 @@ export default function TableDeposit({ data }: IProp) {
               const {
                 pack_list: { description, price },
                 id,
-                transaction: { status, created_at }
+                transaction: { status, created_at, id: code }
               } = row;
               return (
                 <StyledTableRow key={id}>
+                  <StyledTableCell align="left">{code}</StyledTableCell>
                   <StyledTableCell align="left">{description}</StyledTableCell>
                   <StyledTableCell align="left">
                     {formatMoney(price) + `VND`}

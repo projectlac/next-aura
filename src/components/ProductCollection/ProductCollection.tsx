@@ -144,7 +144,7 @@ function ProductCollection() {
                       color: '#d33'
                     }}
                   >
-                    15
+                    74
                   </span>
                 </Typography>
               </Grid>
