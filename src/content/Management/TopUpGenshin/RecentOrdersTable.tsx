@@ -145,6 +145,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell width={'5%'}>#</TableCell>
+
               <TableCell width={'30%'}>Gói nạp</TableCell>
               <TableCell>Thông tin</TableCell>
               <TableCell align="right">Ngày mua</TableCell>
@@ -156,6 +158,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
             {paginatedCryptoOrders.map((cryptoOrder) => {
               return (
                 <TableRow hover key={cryptoOrder.id}>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {cryptoOrder.id}
+                    </Typography>
+                  </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -196,7 +209,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
                       <b>Server: </b> {cryptoOrder.server} |{' '}
                       {cryptoOrder.note && (
                         <>
-                          <b>Note</b>
+                          <b>Note: </b>
                           {cryptoOrder.note}
                         </>
                       )}

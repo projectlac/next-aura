@@ -245,7 +245,7 @@ export default function VerticalTabs() {
                     <Grid item md={6} xs={12}>
                       <TextField
                         formik={formik}
-                        label="Thông tin liên hệ (STĐ, FB hoặc Zalo)"
+                        label="Thông tin liên hệ (FB hoặc Zalo)"
                         placeholder=""
                         variant="outlined"
                         fullWidth
@@ -272,6 +272,12 @@ export default function VerticalTabs() {
                       >
                         Yêu cầu nạp
                       </Button>
+                      <p>
+                        <b>
+                          <span style={{ color: '#d33' }}>Lưu ý:</span> Shop sẽ
+                          lấy mã nạp game trong khoản từ 20h-22h cùng ngày.
+                        </b>
+                      </p>
                     </Grid>
                   </Grid>
                 </Box>
