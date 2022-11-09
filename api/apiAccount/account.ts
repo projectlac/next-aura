@@ -20,7 +20,13 @@ export const getAccountVipFromDashboard = (param: IAccountVip) => {
     }&priceSort=${param.priceSort}${checkCall('hero', param.hero)}${checkCall(
       'server',
       param.server
-    )}${checkCall('weapon', param.weapon)}${checkCall('keyword', param.keyword)}${checkCall('is_sold', param.is_sold)}${checkCall('sold_date', param.sold_date)}`
+    )}${checkCall('weapon', param.weapon)}${checkCall(
+      'keyword',
+      param.keyword
+    )}${checkCall('is_sold', param.is_sold)}${checkCall(
+      'sold_date',
+      param.sold_date
+    )}`
   );
 };
 export const getAccountBySlugToManager = (slug: string) => {
@@ -94,6 +100,9 @@ export const buyAccount = (slug: string) => {
 // get total
 export const getInfoAllAccount = () => {
   return api.get('/account');
+};
+export const getDepositHome = () => {
+  return api.get('/deposit/get-total-deposit');
 };
 
 export const queryAllAccountForSiteMap = () => {
