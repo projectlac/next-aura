@@ -5,7 +5,7 @@ import bgVip from '@/assets/images/mainCategory/310860207_1164961827704035_43431
 import { Box, Button, Card, Divider, Grid, Typography } from '@mui/material';
 import ProductCollectionItem from './ProductCollectionItem';
 
-import { getInfoAllAccount } from 'api/apiAccount/account';
+import { getDepositHome, getInfoAllAccount } from 'api/apiAccount/account';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 interface IAll {
@@ -18,6 +18,10 @@ function ProductCollection() {
   const [dataAccVip, setDataAccVip] = useState<IAll>();
   const [dataAccRandom, setDataAccRandom] = useState<IAll>();
   const [dataAccReroll, setDataAccReroll] = useState<IAll>();
+  const [dataDeposit, setDataDeposit] = useState<any>({
+    pending: 0,
+    success: 0
+  });
 
   const gianDoi = (data, number) => {
     let temp = { ...data };
@@ -32,6 +36,9 @@ function ProductCollection() {
         if (d.type === 'REROLL') setDataAccReroll(gianDoi(d, 64));
         if (d.type === 'RANDOM') setDataAccRandom(gianDoi(d, 103));
       });
+    });
+    getDepositHome().then((res) => {
+      setDataDeposit(res.data);
     });
   }, []);
   return (
@@ -130,7 +137,7 @@ function ProductCollection() {
                       color: '#d33'
                     }}
                   >
-                    0
+                    {dataDeposit.pending}
                   </span>
                 </Typography>
               </Grid>
@@ -144,7 +151,7 @@ function ProductCollection() {
                       color: '#d33'
                     }}
                   >
-                    74
+                    {dataDeposit.success + 10}
                   </span>
                 </Typography>
               </Grid>
