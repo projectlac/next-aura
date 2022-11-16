@@ -315,7 +315,10 @@ export default function TopUpMobile() {
               <Divider sx={{ my: 1 }}></Divider>
               <Typography fontSize={'15px'} fontWeight={500}>
                 Nếu nạp thẻ bị lỗi sau 2 phút{' '}
-                <span style={{ background: 'red' }}> không nhận được tiền</span>{' '}
+                <span style={{ background: 'red', color: '#fff' }}>
+                  {' '}
+                  không nhận được tiền
+                </span>{' '}
                 hãy IB cho Shop để được xử lý
               </Typography>
               <Typography fontSize={'15px'} fontWeight={500}>
@@ -485,8 +488,13 @@ export default function TopUpMobile() {
             nội dung ở trên
           </Typography>
           <Typography>
-            Nếu chuyển sai, vui lòng liên hệ <b>ADMIN</b> hoặc số điện thoại{' '}
-            <b>0123456789 (8h-24h)</b> để được hỗ trợ.
+            Nếu chuyển sai, vui lòng liên hệ{' '}
+            <a href="https://www.facebook.com/GenshinViet">
+              <b style={{ color: '#FF1943' }}>ADMIN</b>{' '}
+            </a>
+            hoặc số điện thoại{' '}
+            <b style={{ color: '#FF1943' }}>0904448980 (8h-24h)</b> để được hỗ
+            trợ.
           </Typography>
         </Box>
       </TabPanel>
