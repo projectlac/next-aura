@@ -1,31 +1,20 @@
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
 import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
-import Selection from '@/components/Common/Form/Selection';
 import TextField from '@/components/Common/Form/TextField';
-import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-  useTheme
-} from '@mui/material';
+import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
+import { Box, Button, Grid, useTheme } from '@mui/material';
 import { styled } from '@mui/styles';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
 // import { createAccountNomal } from 'api/apiAccount/account';
-import { useAuth } from '@/contexts/AuthGuard';
-import { addProduct } from 'api/product/productApi';
-import AutoCompleteHarder from '@/components/Common/Form/AutoCompleteHarder';
-import { getCategory } from 'api/category/categoryApi';
 import TinyEditor from '@/components/Common/Editor/TinyEditor';
+import AutoCompleteHarder from '@/components/Common/Form/AutoCompleteHarder';
+import { useAuth } from '@/contexts/AuthGuard';
+import { getCategory } from 'api/category/categoryApi';
+import { addProduct } from 'api/product/productApi';
 interface IEdit {
   title: string;
 }

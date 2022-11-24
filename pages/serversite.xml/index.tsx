@@ -1,15 +1,13 @@
-import { queryAllAccountForSiteMap } from 'api/apiAccount/account';
-
 import { getServerSideSitemap, ISitemapField } from 'next-sitemap';
 
-export const GetPost = async () => {
-  const data = await queryAllAccountForSiteMap();
+// export const GetPost = async () => {
+//   const data = await queryAllAccountForSiteMap();
 
-  return data.data.data;
-};
+//   return data.data.data;
+// };
 export const getServerSideProps: any = async (ctx) => {
   const siteUrl = 'https://AuraViet.com';
-  const news: any = await GetPost();
+  // const news: any = await GetPost();
   const fieldHome: ISitemapField[] = [
     {
       loc: `${siteUrl}/`,
@@ -41,14 +39,14 @@ export const getServerSideProps: any = async (ctx) => {
     }
   ];
 
-  const fieldsNews: ISitemapField[] = news?.map((data: any) => ({
-    loc: `${siteUrl}/account/details/${data.slug}`,
-    lastmod: new Date().toISOString()
-  }));
+  // const fieldsNews: ISitemapField[] = news?.map((data: any) => ({
+  //   loc: `${siteUrl}/account/details/${data.slug}`,
+  //   lastmod: new Date().toISOString()
+  // }));
 
-  const fields = fieldsNews.concat(fieldHome);
+  // const fields = fieldsNews.concat(fieldHome);
 
-  return getServerSideSitemap(ctx, fields);
+  return getServerSideSitemap(ctx, fieldHome);
 };
 
 export default function Site() {
