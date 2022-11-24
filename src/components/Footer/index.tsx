@@ -1,128 +1,105 @@
-import { Box, Container, Grid, styled, Typography } from '@mui/material';
-import Link from 'next/link';
-import TitleSpecial from '../Common/TitleSpecial';
-
-const FooterWrapper = styled(Box)(
-  ({ theme }) => `
-        margin-top: ${theme.spacing(4)};
-        background: rgb(27 25 60 / 58%);
-        color: #fff;
-`
-);
-
+import { Box, Container, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import img from '../../assets/images/banner 1920x380.png';
+const FooterWrapper = styled(Box)({
+  padding: '30px 0',
+  background: '#fff'
+});
 function Footer() {
   return (
-    <FooterWrapper className="footer-wrapper">
-      <Box
-        pt={3}
-        pb={2}
-        display={{ xs: 'block', md: 'flex' }}
-        alignItems="center"
-        textAlign={{ xs: 'center', md: 'left' }}
-        justifyContent="center"
-      >
-        <TitleSpecial mt={2}>GenshinViet.com</TitleSpecial>
-      </Box>
-      <Container>
-        <Grid container columnSpacing={1.5}>
-          <Grid item md={4} xs={12}>
+    <Box sx={{ background: '#fff' }}>
+      <img src={img} alt="" />
+      <FooterWrapper>
+        <Container>
+          <Box
+            sx={{
+              borderTop: '1px solid #333',
+              display: 'flex',
+              justifyContent: 'space-between',
+              '& ul': {
+                paddingTop: '15px',
+                '& li': {
+                  padding: '10px 0',
+                  fontSize: '16px'
+                }
+              }
+            }}
+          >
+            <ul>
+              <li>TÌM KIẾM</li>
+              <li>SẢN PHẨM MỚI</li>
+              <li>TỔNG HỢP SẢN PHẨM</li>
+              <li>SẢN PHẨM GIẢM GIÁ </li>
+              <li>BÁN CHẠY NHẤT </li>
+              <li>LIÊN HỆ CHÚNG TÔI</li>
+            </ul>
+            <ul>
+              <li>Facebook</li>
+              <li>Instagram</li>
+            </ul>
+          </Box>
+          <Box
+            sx={{
+              marginTop: '110px',
+              textAlign: 'center'
+            }}
+          >
             <Typography
-              className="highlight-text"
-              fontWeight={'bold'}
               sx={{
-                fontSize: { md: 25, xs: 18 }
+                fontSize: '18px',
+                fontWeight: 'bold',
+                marginBottom: '21px'
               }}
             >
-              Về chúng tôi
+              Subscribe Now!
             </Typography>
-            <p className="footer-p">
-              Shop GenshinViet.com luôn đáp ứng nhu cầu, niềm tin tưởng của
-              khách hàng khi muốn tìm 1 Account chất lượng để trải nghiệm tựa
-              game Genshin Impact với tiêu chí: <br />
-            </p>
-            <p className="footer-p">Rẻ - Chất lượng - An toàn</p>
-            <p className="footer-p">
-              Chúng tôi với đội ngũ chuyên nghiệp, luôn hỗ trợ khách hàng nhanh
-              chóng hiệu quả
-            </p>
-          </Grid>
-
-          <Grid item md={4} xs={12}>
+            <Typography
+              sx={{
+                fontSize: '15px',
+                lineHeight: '20px'
+              }}
+            >
+              Đăng ký để là người đầu tiên tìm hiểu về các chương trình khuyến{' '}
+              <br />
+              mãi, ra mắt sản phẩm và hơn thế nữa !!
+            </Typography>
             <Box
               sx={{
-                px: { xs: 0, md: 2 },
-                '& p a': {
-                  color: '#fff',
-                  fontWeight: '600'
+                mt: 2,
+                '& button': {
+                  textTransform: 'uppercase',
+                  background: 'rgb(48, 59, 67)',
+                  borderRadius: '2px',
+                  border: 'none',
+                  color: 'rgb(255, 255, 255)',
+                  fontSize: '16px',
+                  fontWeight: '700',
+                  padding: '11px 10px',
+                  height: '41px'
+                },
+                '& input': {
+                  boxSizing: 'border-box',
+                  borderRadius: '2px',
+                  padding: '0px 0px 0px 16px',
+                  height: '41px',
+                  textAlign: 'left',
+                  color: 'rgb(0, 0, 0)',
+                  fontSize: '16px',
+                  fontWeight: '400',
+                  letterSpacing: '0px',
+                  backgroundColor: 'rgb(255, 255, 255)',
+                  border: '1px solid rgb(180, 187, 195)',
+                  width: '315px'
                 }
               }}
             >
-              <Typography
-                className="highlight-text"
-                fontWeight={'bold'}
-                sx={{
-                  fontSize: { md: 25, xs: 18 }
-                }}
-              >
-                Sản phẩm và dịch vụ
-              </Typography>
-              <p className="footer-p">
-                <Link href={'/account/vip'}>ACC VIP</Link>
-              </p>
-
-              <p className="footer-p">
-                <Link href={'/account/reroll'}>ACC REROLL</Link>
-              </p>
-              <p className="footer-p">
-                <Link href={'/account/random'}>ACC RANDOM</Link>
-              </p>
-              <p className="footer-p">
-                <Link href={'/topup-genshin'}>NẠP GAME</Link>
-              </p>
+              <input type="text" />
+              <button>Sign me up</button>
             </Box>
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <Typography
-              className="highlight-text"
-              fontWeight={'bold'}
-              sx={{
-                fontSize: { md: 25, xs: 18 }
-              }}
-            >
-              Liên hệ
-            </Typography>
-            <p className="footer-p">
-              Hotline:{' '}
-              <Link href={'tel:0904448980'}>
-                <b>0904448980</b>
-              </Link>
-            </p>{' '}
-            <p className="footer-p">
-              Zalo:{' '}
-              <Link href={'https://zalo.me/0904448980'}>
-                <b>0904448980</b>
-              </Link>
-            </p>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sx={{
-              '& p': {
-                textAlign: 'center',
-                borderTop: '1px solid #fff',
-                paddingTop: '15px'
-              },
-              '& p a': { fontWeight: '600', color: '#fff' }
-            }}
-          >
-            <p className="mt-3 small">
-              Copyright by © <Link href={'/'}>GenshinViet.com </Link>2022
-            </p>
-          </Grid>
-        </Grid>
-      </Container>
-    </FooterWrapper>
+          </Box>
+        </Container>
+      </FooterWrapper>
+    </Box>
   );
 }
 

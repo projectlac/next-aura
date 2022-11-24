@@ -27,15 +27,7 @@ export interface ILogin {
   username: string;
   password: string;
 }
-export interface IRegis extends ILogin {
-  confirmPassword: string;
-  email: string;
-}
-export interface IResetPassword {
-  password: string;
-  confirmPassword: string;
-  token: string;
-}
+
 // ADD ACCOUNT VIP
 // export interface IAccountVip {
 //   username: string;
@@ -50,35 +42,3 @@ export interface IResetPassword {
 // }
 
 ///GetAcount
-export interface IAccountVip {
-  limit: number;
-  offset: number;
-  priceSort: boolean | '';
-  server?: string;
-  hero?: string;
-  weapon?: string;
-  keyword?:string;
-  is_sold?:boolean|null;
-  sold_date?:'true' | 'false' | null;
-}
-
-export interface IQueryRandomAcc {
-  limit: number;
-  offset: number;
-  priceSort: boolean | '';
-  ar: string;
-  keyword: string;
-  rangeMoney?: string;
-}
-
-export interface IQueryVipAcc {
-  limit: number;
-  offset: number;
-  priceSort: boolean | '';
-  ar: string;
-  hero: string;
-  weapon: string;
-  server: string;
-  keyword: string;
-  rangeMoney?: string;
-}

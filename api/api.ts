@@ -1,7 +1,8 @@
 import Axios from 'axios';
+import { env } from 'process';
 
 const api = Axios.create({
-  baseURL: 'https://muabanaccgenshin.online/',
+  baseURL: env.NEXT_PUBLIC_ENDPOINT,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json'

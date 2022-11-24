@@ -52,30 +52,18 @@ const validationSchemaRegis = yup.object({
 });
 function Overview() {
   const [loginMode, setLoginMode] = useState<boolean>(true);
-  const { login, register } = useAuth();
+  const { login } = useAuth();
   const initForm = {
     username: '',
     password: ''
   };
-  const initFormRegis = {
-    username: '',
-    password: '',
-    email: ''
-  };
+
   const onSubmit = (values) => {
     const { username, password } = values;
     login(username, password);
   };
-  const onRegis = (values) => {
-    const { username, password, email } = values;
-    register(username, password, email);
-  };
+
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
-  const formikRegis = useCustomForm(
-    validationSchemaRegis,
-    initFormRegis,
-    onRegis
-  );
 
   return (
     <OverviewWrapper>
@@ -87,63 +75,7 @@ function Overview() {
         <Box py={3}>
           <Card>
             <Grid container sx={{ position: 'relative' }}>
-              <Grid md={6} item>
-                {!loginMode && (
-                  <Box sx={{ p: { md: 10, xs: 2 } }}>
-                    <FormatForm formik={formikRegis}>
-                      <Typography
-                        mb={2.7}
-                        textAlign="center"
-                        fontWeight="bold"
-                        fontSize={19}
-                        textTransform="uppercase"
-                      >
-                        Đăng ký ngay
-                      </Typography>
-                      <TextField
-                        type="text"
-                        label="Tài khoản"
-                        variant="outlined"
-                        name="username"
-                        formik={formikRegis}
-                        fullWidth
-                      />
-                      <TextField
-                        sx={{ mt: 2.48 }}
-                        name="password"
-                        type="password"
-                        formik={formikRegis}
-                        label="Mật khẩu"
-                        variant="outlined"
-                        fullWidth
-                      />
-                      <TextField
-                        sx={{ mt: 2.48 }}
-                        name="email"
-                        type="email"
-                        formik={formikRegis}
-                        label="Email"
-                        variant="outlined"
-                        fullWidth
-                      />
-                      <Typography fontSize={12} color="error">
-                        <i>
-                          *Vui lòng sử dụng email thật phòng khi quên mật khẩu
-                        </i>
-                      </Typography>
-                      <Button
-                        variant="contained"
-                        fullWidth
-                        sx={{ mt: 2.48 }}
-                        type="submit"
-                      >
-                        Đăng ký
-                      </Button>
-                    </FormatForm>
-                  </Box>
-                )}
-              </Grid>
-              <Grid md={6} item>
+              <Grid md={12} item>
                 {loginMode && (
                   <Box sx={{ p: { md: 10, xs: 2 } }}>
                     <FormatForm formik={formik}>
@@ -200,22 +132,6 @@ function Overview() {
                   </Box>
                 )}
               </Grid>
-              <Hidden mdDown>
-                <Grid
-                  md={6}
-                  item
-                  className={`dinamic-login ${loginMode ? '' : 'active-login'}`}
-                >
-                  <Box
-                    sx={{
-                      background: `url(${image})`,
-                      width: '100%',
-                      height: '100%',
-                      backgroundSize: 'cover'
-                    }}
-                  ></Box>
-                </Grid>
-              </Hidden>
             </Grid>
           </Card>
         </Box>

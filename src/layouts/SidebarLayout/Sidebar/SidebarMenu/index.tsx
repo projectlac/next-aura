@@ -13,11 +13,9 @@ import {
 import NextLink from 'next/link';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 
-import BallotTwoToneIcon from '@mui/icons-material/BallotTwoTone';
 import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
 import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
 import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
-import { useAuth } from '@/contexts/AuthGuard';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -163,7 +161,7 @@ const SubMenuWrapper = styled(Box)(
 
 function SidebarMenu() {
   const { closeSidebar } = useContext(SidebarContext);
-  const { user } = useAuth();
+
   const router = useRouter();
   const currentRoute = router.pathname;
 
@@ -217,36 +215,6 @@ function SidebarMenu() {
             </List>
           </SubMenuWrapper>
         </List>
-        {user && user?.role === 'ADMIN' && (
-          <List
-            component="div"
-            subheader={
-              <ListSubheader component="div" disableSticky>
-                User
-              </ListSubheader>
-            }
-          >
-            <SubMenuWrapper>
-              <List component="div">
-                <ListItem component="div">
-                  <NextLink href="/management/users" passHref>
-                    <Button
-                      className={
-                        currentRoute === '/management/users' ? 'active' : ''
-                      }
-                      disableRipple
-                      component="a"
-                      onClick={closeSidebar}
-                      startIcon={<TableChartTwoToneIcon />}
-                    >
-                      Quản lý User
-                    </Button>
-                  </NextLink>
-                </ListItem>
-              </List>
-            </SubMenuWrapper>
-          </List>
-        )}
 
         <List
           component="div"
@@ -292,203 +260,9 @@ function SidebarMenu() {
                   </Button>
                 </NextLink>
               </ListItem>
-              {user && user?.role === 'ADMIN' && (
-                <ListItem component="div">
-                  <NextLink href="/management/topup-genshin" passHref>
-                    <Button
-                      className={
-                        currentRoute === '/management/topup-genshin'
-                          ? 'active'
-                          : ''
-                      }
-                      disableRipple
-                      component="a"
-                      onClick={closeSidebar}
-                      startIcon={<TableChartTwoToneIcon />}
-                    >
-                      Quản lý nạp
-                    </Button>
-                  </NextLink>
-                </ListItem>
-              )}
             </List>
           </SubMenuWrapper>
         </List>
-        {/* <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Accounts
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
-              <ListItem component="div">
-                <NextLink href="/management/profile" passHref>
-                  <Button
-                    className={
-                      currentRoute === '/management/profile' ? 'active' : ''
-                    }
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<AccountCircleTwoToneIcon />}
-                  >
-                    User Profile
-                  </Button>
-                </NextLink>
-              </ListItem>
-              <ListItem component="div">
-                <NextLink href="/management/profile/settings" passHref>
-                  <Button
-                    className={
-                      currentRoute === '/management/profile/settings'
-                        ? 'active'
-                        : ''
-                    }
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<DisplaySettingsTwoToneIcon />}
-                  >
-                    Account Settings
-                  </Button>
-                </NextLink>
-              </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List> */}
-
-        {user && user?.role === 'ADMIN' && (
-          <>
-            <List
-              component="div"
-              subheader={
-                <ListSubheader component="div" disableSticky>
-                  Genshin Impact
-                </ListSubheader>
-              }
-            >
-              <SubMenuWrapper>
-                <List component="div">
-                  <ListItem component="div">
-                    <NextLink href="/management/tag" passHref>
-                      <Button
-                        className={
-                          currentRoute === '/management/tag' ? 'active' : ''
-                        }
-                        disableRipple
-                        component="a"
-                        onClick={closeSidebar}
-                        startIcon={<BallotTwoToneIcon />}
-                      >
-                        Vũ khí và nhân vật
-                      </Button>
-                    </NextLink>
-                  </ListItem>
-                </List>
-              </SubMenuWrapper>
-            </List>
-            <List
-              component="div"
-              subheader={
-                <ListSubheader component="div" disableSticky>
-                  Content
-                </ListSubheader>
-              }
-            >
-              <SubMenuWrapper>
-                <List component="div">
-                  <ListItem component="div">
-                    <NextLink href="/management/content" passHref>
-                      <Button
-                        className={
-                          currentRoute === '/management/content' ? 'active' : ''
-                        }
-                        disableRipple
-                        component="a"
-                        onClick={closeSidebar}
-                        startIcon={<BallotTwoToneIcon />}
-                      >
-                        Quản lý nội dung
-                      </Button>
-                    </NextLink>
-                  </ListItem>
-                </List>
-              </SubMenuWrapper>
-            </List>
-          </>
-        )}
-        {/* <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Extra Pages
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
-              <ListItem component="div">
-                <NextLink href="/status/404" passHref>
-                  <Button
-                    className={currentRoute === '/status/404' ? 'active' : ''}
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<CheckBoxTwoToneIcon />}
-                  >
-                    Error 404
-                  </Button>
-                </NextLink>
-              </ListItem>
-              <ListItem component="div">
-                <NextLink href="/status/500" passHref>
-                  <Button
-                    className={currentRoute === '/status/500' ? 'active' : ''}
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<CameraFrontTwoToneIcon />}
-                  >
-                    Error 500
-                  </Button>
-                </NextLink>
-              </ListItem>
-              <ListItem component="div">
-                <NextLink href="/status/coming-soon" passHref>
-                  <Button
-                    className={
-                      currentRoute === '/status/coming-soon' ? 'active' : ''
-                    }
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<ChromeReaderModeTwoToneIcon />}
-                  >
-                    Coming Soon
-                  </Button>
-                </NextLink>
-              </ListItem>
-              <ListItem component="div">
-                <NextLink href="/status/maintenance" passHref>
-                  <Button
-                    className={
-                      currentRoute === '/status/maintenance' ? 'active' : ''
-                    }
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<WorkspacePremiumTwoToneIcon />}
-                  >
-                    Maintenance
-                  </Button>
-                </NextLink>
-              </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List> */}
       </MenuWrapper>
     </>
   );

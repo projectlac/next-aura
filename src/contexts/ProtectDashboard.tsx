@@ -1,5 +1,5 @@
 import api from 'api/api';
-import { getUser } from 'api/user';
+// import { getUser } from 'api/user';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -12,13 +12,13 @@ export const ProtectRoute = ({ children }) => {
       let user = null;
       if (token) {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        await getUser()
-          .then((res) => {
-            user = res.data;
-          })
-          .catch(() => {
-            router.push('/login');
-          });
+        // await getUser()
+        //   .then((res) => {
+        //     user = res.data;
+        //   })
+        //   .catch(() => {
+        //     router.push('/login');
+        //   });
 
         if (!user) {
           router.push('/login');

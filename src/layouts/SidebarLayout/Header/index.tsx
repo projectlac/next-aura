@@ -16,7 +16,6 @@ import {
 import { SidebarContext } from 'src/contexts/SidebarContext';
 
 import HeaderUserbox from './Userbox';
-import HeaderNotifications from './Notifications';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -68,7 +67,6 @@ function Header() {
         spacing={2}
       ></Stack>
       <Box display="flex" alignItems="center">
-        <HeaderNotifications />
         <HeaderUserbox />
         <Box
           component="span"
