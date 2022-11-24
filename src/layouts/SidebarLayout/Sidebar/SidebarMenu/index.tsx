@@ -227,36 +227,32 @@ function SidebarMenu() {
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
-                <NextLink href="/management/transactions" passHref>
+                <NextLink href="/management/category" passHref>
                   <Button
                     className={
-                      currentRoute === '/management/transactions'
-                        ? 'active'
-                        : ''
+                      currentRoute === '/management/category' ? 'active' : ''
                     }
                     disableRipple
                     component="a"
                     onClick={closeSidebar}
                     startIcon={<TableChartTwoToneIcon />}
                   >
-                    Tài khoản VIP
+                    Danh mục sản phẩm
                   </Button>
                 </NextLink>
               </ListItem>
               <ListItem component="div">
-                <NextLink href="/management/nomal-account" passHref>
+                <NextLink href="/management/product" passHref>
                   <Button
                     className={
-                      currentRoute === '/management/nomal-account'
-                        ? 'active'
-                        : ''
+                      currentRoute === '/management/product' ? 'active' : ''
                     }
                     disableRipple
                     component="a"
                     onClick={closeSidebar}
                     startIcon={<TableChartTwoToneIcon />}
                   >
-                    Tài khoản thường
+                    Danh sách sản phẩm
                   </Button>
                 </NextLink>
               </ListItem>

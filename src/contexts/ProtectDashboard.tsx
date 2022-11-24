@@ -6,32 +6,25 @@ import { useEffect } from 'react';
 
 export const ProtectRoute = ({ children }) => {
   const router = useRouter();
-  useEffect(() => {
-    const callUser = async () => {
-      const token = Cookies.get('token');
-      let user = null;
-      if (token) {
-        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        // await getUser()
-        //   .then((res) => {
-        //     user = res.data;
-        //   })
-        //   .catch(() => {
-        //     router.push('/login');
-        //   });
+  // useEffect(() => {
+  //   const callUser = async () => {
+  //     const token = Cookies.get('token');
+  //     let user = null;
+  //     if (token) {
+  //       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-        if (!user) {
-          router.push('/login');
-        }
-        if (user && user.role === 'USER') {
-          router.push('/');
-        }
-      } else {
-        router.push('/login');
-      }
-    };
-    callUser();
-  }, []);
+  //       if (!user) {
+  //         router.push('/login');
+  //       }
+  //       if (user && user.role === 'USER') {
+  //         router.push('/');
+  //       }
+  //     } else {
+  //       router.push('/login');
+  //     }
+  //   };
+  //   callUser();
+  // }, []);
 
   return children;
 };

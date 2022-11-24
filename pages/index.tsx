@@ -22,7 +22,7 @@ function Overview() {
     <OverviewWrapper>
       <Head>
         <title>AuraViet</title>
-        <OgTag title="GenshinViet.com - Website bán acc Genshin uy tín, hàng đầu Việt Nam" />
+        <OgTag title="AuraViet.com" />
       </Head>
 
       <img src={banner1} alt="" />

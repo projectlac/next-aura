@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
 import { Box, Button, Divider, Grid } from '@mui/material';
-import { deleteAccount } from 'api/apiAccount/account';
+
 import { useAuth } from '@/contexts/AuthGuard';
+import { deleteCategory } from 'api/category/categoryApi';
 
 interface IEdit {
   title: string;
@@ -23,10 +24,10 @@ function DeleteAccount({ title, slug }: IEdit) {
 
   const onSubmit = () => {
     try {
-      deleteAccount(slug).then(() => {
+      deleteCategory(slug).then(() => {
         handleSetMessage({
           type: 'warning',
-          message: 'Xóa tài khoản thành công'
+          message: 'Xóa danh mục thành công'
         });
         handleCloseDialog();
 

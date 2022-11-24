@@ -3,10 +3,17 @@ import { Container, Grid, Typography } from '@mui/material';
 import Filter from '@/components/Shop/Filter';
 import ProductItem from '@/components/Product/ProductItem';
 import BaseLayout from '@/layouts/BaseLayout';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
+import { getCategory } from 'api/category/categoryApi';
 
 export default function Index() {
-  const category = [];
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    getCategory().then((res) => {
+      setCategory(res.data);
+    });
+  }, []);
+
   return (
     <Container sx={{ mb: 5 }}>
       <Typography

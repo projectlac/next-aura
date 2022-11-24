@@ -1,6 +1,6 @@
 import Label from '@/components/Label';
+import { CryptoOrder } from '@/models/crypto_order';
 import { sliceString } from '@/utility/sliceString';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {
   Box,
   Card,
@@ -24,7 +24,7 @@ import {
   useTheme
 } from '@mui/material';
 import { format } from 'date-fns';
-import { IAccountVipAdmin } from 'model/account';
+
 import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import { ChangeEvent, FC, useState } from 'react';
@@ -32,8 +32,8 @@ import DeleteAccount from './Action/DeleteAccount';
 import EditAccount from './Action/EditAccount';
 interface RecentOrdersTableProps {
   className?: string;
-  cryptoOrders: IAccountVipAdmin[];
-  total: number;
+  cryptoOrders: CryptoOrder[];
+
   changePage: (page: number) => void;
   changeLimit: (limit: number) => void;
   handleSearch: (keyword: string) => void;
@@ -65,7 +65,7 @@ const getStatusLabel = (cryptoOrderStatus: boolean): JSX.Element => {
 const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
   cryptoOrders,
   changePage,
-  total,
+
   handleSearch,
   handleStatus,
   changeLimit,
@@ -73,28 +73,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
 }) => {
   const [page, setPage] = useState<number>(0);
   const [search, setSearch] = useState<string>('');
-  const [buyTimeSort, setBuyTimeSort] = useState<boolean | null>(null);
+
   const [limit, setLimit] = useState<number>(10);
   const [filters, setFilters] = useState<Filters>({
     status: null
   });
 
-  const clickSort = () => {
-    switch (buyTimeSort) {
-      case true:
-        setBuyTimeSort(false);
-        handleOrder('false');
-        break;
-      case false:
-        setBuyTimeSort(null);
-        handleOrder(null);
-        break;
-      default:
-        setBuyTimeSort(true);
-        handleOrder('true');
-        break;
-    }
-  };
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
 
@@ -168,37 +152,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Account ID</TableCell>
-              <TableCell>Info</TableCell>
-              <TableCell>Title</TableCell>
-              <TableCell>Người đăng</TableCell>
+              <TableCell>Tên danh mục</TableCell>
+              <TableCell>Số sản phẩm</TableCell>
               <TableCell align="right">Thời gian tạo</TableCell>
-              <TableCell
-                align="right"
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexDirection: 'row'
-                }}
-                onClick={clickSort}
-              >
-                Thời gian bán{' '}
-                {filters.status === 'true' && (
-                  <ArrowDownwardIcon
-                    sx={{
-                      transition: 'all 0.2s',
-                      transform: `${
-                        buyTimeSort === true
-                          ? 'rotate(180deg)'
-                          : buyTimeSort === null
-                          ? 'rotate(-90deg)'
-                          : 'rotate(0deg)'
-                      }`
-                    }}
-                  />
-                )}
-              </TableCell>
-              <TableCell align="right">Status</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -206,7 +162,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
           <TableBody sx={{ position: 'relative' }}>
             {cryptoOrders.map((cryptoOrder) => {
               return (
-                <TableRow hover key={cryptoOrder.id}>
+                <TableRow hover key={cryptoOrder._id}>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -215,7 +171,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.code}
+                      {cryptoOrder.name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -226,37 +182,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {cryptoOrder.username}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {cryptoOrder.password}
+                      0
                     </Typography>
                   </TableCell>
 
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {sliceString(cryptoOrder.name)}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      Giá: {numeral(cryptoOrder.price).format(`0,0`)}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {cryptoOrder.user.username}
-                    </Typography>
-                  </TableCell>
                   <TableCell align="right">
                     <Typography
                       variant="body1"
@@ -265,43 +194,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {format(new Date(cryptoOrder.created_at), 'dd/MM/yyyy')}
+                      {format(new Date(cryptoOrder.createdAt), 'dd/MM/yyyy')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(new Date(cryptoOrder.created_at), ' HH:mm:ss')}
+                      {format(new Date(cryptoOrder.createdAt), ' HH:mm:ss')}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
-                    {cryptoOrder.is_sold && (
-                      <>
-                        <Typography
-                          variant="body1"
-                          fontWeight="bold"
-                          color="text.primary"
-                          gutterBottom
-                          noWrap
-                        >
-                          {format(
-                            new Date(cryptoOrder?.updated_at),
-                            'dd/MM/yyyy'
-                          )}
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          noWrap
-                        >
-                          {format(
-                            new Date(cryptoOrder?.updated_at),
-                            ' HH:mm:ss'
-                          )}
-                        </Typography>
-                      </>
-                    )}
-                  </TableCell>
-                  <TableCell align="right">
-                    {getStatusLabel(cryptoOrder.is_sold)}
-                  </TableCell>
+
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
                       <IconButton
@@ -348,7 +247,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
       <Box p={2}>
         <TablePagination
           component="div"
-          count={total}
+          count={cryptoOrders.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}

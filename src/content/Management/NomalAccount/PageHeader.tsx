@@ -10,14 +10,14 @@ function PageHeader() {
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Danh sách tài khoản thường
+          Danh sách sản phẩm
         </Typography>
         <Typography variant="subtitle2">
-          Chào {userData?.username}, nơi đây quản lý tài khoản reroll và random
+          Chào {userData?.username}, nơi đây quản lý sản phẩm
         </Typography>
       </Grid>
       <Grid item>
-        <AddAccount title="Thêm tài khoản" />
+        <AddAccount title="Thêm sản phẩm" />
       </Grid>
     </Grid>
   );

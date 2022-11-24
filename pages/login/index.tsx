@@ -68,7 +68,7 @@ function Overview() {
   return (
     <OverviewWrapper>
       <Head>
-        <title>Genshin Shop</title>
+        <title>Aura Viet</title>
       </Head>
 
       <Container maxWidth="md" sx={{ mt: 15 }}>

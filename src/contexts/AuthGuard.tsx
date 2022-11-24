@@ -1,8 +1,8 @@
 import CustomizedSnackbars from '@/components/Common/SnackBar/SnackBar';
 import api from 'api/api';
-// import { signIn, signUp } from 'api/auth';
-// import apiFormData from 'api/formData/apiFormData';
-// import { getUser } from 'api/user';
+import apiFormData from 'api/apiFormData';
+import { getUser, signIn } from 'api/auth';
+
 import Cookies from 'js-cookie';
 import { ISnackBar } from 'model/snackbar';
 import { useRouter } from 'next/router';
@@ -30,11 +30,11 @@ export const AuthProvider = ({ children }) => {
       const token = Cookies.get('token');
       if (token) {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        // apiFormData.defaults.headers.common[
-        //   'Authorization'
-        // ] = `Bearer ${token}`;
+        apiFormData.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${token}`;
 
-        // const { data: user } = await getUser();
+        const { data: user } = await getUser();
 
         if (user) setUser(user);
       }
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (username: string, password: string) => {
     let token = '';
     try {
-      // await signIn({ username, password }).then((res) => (token = res.data));
+      await signIn({ username, password }).then((res) => (token = res.data));
     } catch (error) {
       handleSetMessage({
         type: 'error',
@@ -58,40 +58,10 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       Cookies.set('token', token, { expires: 60 });
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      // apiFormData.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      apiFormData.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-      // const { data: user } = await getUser();
-      localStorage.setItem('numberOfFate', user.id);
-      setUser(user);
-      router.push('/');
-    }
-  };
+      const { data: user } = await getUser();
 
-  const register = async (
-    username: string,
-    password: string,
-    email: string
-  ) => {
-    let token = '';
-    try {
-      // await signUp({
-      //   username,
-      //   password,
-      //   email,
-      //   confirmPassword: password
-      // }).then((res) => {
-      //   token = res.data;
-      //   handleSetMessage({ type: 'success', message: 'Đăng ký thành công' });
-      // });
-    } catch (error) {
-      handleSetMessage({ type: 'error', message: error.response.data.message });
-    }
-
-    if (token) {
-      Cookies.set('token', token, { expires: 60 });
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      // apiFormData.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      // const { data: user } = await getUser();
       setUser(user);
       router.push('/');
     }
@@ -117,7 +87,6 @@ export const AuthProvider = ({ children }) => {
         loading,
         logout,
         handleSetMessage,
-        register,
         updateSuccess,
         update
       }}

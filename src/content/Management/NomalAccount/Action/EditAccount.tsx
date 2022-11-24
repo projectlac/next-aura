@@ -18,10 +18,8 @@ import {
   useTheme
 } from '@mui/material';
 import { styled } from '@mui/styles';
-import {
-  getAccountBySlugToManager,
-  updateAccountNomal
-} from 'api/apiAccount/account';
+
+import { getProductBySlug, updateProduct } from 'api/product/productApi';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
@@ -35,12 +33,11 @@ const Input = styled('input')({
 });
 const validationSchema = yup.object({
   name: yup.string().required('Trường này là bắt buộc'),
-  username: yup.string().required('Trường này là bắt buộc'),
-  password: yup.string().required('Password là thuộc tính bắt buộc'),
-  ar: yup.string().required('AR là thuộc tính bắt buộc'),
-  type: yup.string().required('Loại tài khoản là thuộc tính bắt buộc'),
-
-  price: yup.number().required('Thông tin này là bắt buộc')
+  detail: yup.array().of(yup.string()).min(1),
+  description: yup.string().required('Trường này là thuộc tính bắt buộc'),
+  file: yup.mixed().required('File is required'),
+  amount: yup.number().required('Trường này là thuộc tính bắt buộc'),
+  category: yup.array().of(yup.string()).min(1)
 });
 
 function EditAccount({ title, slug }: IEdit) {
@@ -59,15 +56,11 @@ function EditAccount({ title, slug }: IEdit) {
 
   const [defaultData, setDefaultData] = useState<any>({
     name: '',
-    username: '',
-    password: '',
-    server: '',
-    detail: 'ASIA',
-    price: 0,
-    ar: 10,
-    avatar: '',
-    type: 'reroll',
-    file: null
+    detail: [],
+    description: '',
+    file: null,
+    amount: 0,
+    category: []
   });
 
   const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
@@ -83,30 +76,28 @@ function EditAccount({ title, slug }: IEdit) {
   };
 
   const onSubmit = async (values, { resetForm }) => {
-    const { name, username, password, server, detail, price, ar, type, file } =
-      values;
+    const { name, description, amount, file } = values;
 
     const formData = new FormData();
     formData.append('name', name);
-    formData.append('username', username);
-    formData.append('password', password);
-    formData.append('server', server);
-    formData.append('description', detail);
-    formData.append('price', price);
-    formData.append('ar_level', ar);
-    formData.append('type', type);
+    formData.append('description', description);
+    formData.append('amount', amount);
 
     file && formData.append('avatar', file);
 
     try {
-      await updateAccountNomal(slug, formData).then(() => {
+      await updateProduct(slug, formData).then(() => {
         handleSetMessage({
           type: 'success',
-          message: `Sửa tài khoản ${type} thành công`
+          message: `Sửa sản phẩm thành công`
         });
         handleCloseDialog();
         resetForm();
-
+        (
+          document.getElementById(
+            'change-cover-create-account-vip-nomarl'
+          ) as HTMLInputElement
+        ).value = '';
         setPreview('');
         updateSuccess();
       });
@@ -123,22 +114,22 @@ function EditAccount({ title, slug }: IEdit) {
 
   useEffect(() => {
     if (openDialog) {
-      getAccountBySlugToManager(slug).then((res) => {
+      getProductBySlug(slug).then((res) => {
         const data = res.data;
-        let temp = {
-          name: data.name,
-          username: data.username,
-          password: data.password,
-          server: data.server.desc,
-          detail: data.description,
-          price: data.price,
-          ar: data.ar_level,
-          type: data.type,
-          avatar: data.avatar.url,
+        // let temp = {
+        //   name: data.name,
+        //   username: data.username,
+        //   password: data.password,
+        //   server: data.server.desc,
+        //   detail: data.description,
+        //   price: data.price,
+        //   ar: data.ar_level,
+        //   type: data.type,
+        //   avatar: data.avatar.url,
 
-          file: null
-        };
-        setDefaultData(temp);
+        //   file: null
+        // };
+        // setDefaultData(temp);
       });
     }
   }, [openDialog]);

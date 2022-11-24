@@ -40,7 +40,7 @@ function TokyoApp(props: TokyoAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Genshin Shop</title>
+        <title>Aura Viet</title>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"

@@ -1,16 +1,17 @@
 import { useAuth } from '@/contexts/AuthGuard';
 import { Card } from '@mui/material';
-import { getAccountVipFromDashboard } from 'api/apiAccount/account';
-import { IAccountVipAdmin } from 'model/account';
+
+import { getCategory } from 'api/category/categoryApi';
+
 import { useEffect, useState } from 'react';
 import RecentOrdersTable from './RecentOrdersTable';
 
 function RecentOrders() {
   const { update } = useAuth();
-  const [data, setData] = useState<IAccountVipAdmin[]>([]);
+  const [data, setData] = useState<any>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(10);
-  const [total, setTotal] = useState<number>(0);
+
   const [status, setStatus] = useState<boolean | null>(null);
   const [soldOrder, setSoldOrder] = useState<'true' | 'false' | null>(null);
 
@@ -37,16 +38,8 @@ function RecentOrders() {
   };
   useEffect(() => {
     setData([]);
-    getAccountVipFromDashboard({
-      limit: limit,
-      offset: page,
-      keyword: search,
-      priceSort: '',
-      is_sold: status,
-      sold_date: soldOrder
-    }).then((res) => {
-      setData(res.data.data);
-      setTotal(res.data.total);
+    getCategory().then((res) => {
+      setData(res.data);
     });
   }, [update, page, search, status, limit, soldOrder]);
   return (
@@ -54,7 +47,6 @@ function RecentOrders() {
       <RecentOrdersTable
         cryptoOrders={data}
         changePage={changePage}
-        total={total}
         handleSearch={handleSearch}
         changeLimit={changeLimit}
         handleStatus={handleStatus}

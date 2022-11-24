@@ -18,10 +18,14 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/styles';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as yup from 'yup';
-import { createAccountNomal } from 'api/apiAccount/account';
+// import { createAccountNomal } from 'api/apiAccount/account';
 import { useAuth } from '@/contexts/AuthGuard';
+import { addProduct } from 'api/product/productApi';
+import AutoCompleteHarder from '@/components/Common/Form/AutoCompleteHarder';
+import { getCategory } from 'api/category/categoryApi';
+import TinyEditor from '@/components/Common/Editor/TinyEditor';
 interface IEdit {
   title: string;
 }
@@ -31,37 +35,38 @@ const Input = styled('input')({
 });
 const validationSchema = yup.object({
   name: yup.string().required('Trường này là bắt buộc'),
-  username: yup.string().required('Trường này là bắt buộc'),
-  password: yup.string().required('Password là thuộc tính bắt buộc'),
-  ar: yup.string().required('AR là thuộc tính bắt buộc'),
-  type: yup.string().required('Loại tài khoản là thuộc tính bắt buộc'),
+  detail: yup.array().of(yup.string()).min(1),
+  description: yup.string().required('Trường này là thuộc tính bắt buộc'),
   file: yup.mixed().required('File is required'),
-  price: yup.number().required('Thông tin này là bắt buộc')
+  amount: yup.number().required('Trường này là thuộc tính bắt buộc'),
+  category: yup.array().of(yup.string()).min(1)
 });
 const initForm = {
   name: '',
-  username: '',
-  password: '',
-  server: 'ASIA',
-  detail: '',
-  price: 0,
-  ar: 10,
-  type: 'REROLL',
-  file: null
+  detail: [],
+  description: '',
+  file: null,
+  amount: 0,
+  category: []
 };
 
 function AddAccount({ title }: IEdit) {
   const { handleSetMessage, updateSuccess } = useAuth();
-
+  const [category, setCategory] = useState([]);
   const theme = useTheme();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [preview, setPreview] = useState<string>('');
+  const [trigger, setTrigger] = useState<boolean>(false);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+
+  const handleSelectedCategory = (data: any) => {
+    formik.handleChange({ target: { name: 'category', value: data } });
   };
 
   const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
@@ -74,27 +79,32 @@ function AddAccount({ title }: IEdit) {
     });
   };
 
+  useEffect(() => {
+    if (openDialog) {
+      getCategory().then((res) => {
+        let temp = res.data.map((d) => ({ desc: d.name, slug: d.slug }));
+        setCategory(temp);
+      });
+
+      setTrigger(true);
+    }
+  }, [openDialog]);
+
   const onSubmit = async (values, { resetForm }) => {
-    const { name, username, password, server, detail, price, ar, type, file } =
-      values;
+    const { name, description, amount, file } = values;
 
     const formData = new FormData();
     formData.append('name', name);
-    formData.append('username', username);
-    formData.append('password', password);
-    formData.append('server', server);
-    formData.append('description', detail);
-    formData.append('price', price);
-    formData.append('ar_level', ar);
-    formData.append('type', type);
+    formData.append('description', description);
+    formData.append('amount', amount);
 
     file && formData.append('avatar', file);
 
     try {
-      await createAccountNomal(formData).then(() => {
+      await addProduct(formData).then(() => {
         handleSetMessage({
           type: 'success',
-          message: `Tạo tài khoản ${type} thành công`
+          message: `Tạo sản phẩm thành công`
         });
         handleCloseDialog();
         resetForm();
@@ -113,7 +123,11 @@ function AddAccount({ title }: IEdit) {
       });
     }
   };
-
+  const changeContent = (data: string) => {
+    formik.handleChange({
+      target: { name: 'description', value: data }
+    });
+  };
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
   return (
     <DialogCommon
@@ -137,7 +151,7 @@ function AddAccount({ title }: IEdit) {
             <Grid item md={12} xs={12}>
               <TextField
                 formik={formik}
-                label="Tiêu đê"
+                label="Tên sản phảm"
                 placeholder=""
                 variant="outlined"
                 fullWidth
@@ -145,104 +159,43 @@ function AddAccount({ title }: IEdit) {
                 type="text"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
+
+            {/* <Grid item md={6} xs={12}>
               <TextField
                 formik={formik}
-                label="Tài khoản"
+                label="Số lượng"
+                variant="outlined"
+                fullWidth
+                name="amout"
+                type="number"
+              />
+            </Grid> */}
+
+            <Grid item md={12} xs={12}>
+              <TinyEditor changeBody={changeContent} defaultValue={''} />
+              {/* <TextField
+                formik={formik}
+                label="Mô tả"
                 placeholder=""
                 variant="outlined"
                 fullWidth
-                name="username"
+                name="description"
                 type="text"
-              />
+              /> */}
             </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                formik={formik}
-                label="Mật khẩu"
-                variant="outlined"
-                fullWidth
-                name="password"
-                type="text"
-              />
-            </Grid>
-
             <Grid item md={12} xs={12}>
-              <TextField
-                formik={formik}
-                label="Chi tiết tài khoản"
-                variant="outlined"
-                fullWidth
-                name="detail"
-                type="text"
-              />
-            </Grid>
-            <Grid item md={4} xs={12}>
-              <TextField
-                formik={formik}
-                label="Ar"
-                variant="outlined"
-                fullWidth
-                name="ar"
-                type="text"
-              />
-            </Grid>
-            <Grid item md={4} xs={12}>
-              <Selection
-                formik={formik}
-                label="Server"
-                variant="outlined"
-                fullWidth
-                name="server"
-                options={[
-                  { value: 'ASIA', title: 'Asia' },
-                  { value: 'AMERICA', title: 'America' },
-                  { value: 'EUROPE', title: 'Europe' },
-                  { value: 'TW-HK-MO', title: 'TW-HK-MO' }
-                ]}
-              />
-            </Grid>
-            <Grid item md={4} xs={12}>
-              <TextField
-                formik={formik}
-                label="Giá"
-                variant="outlined"
-                fullWidth
-                name="price"
-                type="number"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl>
-                <FormLabel id="demo-row-radio-buttons-group-label">
-                  Loại acc
-                </FormLabel>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="type"
-                  value={formik.values.type}
-                  onChange={(event) => {
-                    formik.handleChange({
-                      target: {
-                        name: 'type',
-                        value: event.target.value
-                      }
-                    });
-                  }}
-                >
-                  <FormControlLabel
-                    value="REROLL"
-                    control={<Radio />}
-                    label="Reroll"
-                  />
-                  <FormControlLabel
-                    value="RANDOM"
-                    control={<Radio />}
-                    label="Random"
-                  />
-                </RadioGroup>
-              </FormControl>
+              <Box>
+                <AutoCompleteHarder
+                  trigger={trigger}
+                  title="Danh sách danh mục sản phẩm"
+                  data={category}
+                  id="create-vip-weapon"
+                  name="category"
+                  formik={formik}
+                  defaultValue={[]}
+                  handleSelected={handleSelectedCategory}
+                />
+              </Box>
             </Grid>
             <Grid item md={6} xs={12}>
               <Box>

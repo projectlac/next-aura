@@ -2,7 +2,7 @@ import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
 import { useAuth } from '@/contexts/AuthGuard';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { Box, Button, Divider, Grid } from '@mui/material';
-import { deleteAccount } from 'api/apiAccount/account';
+import { deleteProduct } from 'api/product/productApi';
 import { useState } from 'react';
 
 interface IEdit {
@@ -23,10 +23,10 @@ function DeleteAccount({ title, slug }: IEdit) {
 
   const onSubmit = async () => {
     try {
-      await deleteAccount(slug).then(() => {
+      await deleteProduct(slug).then(() => {
         handleSetMessage({
           type: 'warning',
-          message: 'Xóa tài khoản thành công'
+          message: 'Xóa sản phẩm thành công'
         });
         handleCloseDialog();
 

@@ -8,7 +8,6 @@ import Link from 'next/link';
 import logo from '../../assets/images/logo.png';
 
 const Header = styled(Box)({
-  paddingBottom: '12px',
   borderBottom: '1px solid #333',
   textAlign: 'center',
   background: '#fff',
