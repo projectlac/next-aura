@@ -30,7 +30,7 @@ export default function Index() {
           fontSize: '20px'
         }}
       >
-        SẢN PHẨM GIẢM GIÁ
+        SẢN PHẨM MỚI
       </Typography>
       <Grid container>
         <Grid item md={2.5}>
