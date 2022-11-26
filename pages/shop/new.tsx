@@ -1,12 +1,12 @@
 import { Container, Grid, Typography } from '@mui/material';
 
-import Filter from '@/components/Shop/Filter';
 import ProductItem from '@/components/Product/ProductItem';
+import Filter from '@/components/Shop/Filter';
 import BaseLayout from '@/layouts/BaseLayout';
-import { ReactElement, useEffect, useState } from 'react';
 import { getCategory } from 'api/category/categoryApi';
-import { getProduct } from 'api/product/productApi';
+import { getProductNew } from 'api/product/productApi';
 import { IProduct } from 'model/product';
+import { ReactElement, useEffect, useState } from 'react';
 
 export default function Index() {
   const [category, setCategory] = useState([]);
@@ -16,7 +16,7 @@ export default function Index() {
     getCategory().then((res) => {
       setCategory(res.data);
     });
-    getProduct(12, 0).then((res) => {
+    getProductNew(12, 0).then((res) => {
       setProduct(res.data.data);
     });
   }, []);

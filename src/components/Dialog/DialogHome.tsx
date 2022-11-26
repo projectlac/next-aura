@@ -1,20 +1,22 @@
-import { Grid, Box, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { Box, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import { IProduct } from 'model/product';
 import * as React from 'react';
-import image from '@/assets/images/ChaiAppleCupcake_1024x1024.webp';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
-import CloseIcon from '@mui/icons-material/Close';
 export interface SimpleDialogProps {
   open: boolean;
   selectedValue: string;
   onClose: (value: string) => void;
   children: any;
+  data: IProduct;
+  age: string;
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
-  const { onClose, selectedValue, open } = props;
+  const { onClose, selectedValue, open, data, age } = props;
 
   const handleClose = () => {
     onClose(selectedValue);
@@ -38,7 +40,7 @@ function SimpleDialog(props: SimpleDialogProps) {
         </Box>
         <Grid container>
           <Grid item md={7}>
-            <img src={image} alt="" />
+            <img src={data.images[0].url} alt="" />
           </Grid>
           <Grid item md={5}>
             <Typography
@@ -48,10 +50,13 @@ function SimpleDialog(props: SimpleDialogProps) {
                 lineHeight: '1.25'
               }}
             >
-              HOLIDAY E-GIFT CARD
+              {data.name}
             </Typography>
-            <Typography>$ 25.00 USD</Typography>
-            <div>Detail</div>
+            <Typography>
+              {' '}
+              {data.detail.filter((d) => d.size === age)[0].price} VNĐ
+            </Typography>
+            <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
           </Grid>
         </Grid>
       </Box>
@@ -59,7 +64,7 @@ function SimpleDialog(props: SimpleDialogProps) {
   );
 }
 
-export default function DialogHome({ children }) {
+export default function DialogHome({ children, data, age }) {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
 
@@ -96,6 +101,8 @@ export default function DialogHome({ children }) {
         selectedValue={selectedValue}
         open={open}
         onClose={handleClose}
+        data={data}
+        age={age}
       >
         {{ children }}
       </SimpleDialog>

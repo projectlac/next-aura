@@ -5,11 +5,14 @@ import {
   SelectChangeEvent,
   Typography
 } from '@mui/material';
+import { IProduct } from 'model/product';
 import React from 'react';
-import image from '@/assets/images/ChaiAppleCupcake_1024x1024.webp';
 import DialogHome from '../Dialog/DialogHome';
-function ProductItem() {
-  const [age, setAge] = React.useState('');
+interface IProp {
+  data: IProduct;
+}
+function ProductItem({ data }: IProp) {
+  const [age, setAge] = React.useState(data.detail[0].size);
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value as string);
   };
@@ -71,7 +74,7 @@ function ProductItem() {
         >
           On <br /> Sale
         </Box>
-        <img src={image} alt="" />
+        <img src={data.images[0].url} alt="" />
         <Box
           sx={{
             position: 'absolute',
@@ -84,7 +87,9 @@ function ProductItem() {
             visibility: 'hidden'
           }}
         >
-          <DialogHome>hahaha</DialogHome>
+          <DialogHome data={data} age={age}>
+            hahaha
+          </DialogHome>
         </Box>
       </Box>
       <Typography
@@ -95,7 +100,7 @@ function ProductItem() {
           fontSize: '1.07143rem'
         }}
       >
-        Pumpkin Chai Latte
+        {data.name}
       </Typography>
       <Typography
         sx={{
@@ -104,7 +109,7 @@ function ProductItem() {
           fontSize: '1rem'
         }}
       >
-        $24.00
+        {data.detail.filter((d) => d.size === age)[0].price} VNĐ
       </Typography>
       <Select
         labelId="demo-simple-select-label"
@@ -117,8 +122,11 @@ function ProductItem() {
         <MenuItem value={''} disabled>
           Select Size
         </MenuItem>
-        <MenuItem value={'20'}>Twenty</MenuItem>
-        <MenuItem value={'30'}>Thirty</MenuItem>
+        {data.detail.map((d, i) => (
+          <MenuItem value={d.size} key={i}>
+            {d.size} -{d.price} VNĐ
+          </MenuItem>
+        ))}
       </Select>
       <Box sx={{ textAlign: 'center' }}>
         <button className="submit">Select Size</button>

@@ -1,58 +1,40 @@
 import DialogCommon from '@/components/Common/DialogCommon/DialogCommon';
 import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
-import Selection from '@/components/Common/Form/Selection';
 import TextField from '@/components/Common/Form/TextField';
-import { useAuth } from '@/contexts/AuthGuard';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
-import {
-  Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-  useTheme
-} from '@mui/material';
-import { styled } from '@mui/styles';
-
-import { getProductBySlug, updateProduct } from 'api/product/productApi';
+import { Box, Button, Grid, TextField as TF, Typography } from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
+// import { createAccountNomal } from 'api/apiAccount/account';
+import TinyEditor from '@/components/Common/Editor/TinyEditor';
+import AutoCompleteHarder from '@/components/Common/Form/AutoCompleteHarder';
+import Basic from '@/components/Dropzone/StyledDropzone';
+import { useAuth } from '@/contexts/AuthGuard';
+import { getCategory } from 'api/category/categoryApi';
+import { getProductBySlug, updateProduct } from 'api/product/productApi';
+import { Atribute } from 'model/product';
 interface IEdit {
   title: string;
   slug: string;
 }
 
-const Input = styled('input')({
-  display: 'none'
-});
 const validationSchema = yup.object({
   name: yup.string().required('Trường này là bắt buộc'),
-  detail: yup.array().of(yup.string()).min(1),
+  detail: yup.array().min(1),
   description: yup.string().required('Trường này là thuộc tính bắt buộc'),
-  file: yup.mixed().required('File is required'),
+  file: yup.mixed().notRequired(),
   amount: yup.number().required('Trường này là thuộc tính bắt buộc'),
-  category: yup.array().of(yup.string()).min(1)
+  category: yup.array().min(1)
 });
 
 function EditAccount({ title, slug }: IEdit) {
   const { handleSetMessage, updateSuccess } = useAuth();
-
-  const theme = useTheme();
+  const [category, setCategory] = useState([]);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [preview, setPreview] = useState<string>('');
-
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+  const [preview, setPreview] = useState<string[]>([]);
+  const [trigger, setTrigger] = useState<boolean>(false);
 
   const [defaultData, setDefaultData] = useState<any>({
     name: '',
@@ -63,28 +45,123 @@ function EditAccount({ title, slug }: IEdit) {
     category: []
   });
 
-  const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
-    if ((e.target as HTMLInputElement).files[0]) {
-      const objectUrl = URL.createObjectURL(
-        (e.target as HTMLInputElement).files[0]
-      );
-      setPreview(objectUrl);
-      formik.handleChange({
-        target: { name: 'file', value: (e.target as HTMLInputElement).files[0] }
-      });
-    }
+  const [defaultAtribute, setDefaultAtribute] = useState<Atribute[]>([
+    { size: '', price: 0 }
+  ]);
+  const defaultItem: Atribute = { size: '', price: 0 };
+
+  const addItem = () => {
+    let temp = [...defaultAtribute, defaultItem];
+    setDefaultAtribute(temp);
+    formik.handleChange({ target: { name: 'detail', value: temp } });
   };
 
+  const removeItem = (index: number) => {
+    let temp = [...defaultAtribute];
+    temp.splice(index, 1);
+    setDefaultAtribute(temp);
+    formik.handleChange({ target: { name: 'detail', value: temp } });
+  };
+  const handleChangeSize = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index
+  ) => {
+    let temp = [...defaultAtribute];
+
+    temp[index].size = event.target.value;
+    setDefaultAtribute(temp);
+    formik.handleChange({ target: { name: 'detail', value: temp } });
+  };
+  const handleChangePrice = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index
+  ) => {
+    let temp = [...defaultAtribute];
+    temp[index].price = +event.target.value;
+    setDefaultAtribute(temp);
+    formik.handleChange({ target: { name: 'detail', value: temp } });
+  };
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleSelectedCategory = (data: any) => {
+    console.log(data);
+
+    formik.handleChange({ target: { name: 'category', value: data } });
+  };
+
+  const handleFile = (file) => {
+    let a = file.length > 0 && file.map((d, i) => URL.createObjectURL(d));
+    setPreview(a);
+
+    // const objectUrl = URL.createObjectURL(
+    //   (e.target as HTMLInputElement).files[0]
+    // );
+    formik.handleChange({
+      target: { name: 'file', value: file }
+    });
+  };
+
+  useEffect(() => {
+    if (openDialog) {
+      const callApi = async () => {
+        await getCategory().then((res) => {
+          let temp = res.data.map((d) => ({ desc: d.name, slug: d.slug }));
+          setCategory(temp);
+        });
+        await getProductBySlug(slug).then((res) => {
+          const data = res.data[0];
+
+          let temp = {
+            name: data.name,
+            detail: data.detail,
+            description: data.description,
+            file: null,
+            amount: data.amount,
+            category: data.categories.map((d) => ({
+              desc: d.name,
+              slug: d.slug
+            }))
+          };
+          let image = data.images.map((d) => d.url);
+          setPreview(image);
+          setDefaultData(temp);
+          setDefaultAtribute(data.detail);
+        });
+      };
+      callApi();
+      setTrigger(true);
+    }
+  }, [openDialog]);
+
+  const initForm = defaultData;
+
   const onSubmit = async (values, { resetForm }) => {
-    const { name, description, amount, file } = values;
+    const { name, description, amount, file, detail, category } = values;
 
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
     formData.append('amount', amount);
+    formData.append(
+      'category',
+      category.map((d) => d.slug)
+    );
 
-    file && formData.append('avatar', file);
+    file &&
+      file.length > 0 &&
+      Array.from(file).forEach((file: File) => {
+        formData.append('files', file);
+      });
 
+    let temp = JSON.stringify(detail).slice(1, -1);
+
+    formData.append(`detail`, temp);
     try {
       await updateProduct(slug, formData).then(() => {
         handleSetMessage({
@@ -93,12 +170,8 @@ function EditAccount({ title, slug }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
-        (
-          document.getElementById(
-            'change-cover-create-account-vip-nomarl'
-          ) as HTMLInputElement
-        ).value = '';
-        setPreview('');
+
+        setPreview([]);
         updateSuccess();
       });
     } catch (error) {
@@ -108,34 +181,15 @@ function EditAccount({ title, slug }: IEdit) {
       });
     }
   };
-
-  const initForm = defaultData;
+  const changeContent = (data: string) => {
+    formik.handleChange({
+      target: { name: 'description', value: data }
+    });
+  };
   const formik = useCustomForm(validationSchema, initForm, onSubmit);
-
-  useEffect(() => {
-    if (openDialog) {
-      getProductBySlug(slug).then((res) => {
-        const data = res.data;
-        // let temp = {
-        //   name: data.name,
-        //   username: data.username,
-        //   password: data.password,
-        //   server: data.server.desc,
-        //   detail: data.description,
-        //   price: data.price,
-        //   ar: data.ar_level,
-        //   type: data.type,
-        //   avatar: data.avatar.url,
-
-        //   file: null
-        // };
-        // setDefaultData(temp);
-      });
-    }
-  }, [openDialog]);
   return (
     <DialogCommon
-      icon={<EditTwoToneIcon fontSize="small" />}
+      icon={<EditTwoToneIcon />}
       title={title}
       openDialog={openDialog}
       handleOpenDialog={handleOpenDialog}
@@ -147,7 +201,7 @@ function EditAccount({ title, slug }: IEdit) {
             <Grid item md={12} xs={12}>
               <TextField
                 formik={formik}
-                label="Tiêu đê"
+                label="Tên sản phảm"
                 placeholder=""
                 variant="outlined"
                 fullWidth
@@ -155,156 +209,116 @@ function EditAccount({ title, slug }: IEdit) {
                 type="text"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                formik={formik}
-                label="Tài khoản"
-                placeholder=""
-                variant="outlined"
-                fullWidth
-                name="username"
-                type="text"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                formik={formik}
-                label="Mật khẩu"
-                variant="outlined"
-                fullWidth
-                name="password"
-                type="text"
-              />
-            </Grid>
 
             <Grid item md={12} xs={12}>
-              <TextField
-                formik={formik}
-                label="Chi tiết tài khoản"
-                variant="outlined"
-                fullWidth
-                name="detail"
-                type="text"
+              <Typography>Mô tả</Typography>
+              <TinyEditor
+                changeBody={changeContent}
+                defaultValue={defaultData.description}
               />
             </Grid>
-            <Grid item md={4} xs={12}>
-              <TextField
-                formik={formik}
-                label="Ar"
-                variant="outlined"
-                fullWidth
-                name="ar"
-                type="text"
-              />
-            </Grid>
-            <Grid item md={4} xs={12}>
-              <Selection
-                formik={formik}
-                label="Server"
-                variant="outlined"
-                fullWidth
-                name="server"
-                options={[
-                  { value: 'ASIA', title: 'Asia' },
-                  { value: 'AMERICA', title: 'America' },
-                  { value: 'EUROPE', title: 'Europe' },
-                  { value: 'TW-HK-MO', title: 'TW-HK-MO' }
-                ]}
-              />
-            </Grid>
-            <Grid item md={4} xs={12}>
-              <TextField
-                formik={formik}
-                label="Giá"
-                variant="outlined"
-                fullWidth
-                name="price"
-                type="number"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl>
-                <FormLabel id="demo-row-radio-buttons-group-label">
-                  Loại acc
-                </FormLabel>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="type"
-                  value={formik.values.type}
-                  onChange={(event) => {
-                    formik.handleChange({
-                      target: {
-                        name: 'type',
-                        value: event.target.value
-                      }
-                    });
-                  }}
-                >
-                  <FormControlLabel
-                    value="REROLL"
-                    control={<Radio />}
-                    label="Reroll"
-                  />
-                  <FormControlLabel
-                    value="RANDOM"
-                    control={<Radio />}
-                    label="Random"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
-            <Grid item md={6} xs={12}>
+            <Grid item md={12} xs={12}>
               <Box>
-                <Input
-                  accept="image/*"
-                  id={`change-cover-create-account-normal-${slug}`}
-                  type="file"
-                  name="file"
-                  onChange={handleFile}
+                <AutoCompleteHarder
+                  trigger={trigger}
+                  title="Danh sách danh mục sản phẩm"
+                  data={category}
+                  id="create-vip-weapon"
+                  name="category"
+                  formik={formik}
+                  defaultValue={defaultData.category}
+                  handleSelected={handleSelectedCategory}
                 />
-                <label htmlFor={`change-cover-create-account-normal-${slug}`}>
-                  <Button
-                    startIcon={<UploadTwoToneIcon />}
-                    variant="contained"
-                    component="span"
-                    sx={{
-                      background: Boolean(formik.errors.file)
-                        ? theme.colors.error.main
-                        : theme.colors.primary.main
-                    }}
-                  >
-                    Upload avatar
-                  </Button>
-                </label>
               </Box>
-              {preview ? (
-                <Box width={200} height={150}>
-                  <Image
-                    src={preview}
-                    layout="responsive"
-                    width={200}
-                    height={150}
-                  ></Image>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <Box>
+                <Box>
+                  Thêm thuộc tính sản phẩm{' '}
+                  <Button onClick={addItem}>Thêm</Button>
                 </Box>
-              ) : (
-                <Box sx={{ display: 'flex' }}>
-                  {defaultData.avatar && (
-                    <Box width={200} height={150}>
+                <Box>
+                  {defaultAtribute &&
+                    defaultAtribute.length > 0 &&
+                    defaultAtribute.map((d: Atribute, i) => (
+                      <Grid container columnSpacing={2} key={i} mt={3}>
+                        <Grid item xs={12} md={6}>
+                          <TF
+                            label="Thuộc tính"
+                            placeholder=""
+                            variant="outlined"
+                            fullWidth
+                            type="text"
+                            value={d.size}
+                            onChange={(e: any) => {
+                              handleChangeSize(e, i);
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={12} md={5}>
+                          <TF
+                            label="Giá "
+                            placeholder=""
+                            variant="outlined"
+                            fullWidth
+                            name="price"
+                            type="number"
+                            value={d.price}
+                            onChange={(e: any) => {
+                              handleChangePrice(e, i);
+                            }}
+                          />
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                          md={1}
+                          alignItems="center"
+                          display={'flex'}
+                        >
+                          {i !== 0 && (
+                            <Button
+                              color="error"
+                              variant="contained"
+                              onClick={() => {
+                                removeItem(i);
+                              }}
+                            >
+                              Xóa
+                            </Button>
+                          )}
+                        </Grid>
+                      </Grid>
+                    ))}
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <Basic handleFile={handleFile} />
+              <Box mt={3} sx={{ display: 'flex', '& div': { marginRight: 1 } }}>
+                {preview.length > 0 &&
+                  preview.map((d) => (
+                    <Box width={200} height={150} key={d}>
                       <Image
-                        src={defaultData.avatar}
+                        src={d}
                         layout="responsive"
                         width={200}
                         height={150}
                       ></Image>
                     </Box>
-                  )}
-                </Box>
-              )}
+                  ))}
+              </Box>
             </Grid>
 
             <Grid item md={12} xs={12}>
-              <Button variant="contained" fullWidth type="submit">
+              <Button
+                variant="contained"
+                fullWidth
+                type="submit"
+                onClick={() => {
+                  console.log(formik.errors);
+                }}
+              >
                 {formik.isSubmitting ? 'Loading...' : 'Sửa'}
               </Button>
             </Grid>

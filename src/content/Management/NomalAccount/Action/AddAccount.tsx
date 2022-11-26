@@ -3,17 +3,9 @@ import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import TextField from '@/components/Common/Form/TextField';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import {
-  Box,
-  Button,
-  Grid,
-  Typography,
-  useTheme,
-  TextField as TF
-} from '@mui/material';
-import { styled } from '@mui/styles';
+import { Box, Button, Grid, TextField as TF, Typography } from '@mui/material';
 import Image from 'next/image';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as yup from 'yup';
 // import { createAccountNomal } from 'api/apiAccount/account';
 import TinyEditor from '@/components/Common/Editor/TinyEditor';
@@ -27,9 +19,6 @@ interface IEdit {
   title: string;
 }
 
-const Input = styled('input')({
-  display: 'none'
-});
 const validationSchema = yup.object({
   name: yup.string().required('Trường này là bắt buộc'),
   detail: yup.array().min(1),
@@ -142,10 +131,13 @@ function AddAccount({ title }: IEdit) {
     Array.from(file).forEach((file: File) => {
       formData.append('files', file);
     });
-    Array.from(detail).forEach((d: any, i: number) => {
-      formData.append(`detail[${i}].size`, d && d.size);
-      formData.append(`detail[${i}].price`, d && d.price);
-    });
+
+    let temp = JSON.stringify(detail).slice(1, -1);
+
+    // Array.from(detail).forEach((d: any) => {
+    formData.append(`detail`, temp);
+    //   formData.append(`detail[price]`, d && d.price);
+    // });
     // file && formData.append('avatar', file);
 
     try {

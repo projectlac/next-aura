@@ -74,11 +74,17 @@ function HeaderWrapper() {
       >
         <ul>
           <li>
-            <Link href={'/shop/all'}>Sản phẩm mới</Link>
+            <Link href={'/shop/new'}>Sản phẩm mới</Link>
           </li>
-          <li>TỔNG HỢP SẢN PHẨM</li>
-          <li>SẢN PHẨM GIẢM GIÁ</li>
-          <li>BÁN CHẠY NHẤT</li>
+          <li>
+            <Link href={'/shop/all'}>TỔNG HỢP SẢN PHẨM</Link>
+          </li>
+          <li>
+            <Link href={'/shop/sale'}>SẢN PHẨM GIẢM GIÁ</Link>
+          </li>
+          <li>
+            <Link href={'/shop/hot'}>BÁN CHẠY NHẤT</Link>
+          </li>
           <li>LIÊN HỆ CHÚNG TÔI</li>
         </ul>
       </Box>
