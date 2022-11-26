@@ -182,7 +182,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      0
+                      {cryptoOrder.total_product}
                     </Typography>
                   </TableCell>
 
@@ -194,10 +194,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {format(new Date(cryptoOrder.createdAt), 'dd/MM/yyyy')}
+                      {/* {format(new Date(cryptoOrder.createdAt), 'dd/MM/yyyy')} */}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {format(new Date(cryptoOrder.createdAt), ' HH:mm:ss')}
+                      {/* {format(new Date(cryptoOrder.createdAt), ' HH:mm:ss')} */}
                     </Typography>
                   </TableCell>
 

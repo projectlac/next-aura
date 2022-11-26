@@ -33,7 +33,11 @@ function Filter({ category }: IProps) {
       >
         <ul>
           {category.length > 0 &&
-            category.map((d) => <li key={d.id}>{d.name} (0)</li>)}
+            category.map((d) => (
+              <li key={d._id}>
+                {d.name} ({d.total_product})
+              </li>
+            ))}
         </ul>
       </Box>
     </div>

@@ -27,7 +27,7 @@ export default function TinyEditor({ changeBody, defaultValue }: TinyProps) {
         }}
         initialValue={defaultValue}
         init={{
-          height: 500,
+          height: 350,
           menubar: false,
           image_title: true,
           plugins: [

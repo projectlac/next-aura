@@ -3,18 +3,26 @@ import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import TextField from '@/components/Common/Form/TextField';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
-import { Box, Button, Grid, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid,
+  Typography,
+  useTheme,
+  TextField as TF
+} from '@mui/material';
 import { styled } from '@mui/styles';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import * as yup from 'yup';
 // import { createAccountNomal } from 'api/apiAccount/account';
 import TinyEditor from '@/components/Common/Editor/TinyEditor';
 import AutoCompleteHarder from '@/components/Common/Form/AutoCompleteHarder';
+import Basic from '@/components/Dropzone/StyledDropzone';
 import { useAuth } from '@/contexts/AuthGuard';
 import { getCategory } from 'api/category/categoryApi';
 import { addProduct } from 'api/product/productApi';
+import { Atribute } from 'model/product';
 interface IEdit {
   title: string;
 }
@@ -24,11 +32,11 @@ const Input = styled('input')({
 });
 const validationSchema = yup.object({
   name: yup.string().required('Trường này là bắt buộc'),
-  detail: yup.array().of(yup.string()).min(1),
+  detail: yup.array().min(1),
   description: yup.string().required('Trường này là thuộc tính bắt buộc'),
   file: yup.mixed().required('File is required'),
   amount: yup.number().required('Trường này là thuộc tính bắt buộc'),
-  category: yup.array().of(yup.string()).min(1)
+  category: yup.array().min(1)
 });
 const initForm = {
   name: '',
@@ -42,10 +50,46 @@ const initForm = {
 function AddAccount({ title }: IEdit) {
   const { handleSetMessage, updateSuccess } = useAuth();
   const [category, setCategory] = useState([]);
-  const theme = useTheme();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const [preview, setPreview] = useState<string>('');
+  const [preview, setPreview] = useState<string[]>([]);
   const [trigger, setTrigger] = useState<boolean>(false);
+
+  const [defaultAtribute, setDefaultAtribute] = useState<Atribute[]>([
+    { size: '', price: 0 }
+  ]);
+  const defaultItem: Atribute = { size: '', price: 0 };
+
+  const addItem = () => {
+    let temp = [...defaultAtribute, defaultItem];
+    setDefaultAtribute(temp);
+    formik.handleChange({ target: { name: 'detail', value: temp } });
+  };
+
+  const removeItem = (index: number) => {
+    let temp = [...defaultAtribute];
+    temp.splice(index, 1);
+    setDefaultAtribute(temp);
+    formik.handleChange({ target: { name: 'detail', value: temp } });
+  };
+  const handleChangeSize = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index
+  ) => {
+    let temp = [...defaultAtribute];
+
+    temp[index].size = event.target.value;
+    setDefaultAtribute(temp);
+    formik.handleChange({ target: { name: 'detail', value: temp } });
+  };
+  const handleChangePrice = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index
+  ) => {
+    let temp = [...defaultAtribute];
+    temp[index].price = +event.target.value;
+    setDefaultAtribute(temp);
+    formik.handleChange({ target: { name: 'detail', value: temp } });
+  };
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -55,16 +99,20 @@ function AddAccount({ title }: IEdit) {
   };
 
   const handleSelectedCategory = (data: any) => {
+    console.log(data);
+
     formik.handleChange({ target: { name: 'category', value: data } });
   };
 
-  const handleFile = (e: React.FormEvent<HTMLInputElement>) => {
-    const objectUrl = URL.createObjectURL(
-      (e.target as HTMLInputElement).files[0]
-    );
-    setPreview(objectUrl);
+  const handleFile = (file) => {
+    let a = file.length > 0 && file.map((d, i) => URL.createObjectURL(d));
+    setPreview(a);
+
+    // const objectUrl = URL.createObjectURL(
+    //   (e.target as HTMLInputElement).files[0]
+    // );
     formik.handleChange({
-      target: { name: 'file', value: (e.target as HTMLInputElement).files[0] }
+      target: { name: 'file', value: file }
     });
   };
 
@@ -80,14 +128,25 @@ function AddAccount({ title }: IEdit) {
   }, [openDialog]);
 
   const onSubmit = async (values, { resetForm }) => {
-    const { name, description, amount, file } = values;
+    const { name, description, amount, file, detail, category } = values;
 
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
     formData.append('amount', amount);
+    formData.append(
+      'category',
+      category.map((d) => d.slug)
+    );
 
-    file && formData.append('avatar', file);
+    Array.from(file).forEach((file: File) => {
+      formData.append('files', file);
+    });
+    Array.from(detail).forEach((d: any, i: number) => {
+      formData.append(`detail[${i}].size`, d && d.size);
+      formData.append(`detail[${i}].price`, d && d.price);
+    });
+    // file && formData.append('avatar', file);
 
     try {
       await addProduct(formData).then(() => {
@@ -97,12 +156,8 @@ function AddAccount({ title }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
-        (
-          document.getElementById(
-            'change-cover-create-account-vip-nomarl'
-          ) as HTMLInputElement
-        ).value = '';
-        setPreview('');
+
+        setPreview([]);
         updateSuccess();
       });
     } catch (error) {
@@ -149,28 +204,9 @@ function AddAccount({ title }: IEdit) {
               />
             </Grid>
 
-            {/* <Grid item md={6} xs={12}>
-              <TextField
-                formik={formik}
-                label="Số lượng"
-                variant="outlined"
-                fullWidth
-                name="amout"
-                type="number"
-              />
-            </Grid> */}
-
             <Grid item md={12} xs={12}>
+              <Typography>Mô tả</Typography>
               <TinyEditor changeBody={changeContent} defaultValue={''} />
-              {/* <TextField
-                formik={formik}
-                label="Mô tả"
-                placeholder=""
-                variant="outlined"
-                fullWidth
-                name="description"
-                type="text"
-              /> */}
             </Grid>
             <Grid item md={12} xs={12}>
               <Box>
@@ -186,40 +222,81 @@ function AddAccount({ title }: IEdit) {
                 />
               </Box>
             </Grid>
-            <Grid item md={6} xs={12}>
+            <Grid item md={12} xs={12}>
               <Box>
-                <Input
-                  accept="image/*"
-                  id="change-cover-create-account-vip-nomarl"
-                  type="file"
-                  name="file"
-                  onChange={handleFile}
-                />
-                <label htmlFor="change-cover-create-account-vip-nomarl">
-                  <Button
-                    startIcon={<UploadTwoToneIcon />}
-                    variant="contained"
-                    component="span"
-                    sx={{
-                      background: Boolean(formik.errors.file)
-                        ? theme.colors.error.main
-                        : theme.colors.primary.main
-                    }}
-                  >
-                    Upload avatar
-                  </Button>
-                </label>
-              </Box>
-              {preview && (
-                <Box width={200} height={150}>
-                  <Image
-                    src={preview}
-                    layout="responsive"
-                    width={200}
-                    height={150}
-                  ></Image>
+                <Box>
+                  Thêm thuộc tính sản phẩm{' '}
+                  <Button onClick={addItem}>Thêm</Button>
                 </Box>
-              )}
+                <Box>
+                  {defaultAtribute.map((d: Atribute, i) => (
+                    <Grid container columnSpacing={2} key={i} mt={3}>
+                      <Grid item xs={12} md={6}>
+                        <TF
+                          label="Thuộc tính"
+                          placeholder=""
+                          variant="outlined"
+                          fullWidth
+                          type="text"
+                          value={d.size}
+                          onChange={(e: any) => {
+                            handleChangeSize(e, i);
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={5}>
+                        <TF
+                          label="Giá "
+                          placeholder=""
+                          variant="outlined"
+                          fullWidth
+                          name="price"
+                          type="number"
+                          value={d.price}
+                          onChange={(e: any) => {
+                            handleChangePrice(e, i);
+                          }}
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        md={1}
+                        alignItems="center"
+                        display={'flex'}
+                      >
+                        {i !== 0 && (
+                          <Button
+                            color="error"
+                            variant="contained"
+                            onClick={() => {
+                              removeItem(i);
+                            }}
+                          >
+                            Xóa
+                          </Button>
+                        )}
+                      </Grid>
+                    </Grid>
+                  ))}
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <Basic handleFile={handleFile} />
+              <Box mt={3} sx={{ display: 'flex', '& div': { marginRight: 1 } }}>
+                {preview.length > 0 &&
+                  preview.map((d) => (
+                    <Box width={200} height={150} key={d}>
+                      <Image
+                        src={d}
+                        layout="responsive"
+                        width={200}
+                        height={150}
+                      ></Image>
+                    </Box>
+                  ))}
+              </Box>
             </Grid>
 
             <Grid item md={12} xs={12}>
