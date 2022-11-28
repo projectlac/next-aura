@@ -7,23 +7,23 @@ export interface IProduct {
   detail: Atribute[];
   description: string;
   amount: number;
-  images:ImageProduct[];
-  _id:string;
-  createdAt:string;
-  categories:Category[];
-  slug:string
+  images: ImageProduct[];
+  _id: string;
+  createdAt: string;
+  categories: Category[];
+  slug: string;
+  sale: number;
 }
 export interface ImageProduct {
   createdAt: string;
   updatedAt: string;
   url: string;
-  _id: string
+  _id: string;
 }
 export interface Category {
   createdAt: string;
   updatedAt: string;
   slug: string;
   name: string;
-  _id: string
+  _id: string;
 }
-

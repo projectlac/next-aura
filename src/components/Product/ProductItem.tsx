@@ -52,28 +52,31 @@ function ProductItem({ data }: IProp) {
           }
         }}
       >
-        <Box
-          className="on-sale"
-          sx={{
-            width: '60px',
-            height: '60px',
-            fontSize: '12px',
-            background: 'pink',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'absolute',
-            right: '-7px',
-            top: '-7px',
-            zIndex: 2,
-            color: '#fff',
-            textTransform: 'uppercase',
-            textAlign: 'center'
-          }}
-        >
-          On <br /> Sale
-        </Box>
+        {data.sale > 0 && (
+          <Box
+            className="on-sale"
+            sx={{
+              width: '60px',
+              height: '60px',
+              fontSize: '12px',
+              background: 'pink',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'absolute',
+              right: '-7px',
+              top: '-7px',
+              zIndex: 2,
+              color: '#fff',
+              textTransform: 'uppercase',
+              textAlign: 'center'
+            }}
+          >
+            On <br /> Sale
+          </Box>
+        )}
+
         <img src={data.images[0].url} alt="" />
         <Box
           sx={{
@@ -97,7 +100,11 @@ function ProductItem({ data }: IProp) {
           color: '#333',
           fontWeight: '700',
           margin: '7px 0',
-          fontSize: '1.07143rem'
+          fontSize: '1.07143rem',
+          display: '-webkit-box',
+          '-webkit-box-orient': 'vertical',
+          '-webkit-line-clamp': 2,
+          overflow: 'hidden'
         }}
       >
         {data.name}
@@ -109,7 +116,7 @@ function ProductItem({ data }: IProp) {
           fontSize: '1rem'
         }}
       >
-        {data.detail.filter((d) => d.size === age)[0].price} VNĐ
+        {data.detail.filter((d) => d.size === age)[0]?.price} VNĐ
       </Typography>
       <Select
         labelId="demo-simple-select-label"
@@ -129,7 +136,7 @@ function ProductItem({ data }: IProp) {
         ))}
       </Select>
       <Box sx={{ textAlign: 'center' }}>
-        <button className="submit">Select Size</button>
+        <button className="submit">Chọn sản phẩm</button>
       </Box>
     </Box>
   );

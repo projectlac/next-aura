@@ -25,6 +25,7 @@ const validationSchema = yup.object({
   description: yup.string().required('Trường này là thuộc tính bắt buộc'),
   file: yup.mixed().required('File is required'),
   amount: yup.number().required('Trường này là thuộc tính bắt buộc'),
+  sale: yup.number().required('Trường này là thuộc tính bắt buộc'),
   category: yup.array().min(1)
 });
 const initForm = {
@@ -33,6 +34,7 @@ const initForm = {
   description: '',
   file: null,
   amount: 0,
+  sale: 0,
   category: []
 };
 
@@ -117,12 +119,14 @@ function AddAccount({ title }: IEdit) {
   }, [openDialog]);
 
   const onSubmit = async (values, { resetForm }) => {
-    const { name, description, amount, file, detail, category } = values;
+    const { name, description, sale, amount, file, detail, category } = values;
 
     const formData = new FormData();
     formData.append('name', name);
     formData.append('description', description);
     formData.append('amount', amount);
+    formData.append('sale', sale);
+
     formData.append(
       'category',
       category.map((d) => d.slug)
@@ -148,7 +152,7 @@ function AddAccount({ title }: IEdit) {
         });
         handleCloseDialog();
         resetForm();
-
+        setDefaultAtribute([{ size: '', price: 0 }]);
         setPreview([]);
         updateSuccess();
       });
@@ -272,6 +276,20 @@ function AddAccount({ title }: IEdit) {
                     </Grid>
                   ))}
                 </Box>
+              </Box>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <Box>Giảm giá sản phẩm % (để 0 nếu không giảm)</Box>
+              <Box mt={3}>
+                <TextField
+                  formik={formik}
+                  label="Giảm giá %"
+                  placeholder=""
+                  variant="outlined"
+                  fullWidth
+                  name="sale"
+                  type="text"
+                />
               </Box>
             </Grid>
             <Grid item md={12} xs={12}>

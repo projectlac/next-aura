@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import Link from 'next/link';
 import React from 'react';
 // import { ICategoryData } from "~/models/category";
 
@@ -35,7 +36,11 @@ function Filter({ category }: IProps) {
           {category.length > 0 &&
             category.map((d) => (
               <li key={d._id}>
-                {d.name} ({d.total_product})
+                <Link href={`/shop/category/${d.slug}`}>
+                  <a>
+                    {d.name} ({d.total_product})
+                  </a>
+                </Link>
               </li>
             ))}
         </ul>
