@@ -21,7 +21,7 @@ export const getProductNew = (limit: number, offset: number) => {
   return api.get(`/Product?limit=${limit}&offset=${offset}&sortCreatedAt=true`);
 };
 export const getProductSale = (limit: number, offset: number) => {
-  return api.get(`/Product?limit=${limit}&offset=${offset}&sortSale=true`);
+  return api.get(`/Product?limit=${limit}&offset=${offset}&isSale=true`);
 };
 export const getProductHot = (limit: number, offset: number) => {
   return api.get(`/Product?limit=${limit}&offset=${offset}`);
