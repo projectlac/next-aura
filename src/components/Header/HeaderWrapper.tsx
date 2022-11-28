@@ -147,7 +147,7 @@ function HeaderWrapper() {
             <Listbox {...getListboxProps()}>
               {(groupedOptions as typeof product).map((option, index) => {
                 return (
-                  <li {...getOptionProps({ option, index })}>
+                  <li {...getOptionProps({ option, index })} key={index}>
                     <Box>
                       <img src={option.images[0].url} alt="" />
                     </Box>
