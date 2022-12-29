@@ -7,6 +7,7 @@ import * as React from 'react';
 import Slider from 'react-slick';
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 import 'slick-carousel/slick/slick.css';
+import * as _ from 'lodash';
 import 'slick-carousel/slick/slick-theme.css';
 import { useEffect, useState, useRef } from 'react';
 export interface SimpleDialogProps {
@@ -29,9 +30,26 @@ function SimpleDialog(props: SimpleDialogProps) {
 
   const settings = {
     infinite: true,
-    slidesToShow: 2,
-    slidesToScroll: 1
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    dot: true,
+    arrows: false
   };
+  const beautiSlider = () => {
+    if (data.images.length > 4) return data.images;
+    else {
+      let a = [];
+      while (true) {
+        if (a.length < 4) {
+          a.push(data.images);
+        } else {
+          break;
+        }
+      }
+      return _.flatten(a);
+    }
+  };
+
   return (
     <Dialog onClose={handleClose} open={open} maxWidth={'md'}>
       <Box
@@ -46,6 +64,7 @@ function SimpleDialog(props: SimpleDialogProps) {
             justifyContent: 'flex-end'
           }}
         >
+          {console.log(beautiSlider())}
           <CloseIcon onClick={handleClose} />
         </Box>
         <Grid container>
@@ -59,7 +78,7 @@ function SimpleDialog(props: SimpleDialogProps) {
             >
               {data.images &&
                 data.images.length > 0 &&
-                data.images.map((d, i) => (
+                beautiSlider().map((d, i) => (
                   <div key={i}>
                     <img src={d.url} alt="" />
                   </div>
@@ -73,7 +92,7 @@ function SimpleDialog(props: SimpleDialogProps) {
             >
               {data.images &&
                 data.images.length > 0 &&
-                data.images.map((d, i) => (
+                beautiSlider().map((d, i) => (
                   <div key={i}>
                     <img src={d.url} alt="" />
                   </div>
