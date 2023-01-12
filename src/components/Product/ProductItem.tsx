@@ -74,7 +74,7 @@ function ProductItem({ data }: IProp) {
         >
           On <br /> Sale
         </Box>
-        <img src={data.images[0].url} alt="" />
+        <img src={data?.images[0]?.url} alt="" />
         <Box
           sx={{
             position: 'absolute',

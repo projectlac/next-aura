@@ -40,7 +40,7 @@ function SimpleDialog(props: SimpleDialogProps) {
         </Box>
         <Grid container>
           <Grid item md={7}>
-            <img src={data.images[0].url} alt="" />
+            <img src={data?.images[0]?.url} alt="" />
           </Grid>
           <Grid item md={5}>
             <Typography
