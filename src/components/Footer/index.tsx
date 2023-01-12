@@ -1,5 +1,6 @@
 import { Box, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import Link from 'next/link';
 import img from '../../assets/images/banner 1920x380.png';
 const FooterWrapper = styled(Box)({
   padding: '30px 0',
@@ -27,10 +28,19 @@ function Footer() {
           >
             <ul>
               <li>TÌM KIẾM</li>
-              <li>SẢN PHẨM MỚI</li>
-              <li>TỔNG HỢP SẢN PHẨM</li>
-              <li>SẢN PHẨM GIẢM GIÁ </li>
-              <li>BÁN CHẠY NHẤT </li>
+              <li>
+                <Link href={'/shop/new'}>SẢN PHẨM MỚI</Link>
+              </li>
+              <li>
+                <Link href={'/shop/all'}>TỔNG HỢP SẢN PHẨM</Link>
+              </li>
+              <li>
+                <Link href={'/shop/sale'}>SẢN PHẨM GIẢM GIÁ</Link>
+              </li>
+              <li>
+                <Link href={'/shop/hot'}>BÁN CHẠY NHẤT</Link>
+              </li>
+
               <li>LIÊN HỆ CHÚNG TÔI</li>
             </ul>
             <ul>

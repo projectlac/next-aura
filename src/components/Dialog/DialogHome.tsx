@@ -1,11 +1,15 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import { IProduct } from 'model/product';
 import * as React from 'react';
-
+import Slider from 'react-slick';
 const emails = ['username@gmail.com', 'user02@gmail.com'];
+import 'slick-carousel/slick/slick.css';
+import * as _ from 'lodash';
+import 'slick-carousel/slick/slick-theme.css';
+import { useEffect, useState, useRef } from 'react';
 export interface SimpleDialogProps {
   open: boolean;
   selectedValue: string;
@@ -17,9 +21,33 @@ export interface SimpleDialogProps {
 
 function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open, data, age } = props;
+  const [nav1, setNav1] = useState(null);
+  const [nav2, setNav2] = useState(null);
 
   const handleClose = () => {
     onClose(selectedValue);
+  };
+
+  const settings = {
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    dot: true,
+    arrows: false
+  };
+  const beautiSlider = () => {
+    if (data.images.length > 4) return data.images;
+    else {
+      let a = [];
+      while (true) {
+        if (a.length < 4) {
+          a.push(data.images);
+        } else {
+          break;
+        }
+      }
+      return _.flatten(a);
+    }
   };
 
   return (
@@ -36,27 +64,66 @@ function SimpleDialog(props: SimpleDialogProps) {
             justifyContent: 'flex-end'
           }}
         >
+          {console.log(beautiSlider())}
           <CloseIcon onClick={handleClose} />
         </Box>
         <Grid container>
           <Grid item md={7}>
-            <img src={data?.images[0]?.url} alt="" />
+            <Slider
+              // {...settings}
+              asNavFor={nav2}
+              ref={(slider1) => setNav1(slider1)}
+              dot={false}
+              className="navSlider1"
+            >
+              {data.images &&
+                data.images.length > 0 &&
+                beautiSlider().map((d, i) => (
+                  <div key={i}>
+                    <img src={d.url} alt="" />
+                  </div>
+                ))}
+            </Slider>
+            <Slider
+              asNavFor={nav1}
+              className="navSlider2"
+              ref={(slider2) => setNav2(slider2)}
+              {...settings}
+            >
+              {data.images &&
+                data.images.length > 0 &&
+                beautiSlider().map((d, i) => (
+                  <div key={i}>
+                    <img src={d.url} alt="" />
+                  </div>
+                ))}
+            </Slider>
           </Grid>
           <Grid item md={5}>
-            <Typography
+            <Box
               sx={{
-                paddingTop: '15px',
-                fontSize: '2rem',
-                lineHeight: '1.25'
+                padding: '0 15px'
               }}
             >
-              {data.name}
-            </Typography>
-            <Typography>
-              {' '}
-              {data.detail.filter((d) => d.size === age)[0].price} VNĐ
-            </Typography>
-            <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
+              <Typography
+                sx={{
+                  paddingTop: '15px',
+                  fontSize: '1.75rem',
+                  lineHeight: '1.25'
+                }}
+              >
+                {data.name}
+              </Typography>
+              <Typography sx={{ fontSize: '1.25rem' }}>
+                Giá: {data.detail.filter((d) => d.size === age)[0]?.price} VNĐ
+              </Typography>
+              <Divider sx={{ my: 1 }}></Divider>
+
+              <Typography sx={{ fontSize: '1rem', fontStyle: 'italic' }}>
+                Mô tả:
+              </Typography>
+              <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
+            </Box>
           </Grid>
         </Grid>
       </Box>
