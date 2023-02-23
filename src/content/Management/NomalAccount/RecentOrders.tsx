@@ -15,7 +15,12 @@ function RecentOrders() {
 
   useEffect(() => {
     getProduct(9999, 0).then((res) => {
-      setData(res.data.data);
+      setData(
+        res.data.data.sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+      );
     });
   }, [update]);
 

@@ -17,6 +17,12 @@ export const getProductBySlug = (slug: string) => {
 export const getProduct = (limit: number, offset: number) => {
   return api.get(`/Product?limit=${limit}&offset=${offset}`);
 };
+export const getProductSaleUp = (limit: number, offset: number) => {
+  return api.get(`/Product?limit=${limit}&offset=${offset}&status=SALE`);
+};
+export const getProductHotUp = (limit: number, offset: number) => {
+  return api.get(`/Product?limit=${limit}&offset=${offset}&status=HOT`);
+};
 export const getProductNew = (limit: number, offset: number) => {
   return api.get(`/Product?limit=${limit}&offset=${offset}&sortCreatedAt=true`);
 };

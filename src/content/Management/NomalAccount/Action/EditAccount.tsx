@@ -3,7 +3,15 @@ import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import TextField from '@/components/Common/Form/TextField';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import { Box, Button, Grid, TextField as TF, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  TextField as TF,
+  Typography
+} from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
@@ -27,7 +35,6 @@ const validationSchema = yup.object({
   file: yup.mixed().notRequired(),
   amount: yup.number().required('Trường này là thuộc tính bắt buộc'),
   sale: yup.number().required('Trường này là thuộc tính bắt buộc'),
-
   category: yup.array().min(1)
 });
 
@@ -45,7 +52,9 @@ function EditAccount({ title, slug }: IEdit) {
     file: null,
     amount: 0,
     category: [],
-    sale: 0
+    sale: 0,
+    prioritizeSale: false,
+    prioritizeHot: false
   });
 
   const [defaultAtribute, setDefaultAtribute] = useState<Atribute[]>([
@@ -93,8 +102,6 @@ function EditAccount({ title, slug }: IEdit) {
   };
 
   const handleSelectedCategory = (data: any) => {
-    console.log(data);
-
     formik.handleChange({ target: { name: 'category', value: data } });
   };
 
@@ -130,7 +137,9 @@ function EditAccount({ title, slug }: IEdit) {
             category: data.categories.map((d) => ({
               desc: d.name,
               slug: d.slug
-            }))
+            })),
+            prioritizeSale: data.status?.indexOf('SALE') > -1 ? true : false,
+            prioritizeHot: data.status?.indexOf('HOT') > -1 ? true : false
           };
           let image = data.images.map((d) => d.url);
           setPreview(image);
@@ -146,7 +155,17 @@ function EditAccount({ title, slug }: IEdit) {
   const initForm = defaultData;
 
   const onSubmit = async (values, { resetForm }) => {
-    const { name, description, sale, amount, file, detail, category } = values;
+    const {
+      name,
+      description,
+      sale,
+      amount,
+      file,
+      detail,
+      category,
+      prioritizeSale,
+      prioritizeHot
+    } = values;
 
     const formData = new FormData();
     formData.append('name', name);
@@ -158,6 +177,11 @@ function EditAccount({ title, slug }: IEdit) {
       'category',
       category.map((d) => d.slug)
     );
+    let arrPrioritize = [
+      prioritizeSale && 'SALE',
+      prioritizeHot && 'HOT'
+    ].filter((d) => d);
+    formData.append('status', arrPrioritize.toString());
 
     file &&
       file.length > 0 &&
@@ -313,19 +337,37 @@ function EditAccount({ title, slug }: IEdit) {
                 />
               </Box>
             </Grid>
+            <Grid item md={6} xs={12}>
+              <FormControlLabel
+                control={<Checkbox checked={formik.values.prioritizeSale} />}
+                onChange={formik.handleChange}
+                name="prioritizeSale"
+                label="Ưu tiên Sale"
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <FormControlLabel
+                name="prioritizeHot"
+                control={<Checkbox checked={formik.values.prioritizeHot} />}
+                onChange={formik.handleChange}
+                label="Ưu tiên Hot"
+              />
+            </Grid>
             <Grid item md={12} xs={12}>
               <Basic handleFile={handleFile} />
               <Box mt={3} sx={{ display: 'flex', '& div': { marginRight: 1 } }}>
                 {preview.length > 0 &&
                   preview.map((d) => (
-                    <Box width={200} height={150} key={d}>
-                      <Image
-                        src={d}
-                        layout="responsive"
-                        width={200}
-                        height={150}
-                      ></Image>
-                    </Box>
+                    <Box
+                      width={200}
+                      height={150}
+                      key={d}
+                      sx={{
+                        background: `url(${d})`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat'
+                      }}
+                    ></Box>
                   ))}
               </Box>
             </Grid>

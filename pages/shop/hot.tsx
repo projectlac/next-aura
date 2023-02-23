@@ -4,7 +4,7 @@ import ProductItem from '@/components/Product/ProductItem';
 import Filter from '@/components/Shop/Filter';
 import BaseLayout from '@/layouts/BaseLayout';
 import { getCategory } from 'api/category/categoryApi';
-import { getProductHot } from 'api/product/productApi';
+import { getProductHotUp } from 'api/product/productApi';
 import { IProduct } from 'model/product';
 import { ReactElement, useEffect, useState } from 'react';
 
@@ -16,7 +16,7 @@ export default function Index() {
     getCategory().then((res) => {
       setCategory(res.data);
     });
-    getProductHot(12, 0).then((res) => {
+    getProductHotUp(12, 0).then((res) => {
       setProduct(res.data.data);
     });
   }, []);

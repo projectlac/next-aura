@@ -3,7 +3,16 @@ import useCustomForm from '@/components/Common/Form/Form';
 import FormatForm from '@/components/Common/Form/FormatForm';
 import TextField from '@/components/Common/Form/TextField';
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
-import { Box, Button, Grid, TextField as TF, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormHelperText,
+  Grid,
+  TextField as TF,
+  Typography
+} from '@mui/material';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
@@ -35,7 +44,9 @@ const initForm = {
   file: null,
   amount: 0,
   sale: 0,
-  category: []
+  category: [],
+  prioritizeSale: false,
+  prioritizeHot: false
 };
 
 function AddAccount({ title }: IEdit) {
@@ -90,8 +101,6 @@ function AddAccount({ title }: IEdit) {
   };
 
   const handleSelectedCategory = (data: any) => {
-    console.log(data);
-
     formik.handleChange({ target: { name: 'category', value: data } });
   };
 
@@ -119,7 +128,17 @@ function AddAccount({ title }: IEdit) {
   }, [openDialog]);
 
   const onSubmit = async (values, { resetForm }) => {
-    const { name, description, sale, amount, file, detail, category } = values;
+    const {
+      name,
+      description,
+      sale,
+      amount,
+      file,
+      detail,
+      category,
+      prioritizeSale,
+      prioritizeHot
+    } = values;
 
     const formData = new FormData();
     formData.append('name', name);
@@ -136,13 +155,15 @@ function AddAccount({ title }: IEdit) {
       formData.append('files', file);
     });
 
+    let arrPrioritize = [
+      prioritizeSale && 'SALE',
+      prioritizeHot && 'HOT'
+    ].filter((d) => d);
+    formData.append('status', arrPrioritize.toString());
+
     let temp = JSON.stringify(detail).slice(1, -1);
 
-    // Array.from(detail).forEach((d: any) => {
     formData.append(`detail`, temp);
-    //   formData.append(`detail[price]`, d && d.price);
-    // });
-    // file && formData.append('avatar', file);
 
     try {
       await addProduct(formData).then(() => {
@@ -203,6 +224,16 @@ function AddAccount({ title }: IEdit) {
             <Grid item md={12} xs={12}>
               <Typography>Mô tả</Typography>
               <TinyEditor changeBody={changeContent} defaultValue={''} />
+              {formik.touched.description &&
+                Boolean(formik.errors.description) && (
+                  <FormHelperText
+                    sx={{
+                      color: '#FF1943'
+                    }}
+                  >
+                    Mô tả là bắt buộc
+                  </FormHelperText>
+                )}
             </Grid>
             <Grid item md={12} xs={12}>
               <Box>
@@ -216,6 +247,15 @@ function AddAccount({ title }: IEdit) {
                   defaultValue={[]}
                   handleSelected={handleSelectedCategory}
                 />
+                {formik.touched.category && Boolean(formik.errors.category) && (
+                  <FormHelperText
+                    sx={{
+                      color: '#FF1943'
+                    }}
+                  >
+                    Phải điền danh mục sản phẩm
+                  </FormHelperText>
+                )}
               </Box>
             </Grid>
             <Grid item md={12} xs={12}>
@@ -240,7 +280,7 @@ function AddAccount({ title }: IEdit) {
                           }}
                         />
                       </Grid>
-                      <Grid item xs={12} md={5}>
+                      <Grid item xs={12} md={5} sx={{ mt: { xs: 2, md: 0 } }}>
                         <TF
                           label="Giá "
                           placeholder=""
@@ -277,6 +317,15 @@ function AddAccount({ title }: IEdit) {
                   ))}
                 </Box>
               </Box>
+              {formik.touched.detail && Boolean(formik.errors.detail) && (
+                <FormHelperText
+                  sx={{
+                    color: '#FF1943'
+                  }}
+                >
+                  Thuộc tính sản phẩm là bắt buộc
+                </FormHelperText>
+              )}
             </Grid>
             <Grid item md={12} xs={12}>
               <Box>Giảm giá sản phẩm % (để 0 nếu không giảm)</Box>
@@ -292,19 +341,47 @@ function AddAccount({ title }: IEdit) {
                 />
               </Box>
             </Grid>
+            <Grid item md={6} xs={12}>
+              <FormControlLabel
+                control={<Checkbox checked={formik.values.prioritizeSale} />}
+                onChange={formik.handleChange}
+                name="prioritizeSale"
+                label="Ưu tiên Sale"
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <FormControlLabel
+                name="prioritizeHot"
+                control={<Checkbox checked={formik.values.prioritizeHot} />}
+                onChange={formik.handleChange}
+                label="Ưu tiên Hot"
+              />
+            </Grid>
             <Grid item md={12} xs={12}>
               <Basic handleFile={handleFile} />
+              {formik.touched.file && Boolean(formik.errors.file) && (
+                <FormHelperText
+                  sx={{
+                    color: '#FF1943'
+                  }}
+                >
+                  File không được để trống
+                </FormHelperText>
+              )}
+
               <Box mt={3} sx={{ display: 'flex', '& div': { marginRight: 1 } }}>
                 {preview.length > 0 &&
                   preview.map((d) => (
-                    <Box width={200} height={150} key={d}>
-                      <Image
-                        src={d}
-                        layout="responsive"
-                        width={200}
-                        height={150}
-                      ></Image>
-                    </Box>
+                    <Box
+                      width={200}
+                      height={150}
+                      key={d}
+                      sx={{
+                        background: `url(${d})`,
+                        backgroundSize: 'contain',
+                        backgroundRepeat: 'no-repeat'
+                      }}
+                    ></Box>
                   ))}
               </Box>
             </Grid>

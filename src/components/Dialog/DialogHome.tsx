@@ -64,7 +64,6 @@ function SimpleDialog(props: SimpleDialogProps) {
             justifyContent: 'flex-end'
           }}
         >
-          {console.log(beautiSlider())}
           <CloseIcon onClick={handleClose} />
         </Box>
         <Grid container>

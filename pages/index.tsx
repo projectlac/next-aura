@@ -7,6 +7,8 @@ import banner1 from '@/assets/images/banner-home-the-gioi-nen-thom-hand-made-sap
 import banner2 from '@/assets/images/image 3.png';
 import ProductList from '@/components/Product/ProductList';
 import OgTag from '@/components/Common/OgTag';
+import ProductSaleUp from '@/components/Product/ProductSaleUp';
+import ProductHot from '@/components/Product/ProductHot';
 
 const OverviewWrapper = styled(Box)(
   () => `
@@ -26,7 +28,7 @@ function Overview() {
       </Head>
 
       <img src={banner1} alt="" />
-      <ProductList />
+      <ProductHot />
       <img src={banner2} alt="" />
       <ProductList />
     </OverviewWrapper>
