@@ -66,7 +66,12 @@ function SimpleDialog(props: SimpleDialogProps) {
         >
           <CloseIcon onClick={handleClose} />
         </Box>
-        <Grid container>
+        <Grid
+          container
+          sx={{
+            maxHeight: '80vh'
+          }}
+        >
           <Grid item md={7}>
             <Slider
               // {...settings}

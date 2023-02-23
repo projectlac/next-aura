@@ -77,7 +77,16 @@ function ProductItem({ data }: IProp) {
           </Box>
         )}
 
-        <img src={data.images[0].url} alt="" />
+        <Box
+          sx={{
+            height: 250,
+            width: '100%',
+            background: `url(${data.images[0].url})`,
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center'
+          }}
+        />
         <Box
           sx={{
             position: 'absolute',
