@@ -32,7 +32,7 @@ export default function Index() {
       >
         BÁN CHẠY NHẤT
       </Typography>
-      <Grid container>
+      <Grid container columnSpacing={3}>
         <Grid item md={2.5}>
           <Filter category={category} />
         </Grid>
