@@ -1,3 +1,4 @@
+import formatMoney from '@/utility/formatMoney';
 import {
   Box,
   MenuItem,
@@ -125,7 +126,10 @@ function ProductItem({ data }: IProp) {
           fontSize: '1rem'
         }}
       >
-        {data.detail.filter((d) => d.size === age)[0]?.price} VNĐ
+        {formatMoney(
+          data.detail.filter((d) => d.size === age)[0]?.price.toString()
+        )}{' '}
+        VNĐ
       </Typography>
       <Select
         labelId="demo-simple-select-label"
@@ -140,7 +144,7 @@ function ProductItem({ data }: IProp) {
         </MenuItem>
         {data.detail.map((d, i) => (
           <MenuItem value={d.size} key={i}>
-            {d.size} -{d.price} VNĐ
+            {d.size} - {formatMoney(d.price.toString())} VNĐ
           </MenuItem>
         ))}
       </Select>

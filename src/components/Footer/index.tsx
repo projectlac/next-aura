@@ -14,7 +14,7 @@ function Footer() {
       <img
         src={
           banner.filter((d) => d._id === '63ff58ac2546ac20343860f9')[0]
-            .images[0]
+            ?.images[0]
         }
         alt=""
       />
