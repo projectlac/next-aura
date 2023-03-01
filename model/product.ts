@@ -27,3 +27,9 @@ export interface Category {
   name: string;
   _id: string;
 }
+export interface IBanner{
+  _id:string;
+  images:string[];
+  value:string[];
+  createdAt:string
+}

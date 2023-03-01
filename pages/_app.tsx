@@ -1,7 +1,8 @@
-import type { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 import '@/assets/styles/global.scss';
 import { AuthProvider } from '@/contexts/AuthGuard';
+import Maintenance from '@/layouts/Maintenace';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -10,13 +11,12 @@ import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import Router from 'next/router';
+import Script from 'next/script';
 import nProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import { SidebarProvider } from 'src/contexts/SidebarContext';
 import createEmotionCache from 'src/createEmotionCache';
 import ThemeProvider from 'src/theme/ThemeProvider';
-import Script from 'next/script';
-import Maintenance from '@/layouts/Maintenace';
 const clientSideEmotionCache = createEmotionCache();
 
 type NextPageWithLayout = NextPage & {
@@ -65,6 +65,7 @@ function TokyoApp(props: TokyoAppProps) {
           gtag('config', 'G-QKWZFM4WFR');
         `}
               </Script>
+
               {process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'false' ? (
                 getLayout(<Component {...pageProps} />)
               ) : (

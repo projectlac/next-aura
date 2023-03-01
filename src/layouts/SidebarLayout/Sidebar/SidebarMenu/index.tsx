@@ -259,6 +259,34 @@ function SidebarMenu() {
             </List>
           </SubMenuWrapper>
         </List>
+        <List
+          component="div"
+          subheader={
+            <ListSubheader component="div" disableSticky>
+              BANNER
+            </ListSubheader>
+          }
+        >
+          <SubMenuWrapper>
+            <List component="div">
+              <ListItem component="div">
+                <NextLink href="/management/banner" passHref>
+                  <Button
+                    className={
+                      currentRoute === '/management/banner' ? 'active' : ''
+                    }
+                    disableRipple
+                    component="a"
+                    onClick={closeSidebar}
+                    startIcon={<TableChartTwoToneIcon />}
+                  >
+                    Banner trang chủ
+                  </Button>
+                </NextLink>
+              </ListItem>
+            </List>
+          </SubMenuWrapper>
+        </List>
       </MenuWrapper>
     </>
   );

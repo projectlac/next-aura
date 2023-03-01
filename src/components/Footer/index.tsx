@@ -1,15 +1,23 @@
+import { useAuth } from '@/contexts/AuthGuard';
 import { Box, Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Link from 'next/link';
-import img from '../../assets/images/banner 1920x380.png';
 const FooterWrapper = styled(Box)({
   padding: '30px 0',
   background: '#fff'
 });
 function Footer() {
+  const { banner } = useAuth();
+
   return (
     <Box sx={{ background: '#fff' }}>
-      <img src={img} alt="" />
+      <img
+        src={
+          banner.filter((d) => d._id === '63ff58ac2546ac20343860f9')[0]
+            .images[0]
+        }
+        alt=""
+      />
       <FooterWrapper>
         <Container>
           <Box

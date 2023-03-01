@@ -2,6 +2,7 @@ import CustomizedSnackbars from '@/components/Common/SnackBar/SnackBar';
 import api from 'api/api';
 import apiFormData from 'api/apiFormData';
 import { getUser, signIn } from 'api/auth';
+import { getAll } from 'api/banner/banner';
 
 import Cookies from 'js-cookie';
 import { ISnackBar } from 'model/snackbar';
@@ -17,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [update, setUpdate] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<ISnackBar>(null);
+  const [banner, setBanner] = useState([]);
   const router = useRouter();
   const updateSuccess = () => {
     setUpdate(!update);
@@ -42,6 +44,7 @@ export const AuthProvider = ({ children }) => {
       updateSuccess();
     };
     loadUserFromCookies();
+    getAll().then((res) => setBanner(res.data));
   }, []);
 
   const login = async (username: string, password: string) => {
@@ -88,7 +91,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         handleSetMessage,
         updateSuccess,
-        update
+        update,
+        banner
       }}
     >
       <CustomizedSnackbars message={message} />
