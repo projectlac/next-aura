@@ -10,15 +10,19 @@ interface BaseLayoutProps {
 
 const FullBG = styled(Box)({
   background: `#fff`,
-  overflow: 'auto',
-  flex: '1',
-  overflowX: 'hidden',
-  backgroundAttachment: 'fixed'
+  // overflow: 'auto',
+  flex: '1'
+  // overflowX: 'hidden',
+  // backgroundAttachment: 'fixed'
 });
 
 const BaseLayout: FC<BaseLayoutProps> = ({ children }) => {
   return (
-    <Box>
+    <Box
+      sx={{
+        background: '#fff'
+      }}
+    >
       <HeaderWrapper />
       <FullBG>
         {children} <Footer />
