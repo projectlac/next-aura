@@ -14,6 +14,7 @@ const OverviewWrapper = styled(Box)(
     background:'#fff';
     flex: 1;
     overflow-x: hidden;
+    
 `
 );
 
@@ -32,6 +33,7 @@ function Overview() {
             ?.images[0]
         }
         alt=""
+        className="home-img"
       />
       <ProductHot />
       <img
@@ -40,6 +42,7 @@ function Overview() {
             ?.images[0]
         }
         alt=""
+        className="home-img"
       />
       <ProductList />
     </OverviewWrapper>

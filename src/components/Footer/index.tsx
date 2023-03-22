@@ -17,6 +17,7 @@ function Footer() {
             ?.images[0]
         }
         alt=""
+        className="home-img"
       />
       <FooterWrapper>
         <Container>
@@ -24,9 +25,18 @@ function Footer() {
             sx={{
               borderTop: '1px solid #333',
               display: 'flex',
-              justifyContent: 'space-between',
+              justifyContent: { md: 'space-between', xs: 'center' },
               '& ul': {
                 paddingTop: '15px',
+                textAlign: { xs: 'center', md: 'left' },
+                paddingLeft: 0,
+                '&.hidden-xs': {
+                  textAlign: { xs: 'center', md: 'right' },
+                  display: {
+                    md: 'block',
+                    xs: 'none'
+                  }
+                },
                 '& li': {
                   padding: '10px 0',
                   fontSize: '16px'
@@ -51,14 +61,14 @@ function Footer() {
 
               <li>LIÊN HỆ CHÚNG TÔI</li>
             </ul>
-            <ul>
+            <ul className="hidden-xs">
               <li>Facebook</li>
               <li>Instagram</li>
             </ul>
           </Box>
           <Box
             sx={{
-              marginTop: '110px',
+              marginTop: { md: '110px', xs: '37px' },
               textAlign: 'center'
             }}
           >
@@ -77,23 +87,27 @@ function Footer() {
                 lineHeight: '20px'
               }}
             >
-              Đăng ký để là người đầu tiên tìm hiểu về các chương trình khuyến{' '}
-              <br />
-              mãi, ra mắt sản phẩm và hơn thế nữa !!
+              Đăng ký để là người đầu tiên tìm hiểu về các chương trình khuyến
+              mãi, <br /> ra mắt sản phẩm và hơn thế nữa !!
             </Typography>
             <Box
               sx={{
                 mt: 2,
+
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 '& button': {
                   textTransform: 'uppercase',
                   background: 'rgb(48, 59, 67)',
                   borderRadius: '2px',
                   border: 'none',
                   color: 'rgb(255, 255, 255)',
-                  fontSize: '16px',
+                  fontSize: { xs: '11px', md: '16px' },
                   fontWeight: '700',
                   padding: '11px 10px',
-                  height: '41px'
+                  height: '41px',
+                  width: { md: '150px', xs: '100px' }
                 },
                 '& input': {
                   boxSizing: 'border-box',
@@ -107,7 +121,7 @@ function Footer() {
                   letterSpacing: '0px',
                   backgroundColor: 'rgb(255, 255, 255)',
                   border: '1px solid rgb(180, 187, 195)',
-                  width: '315px'
+                  width: { md: '315px', xs: '90%' }
                 }
               }}
             >

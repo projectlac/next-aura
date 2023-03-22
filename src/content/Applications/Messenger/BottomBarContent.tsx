@@ -42,7 +42,7 @@ function BottomBarContent() {
     >
       <Box flexGrow={1} display="flex" alignItems="center">
         <Avatar
-          sx={{ display: { xs: 'none', sm: 'flex' }, mr: 1 }}
+          sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
           alt={user.name}
           src={user.avatar}
         />

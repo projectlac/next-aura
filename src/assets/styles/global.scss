@@ -319,8 +319,33 @@ ul {
 img {
   width: 100%;
 }
+@media screen and (max-width:600px) {
+  img.home-img {
+   height: 150px;
+   object-fit: cover;
+  }
+}
 .navSlider1 {
   .slick-arrow {
     display: none !important;
   }
+}
+.home-slider .slick-next:before{
+  width: 54px;
+  height: 58px;
+  right: 5px!important;
+  filter: invert(1);
+  background-size: contain;
+  z-index: 9999;
+}
+.home-slider .slick-prev{
+  z-index: 9;
+}
+.home-slider .slick-prev:before{
+  width: 54px;
+  height: 58px;
+  left: 5px!important;
+  filter: invert(1);
+  background-size: contain;
+  z-index: 9999;
 }

@@ -110,7 +110,7 @@ function Logo() {
       <Box
         component="span"
         sx={{
-          display: { xs: 'none', sm: 'inline-block' }
+          display: { xs: 'none', md: 'inline-block' }
         }}
       >
         <LogoTextWrapper>

@@ -72,7 +72,7 @@ function SimpleDialog(props: SimpleDialogProps) {
             maxHeight: '80vh'
           }}
         >
-          <Grid item md={7}>
+          <Grid item md={7} xs={12}>
             <Slider
               // {...settings}
               asNavFor={nav2}
@@ -103,7 +103,7 @@ function SimpleDialog(props: SimpleDialogProps) {
                 ))}
             </Slider>
           </Grid>
-          <Grid item md={5}>
+          <Grid item md={5} xs={12}>
             <Box
               sx={{
                 padding: '0 15px'

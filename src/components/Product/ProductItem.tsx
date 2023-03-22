@@ -28,7 +28,7 @@ function ProductItem({ data }: IProp) {
           display: 'inline-block',
           textAlign: 'center',
           lineHeight: 'normal',
-          padding: '15px 20px',
+          padding: { md: '15px 20px', xs: '10px 15px' },
           borderRadius: '2px',
           border: 'none',
           marginTop: '16px'

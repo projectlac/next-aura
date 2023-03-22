@@ -26,20 +26,20 @@ export default function Index() {
       <Typography
         textAlign={'center'}
         sx={{
-          margin: '100px auto 80px',
+          margin: { md: '100px auto 80px', xs: '50px auto 36px' },
           fontSize: '20px'
         }}
       >
         BÁN CHẠY NHẤT
       </Typography>
       <Grid container columnSpacing={7}>
-        <Grid item md={2.5}>
+        <Grid item md={2.5} xs={12}>
           <Filter category={category} />
         </Grid>
-        <Grid item md={9.5}>
+        <Grid item md={9.5} xs={12}>
           <Grid container columnSpacing={4} rowSpacing={5}>
             {product.map((d, i) => (
-              <Grid key={i} item md={3}>
+              <Grid key={i} item md={3} xs={6}>
                 <ProductItem data={d} />
               </Grid>
             ))}
