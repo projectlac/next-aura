@@ -27,7 +27,12 @@ function ProductList() {
           padding: { md: '108px 0 77px', xs: '47px 0' }
         }}
       >
-        <Typography textAlign={'center'}>SẢN PHẨM MỚI</Typography>
+        <Typography
+          textAlign={'center'}
+          sx={{ display: { md: 'none', xs: 'block' } }}
+        >
+          SẢN PHẨM MỚI
+        </Typography>
         <Grid
           container
           columnSpacing={10}

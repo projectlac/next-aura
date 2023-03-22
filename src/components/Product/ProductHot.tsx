@@ -27,7 +27,12 @@ function ProductHot() {
           padding: { md: '108px 0 77px', xs: '47px 0' }
         }}
       >
-        <Typography textAlign={'center'}>SẢN PHẨM HOT</Typography>
+        <Typography
+          textAlign={'center'}
+          sx={{ display: { md: 'none', xs: 'block' } }}
+        >
+          SẢN PHẨM HOT
+        </Typography>
         <Grid
           container
           columnSpacing={10}
