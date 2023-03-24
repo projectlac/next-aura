@@ -17,7 +17,7 @@ function Footer() {
             ?.images[0]
         }
         alt=""
-        className="home-img"
+        className="home-img ft"
       />
       <FooterWrapper>
         <Container>

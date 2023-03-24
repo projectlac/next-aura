@@ -321,8 +321,11 @@ img {
 }
 @media screen and (max-width:600px) {
   img.home-img {
-   height: 150px;
+   height: 300px;
    object-fit: cover;
+   &.ft{
+    height: 110px;
+   }
   }
 }
 .navSlider1 {
@@ -331,21 +334,26 @@ img {
   }
 }
 .home-slider .slick-next:before{
-  width: 54px;
-  height: 58px;
+  width: 28px;
+  height: 28px;
   right: 5px!important;
-  filter: invert(1);
   background-size: contain;
   z-index: 9999;
+  background: url('../images/next.png');
+  transform: rotate(180deg);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .home-slider .slick-prev{
   z-index: 9;
 }
 .home-slider .slick-prev:before{
-  width: 54px;
-  height: 58px;
+  width: 28px;
+  height: 28px;
   left: 5px!important;
-  filter: invert(1);
   background-size: contain;
   z-index: 9999;
+  background: url('../images/next.png');
+  background-size: contain;
+  background-repeat: no-repeat;
 }

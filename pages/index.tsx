@@ -27,23 +27,63 @@ function Overview() {
         <OgTag title="AuraViet.com" />
       </Head>
 
-      <img
-        src={
-          banner.filter((d) => d._id === '63ff4264fb2a8f14beff7a6f')[0]
-            ?.images[0]
-        }
-        alt=""
-        className="home-img"
-      />
+      <Box
+        sx={{
+          display: { md: 'block', xs: 'none' }
+        }}
+      >
+        <img
+          src={
+            banner.filter((d) => d._id === '63ff4264fb2a8f14beff7a6f')[0]
+              ?.images[0]
+          }
+          alt=""
+          className="home-img"
+        />
+      </Box>
+      <Box
+        sx={{
+          display: { md: 'none', xs: 'block' }
+        }}
+      >
+        <img
+          src={
+            banner.filter((d) => d._id === '641dcccf2546ac20343865f9')[0]
+              ?.images[0]
+          }
+          alt=""
+          className="home-img"
+        />
+      </Box>
       <ProductHot />
-      <img
-        src={
-          banner.filter((d) => d._id === '63ff58652546ac20343860f4')[0]
-            ?.images[0]
-        }
-        alt=""
-        className="home-img"
-      />
+      <Box
+        sx={{
+          display: { md: 'block', xs: 'none' }
+        }}
+      >
+        <img
+          src={
+            banner.filter((d) => d._id === '63ff58652546ac20343860f4')[0]
+              ?.images[0]
+          }
+          alt=""
+          className="home-img"
+        />
+      </Box>
+      <Box
+        sx={{
+          display: { md: 'none', xs: 'block' }
+        }}
+      >
+        <img
+          src={
+            banner.filter((d) => d._id === '641dccdb2546ac20343865fd')[0]
+              ?.images[0]
+          }
+          alt=""
+          className="home-img"
+        />
+      </Box>
       <ProductList />
     </OverviewWrapper>
   );
